@@ -5,6 +5,10 @@
 # Copyright (C) 2015 Bloomberg Finance L.P.
 #
 
+vault_config node['vault']['service_name'] do
+
+end
+
 vault_service node['vault']['service_name'] do
   user node['vault']['service_user']
   group node['vault']['service_group']

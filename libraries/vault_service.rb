@@ -24,6 +24,12 @@ class Chef::Resource::VaultService < Chef::Resource
             kind_of: Hash,
             default: lazy { default_environment })
 
+  def binary_url
+  end
+
+  def binary_checksum
+  end
+
   def default_environment
     { PATH: '/usr/local/bin:/usr/bin' }
   end
@@ -44,6 +50,9 @@ class Chef::Provider::VaultService < Chef::Provider
       libartifact_file "vault-#{new_resource.version}" do
         artifact_name 'vault'
         artifact_version new_resource.version
+        install_path new_resource.install_path
+        binary_url new_resource.binary_url
+        binary_checksum new_resource.binary_checksum
       end
 
       poise_service new_resource.service_name do
