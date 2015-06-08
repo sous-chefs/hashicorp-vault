@@ -14,6 +14,16 @@ class Chef::Resource::VaultService < Chef::Resource
   attribute(:service_name,
             kind_of: String,
             name_attribute: true)
+  attribute(:install_method,
+            kind_of: Symbol,
+            required: true,
+            equal_to: %i(source binary))
+  attribute(:install_path,
+            kind_of: String,
+            default: '/srv')
+  attribute(:config_filename,
+            kind_of: String,
+            default: '/etc/vault.json')
   attribute(:user,
             kind_of: String,
             default: 'vault')
@@ -23,15 +33,20 @@ class Chef::Resource::VaultService < Chef::Resource
   attribute(:environment,
             kind_of: Hash,
             default: lazy { default_environment })
-
-  def binary_url
-  end
+  attribute(:binary_url, kind_of: String)
+  attribute(:source_repository, kind_of: String)
 
   def binary_checksum
+    node['vault']['checksums'].fetch(binary_filename)
+  end
+
+  def binary_filename
+    arch = node['kernel']['machine'] =~ /x86_64/ ? 'amd64' : '386'
+    [version, node['os'], arch].join('_')
   end
 
   def default_environment
-    { PATH: '/usr/local/bin:/usr/bin' }
+    { PATH: '/usr/local/bin:/usr/bin:/bin' }
   end
 end
 
@@ -46,29 +61,58 @@ class Chef::Provider::VaultService < Chef::Provider
         group new_resource.group
       end
 
-      include_recipe 'libartifact::default'
-      libartifact_file "vault-#{new_resource.version}" do
-        artifact_name 'vault'
-        artifact_version new_resource.version
-        install_path new_resource.install_path
-        binary_url new_resource.binary_url
-        binary_checksum new_resource.binary_checksum
+      if new_resource.install_method == 'binary'
+        artifact = libartifact_file "vault-#{new_resource.version}" do
+          artifact_name 'vault'
+          artifact_version new_resource.version
+          install_path new_resource.install_path
+          remote_url new_resource.binary_url
+          remote_checksum new_resource.binary_checksum
+        end
+
+        link '/usr/local/bin/vault' do
+          to artifact.current_path
+        end
       end
 
-      poise_service new_resource.service_name do
-        user new_resource.user
-        action :enable
+      if new_resource.install_method == 'source'
+        include_recipe 'golang::default'
+
+        source_dir = directory ::File.join(new_resource.install_path, 'src') do
+          recursive true
+        end
+
+        git ::File.join(source_dir.path, "vault-#{new_resource.version}") do
+          repository new_resource.source_repository
+          reference new_resource.version
+          action :checkout
+        end
+
+        golang_package 'github.com/hashicorp/vault' do
+          action :install
+        end
+
+        directory ::File.join(new_resource.install_path, 'bin')
+
+        link ::File.join(new_resource.install_path, 'bin', 'vault') do
+          to ::File.join(source_dir.path, "vault-#{new_resource.version}", 'vault')
+        end
       end
     end
-
+    super
   end
 
   def action_disable
+    notifying_block do
+
+    end
+    super
   end
 
   def service_options(service)
-    service.command()
+    service.command("vault server -config #{new_resource.config_filename}")
     service.user(new_resource.user)
     service.environment(new_resource.environment)
+    service.restart_on_update(true)
   end
 end

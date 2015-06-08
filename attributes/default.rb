@@ -9,6 +9,6 @@ default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
 default['vault']['version'] = '0.1.2'
-default['vault']['remote_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%(version).zip"
+default['vault']['remote_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
 default['vault']['remote_checksum'] = {
 }

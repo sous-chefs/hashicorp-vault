@@ -11,5 +11,6 @@ supports 'redhat', '>= 6.4'
 supports 'centos', '>= 6.4'
 
 suggests 'consul'
+depends 'golang'
 depends 'libartifact'
 depends 'poise'
