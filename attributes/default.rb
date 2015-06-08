@@ -10,5 +10,6 @@ default['vault']['service_group'] = 'vault'
 
 default['vault']['version'] = '0.1.2'
 default['vault']['remote_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
-default['vault']['remote_checksum'] = {
+default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
+default['vault']['checksums'] = {
 }
