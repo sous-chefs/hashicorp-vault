@@ -14,10 +14,13 @@ class Chef::Resource::VaultService < Chef::Resource
   attribute(:service_name,
             kind_of: String,
             name_attribute: true)
+  attribute(:version,
+            kind_of: String,
+            required: true)
   attribute(:install_method,
             kind_of: Symbol,
             required: true,
-            equal_to: %i(source binary))
+            equal_to: %i{source binary})
   attribute(:install_path,
             kind_of: String,
             default: '/srv')
@@ -32,9 +35,13 @@ class Chef::Resource::VaultService < Chef::Resource
             default: 'vault')
   attribute(:environment,
             kind_of: Hash,
-            default: lazy { default_environment })
+            default: { PATH: '/usr/local/bin:/usr/bin:/bin' })
   attribute(:binary_url, kind_of: String)
   attribute(:source_repository, kind_of: String)
+
+  def command
+    "vault server -config #{config_filename}"
+  end
 
   def binary_checksum
     node['vault']['checksums'].fetch(binary_filename)
@@ -43,10 +50,6 @@ class Chef::Resource::VaultService < Chef::Resource
   def binary_filename
     arch = node['kernel']['machine'] =~ /x86_64/ ? 'amd64' : '386'
     [version, node['os'], arch].join('_')
-  end
-
-  def default_environment
-    { PATH: '/usr/local/bin:/usr/bin:/bin' }
   end
 end
 
@@ -102,15 +105,8 @@ class Chef::Provider::VaultService < Chef::Provider
     super
   end
 
-  def action_disable
-    notifying_block do
-
-    end
-    super
-  end
-
   def service_options(service)
-    service.command("vault server -config #{new_resource.config_filename}")
+    service.command(new_resource.command)
     service.user(new_resource.user)
     service.environment(new_resource.environment)
     service.restart_on_update(true)

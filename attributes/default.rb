@@ -9,7 +9,7 @@ default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
 default['vault']['version'] = '0.1.2'
-default['vault']['remote_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
+default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
 default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
 default['vault']['checksums'] = {
   '0.1.2_darwin_386' => 'a4264b83432d8415fa8acbe60dafee7de119fba8b2472211861bd40a5e45381f',

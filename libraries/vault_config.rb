@@ -11,7 +11,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   include Poise(fused: true)
   provides(:vault_config)
 
-  attribute(:filename, kind_of: String, name_attribute: true)
+  attribute(:path, kind_of: String, name_attribute: true)
   attribute(:user, kind_of: String, default: 'vault')
   attribute(:group, kind_of: String, default: 'vault')
 
@@ -31,7 +31,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   end
 
   def to_json
-    invalid_options = %i{filename user group backend_type backend_options}
+    invalid_options = %i{path user group backend_type backend_options}
     config = to_hash.reject { |k, v| invalid_options.include?(k) }
     JSON.pretty_generate(config.merge(backend_type => backend_options), quicks_mode: true)
   end
@@ -46,12 +46,12 @@ class Chef::Resource::VaultConfig < Chef::Resource
     end
 
     notifying_block do
-      directory ::File.dirname(new_resource.filename) do
+      directory ::File.dirname(new_resource.path) do
         recursive true
         mode '0644'
       end
 
-      file new_resource.filename do
+      file new_resource.path do
         content new_resource.to_json
         owner new_resource.user
         group new_resource.group
@@ -62,7 +62,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
 
   action(:delete) do
     notifying_block do
-      file new_resource.filename do
+      file new_resource.path do
         action :delete
       end
     end
