@@ -11,32 +11,44 @@ class Chef::Resource::VaultService < Chef::Resource
   provides(:vault_service)
   include PoiseService::ServiceMixin
 
-  attribute(:service_name,
-            kind_of: String,
-            name_attribute: true)
-  attribute(:version,
-            kind_of: String,
-            required: true)
-  attribute(:install_method,
-            kind_of: Symbol,
-            required: true,
-            equal_to: %i{source binary})
-  attribute(:install_path,
-            kind_of: String,
-            default: '/srv')
-  attribute(:config_filename,
-            kind_of: String,
-            default: '/etc/vault.json')
-  attribute(:user,
-            kind_of: String,
-            default: 'vault')
-  attribute(:group,
-            kind_of: String,
-            default: 'vault')
-  attribute(:environment,
-            kind_of: Hash,
-            default: { PATH: '/usr/local/bin:/usr/bin:/bin' })
+  # @!attribute service_name
+  # @return [String]
+  attribute(:service_name, kind_of: String, name_attribute: true)
+
+  # @!attribute version
+  # @return [String]
+  attribute(:version, kind_of: String, required: true)
+
+  # @!attribute install_method
+  # @return [Symbol]
+  attribute(:install_method, kind_of: Symbol, required: true, equal_to: %i{source binary})
+
+  # @!attribute install_path
+  # @return [String]
+  attribute(:install_path, kind_of: String, default: '/srv')
+
+  # @!attribute config_filename
+  # @return [String]
+  attribute(:config_filename, kind_of: String, default: '/etc/vault.json')
+
+  # @!attribute user
+  # @return [String]
+  attribute(:user, kind_of: String, default: 'vault')
+
+  # @!attribute group
+  # @return [String]
+  attribute(:group, kind_of: String, default: 'vault')
+
+  # @!attribute environment
+  # @return [String]
+  attribute(:environment, kind_of: Hash, default: { PATH: '/usr/local/bin:/usr/bin:/bin' })
+
+  # @!attribute binary_url
+  # @return [String]
   attribute(:binary_url, kind_of: String)
+
+  # @!attribute source_repository
+  # @return [String]
   attribute(:source_repository, kind_of: String)
 
   def command

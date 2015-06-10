@@ -11,8 +11,16 @@ class Chef::Resource::VaultConfig < Chef::Resource
   include Poise(fused: true)
   provides(:vault_config)
 
+  # @!attribute path
+  # @return [String]
   attribute(:path, kind_of: String, name_attribute: true)
+
+  # @!attribute user
+  # @return [String]
   attribute(:user, kind_of: String, default: 'vault')
+
+  # @!attribute group
+  # @return [String]
   attribute(:group, kind_of: String, default: 'vault')
 
   # @see https://vaultproject.io/docs/config/index.html
