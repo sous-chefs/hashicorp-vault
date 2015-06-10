@@ -25,23 +25,32 @@ class Chef::Resource::VaultConfig < Chef::Resource
 
   # @see https://vaultproject.io/docs/config/index.html
   attribute(:listen_address, kind_of: String, default: '127.0.0.1:8200')
-  attribute(:tls_disable, kind_of: [TrueClass, FalseClass], default: false)
-  attribute(:tls_cert_file, kind_of: String)
-  attribute(:tls_key_file, kind_of: String)
-  attribute(:disable_mlock, kind_of: [TrueClass, FalseClass], default: false)
-  attribute(:statsite_addr, kind_of: String)
-  attribute(:statsd_addr, kind_of: String)
-  attribute(:backend_type, equal_to: %i{consul zookeeper inmem file}, default: :inmem)
+  attribute(:tls_disable, kind_of: [TrueClass, FalseClass, NilClass], default: nil)
+  attribute(:tls_cert_file, kind_of: [String, NilClass], default: nil)
+  attribute(:tls_key_file, kind_of: [String, NilClass], default: nil)
+  attribute(:disable_mlock, kind_of: [TrueClass, FalseClass, NilClass], default: nil)
+  attribute(:statsite_addr, kind_of: [String, NilClass], default: nil)
+  attribute(:statsd_addr, kind_of: [String, NilClass], default: nil)
+  attribute(:backend_type,
+            kind_of: Symbol,
+            default: :inmem,
+            equal_to: %i{consul zookeeper inmem file})
   attribute(:backend_options, options_collector: true)
 
   def tls?
     !tls_disable
   end
 
+  # Transforms the resource into a JSON format which matches the
+  # Vault service's configuration format.
+  # @see https://vaultproject.io/docs/config/index.html
   def to_json
     invalid_options = %i{path user group backend_type backend_options}
-    config = to_hash.reject { |k, v| invalid_options.include?(k) }
-    JSON.pretty_generate(config.merge(backend_type => backend_options), quicks_mode: true)
+    config = to_hash.reject do |k, v|
+      return true if v.nil?
+      invalid_options.include?(k.to_sym)
+    end.merge(backend_type => (backend_options || {}))
+    JSON.pretty_generate(config, quirks_mode: true)
   end
 
   action(:create) do

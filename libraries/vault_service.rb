@@ -22,7 +22,10 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute install_method
   # @return [Symbol]
-  attribute(:install_method, kind_of: Symbol, required: true, equal_to: %i{source binary package})
+  attribute(:install_method,
+            kind_of: Symbol,
+            required: true,
+            equal_to: %i{source binary package})
 
   # @!attribute install_path
   # @return [String]
@@ -30,7 +33,7 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute config_filename
   # @return [String]
-  attribute(:config_filename, kind_of: String, default: '/etc/vault.json')
+  attribute(:config_filename, kind_of: String, default: '/etc/vault/default.json')
 
   # @!attribute user
   # @return [String]
