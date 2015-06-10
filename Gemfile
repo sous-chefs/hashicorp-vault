@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+gem 'chef-vault', '~> 2.2'
+
 group :lint do
   gem 'rubocop'
 end

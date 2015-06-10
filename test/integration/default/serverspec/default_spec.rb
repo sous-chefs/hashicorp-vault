@@ -23,16 +23,18 @@ describe service('vault') do
   it { should be_running }
 end
 
-describe file('/etc/ssl/certs/vault.cert') do
-  its(:content) { should match 'foo' }
+describe file('/etc/ssl/certs/vault.crt') do
+  it { should contain '-----BEGIN CERTIFICATE-----' }
+  it { should contain '-----END CERTIFICATE-----' }
   it { should be_file }
   it { should be_owned_by('vault') }
   it { should be_grouped_into('vault') }
   it { should be_mode('0644') }
 end
 
-describe file('/etc/ssl/private/vault.pem') do
-  its(:content) { should match 'bar' }
+describe file('/etc/ssl/private/vault.key') do
+  it { should contain '-----BEGIN RSA PRIVATE KEY-----' }
+  it { should contain '-----END RSA PRIVATE KEY-----' }
   it { should be_file }
   it { should be_owned_by('vault') }
   it { should be_grouped_into('vault') }

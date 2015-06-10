@@ -4,6 +4,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  data_bags_path: "test/fixtures/data_bags"
 
 platforms:
   - name: ubuntu-14.04
@@ -15,3 +16,5 @@ suites:
   - name: default
     run_list:
       - recipe[hashicorp-vault::default]
+    attributes:
+      dev_mode: true

@@ -4,20 +4,17 @@
 #
 # Copyright (C) 2015 Bloomberg Finance L.P.
 #
+include_recipe 'selinux::disabled'
 
-config = node['vault']['config']
-vault_config node['vault']['config_path'] do
+poise_service_user node['vault']['service_user'] do
+  group node['vault']['service_group']
+end
+
+vault_config node['vault']['config_path'] do |resource|
   user node['vault']['service_user']
   group node['vault']['service_group']
-  listen_address config['listen_address'] unless config['listen_address']
-  tls_disable config['tls_disable'] unless config['tls_disable']
-  tls_cert_file config['tls_cert_file'] unless config['tls_cert_file']
-  tls_key_file config['tls_key_file'] unless config['tls_key_file']
-  disable_mlock config['disable_mlock'] unless config['disable_mlock']
-  statsite_addr config['statsite_addr'] unless config['statsite_addr']
-  statsd_addr config['statsd_addr'] unless config['statsd_addr']
-  backend_type config['backend_type'] unless config['backend_type']
-  backend_options config['backend_options'] unless config['backend_options']
+
+  node['vault']['config'].each_pair { |k, v| resource.send(k, v) }
 end
 
 vault_service node['vault']['service_name'] do

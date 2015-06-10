@@ -22,10 +22,7 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute install_method
   # @return [Symbol]
-  attribute(:install_method,
-            kind_of: Symbol,
-            required: true,
-            equal_to: %i{source binary package})
+  attribute(:install_method, default: :binary, equal_to: %i{source binary package})
 
   # @!attribute install_path
   # @return [String]
@@ -81,30 +78,26 @@ class Chef::Provider::VaultService < Chef::Provider
 
   def action_enable
     notifying_block do
-      poise_service_user new_resource.user do
-        group new_resource.group
-      end
-
       package new_resource.package_name do
-        version new_resource.package_version unless new_resource.package_version.nil?
-        only_if { new_resource.install_method == 'package' }
+        version new_resource.version unless new_resource.version.nil?
+        only_if { new_resource.install_method == :package }
       end
 
-      if new_resource.install_method == 'binary'
+      if new_resource.install_method == :binary
         artifact = libartifact_file "vault-#{new_resource.version}" do
           artifact_name 'vault'
           artifact_version new_resource.version
           install_path new_resource.install_path
-          remote_url new_resource.binary_url
+          remote_url new_resource.binary_url % { version: new_resource.binary_filename }
           remote_checksum new_resource.binary_checksum
         end
 
         link '/usr/local/bin/vault' do
-          to artifact.current_path
+          to ::File.join(artifact.current_path, 'vault')
         end
       end
 
-      if new_resource.install_method == 'source'
+      if new_resource.install_method == :source
         include_recipe 'golang::default'
 
         source_dir = directory ::File.join(new_resource.install_path, 'src') do

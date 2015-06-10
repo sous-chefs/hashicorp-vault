@@ -24,18 +24,15 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:group, kind_of: String, default: 'vault')
 
   # @see https://vaultproject.io/docs/config/index.html
-  attribute(:listen_address, kind_of: [String. NilClass], default: nil)
-  attribute(:tls_disable, kind_of: [TrueClass, FalseClass, NilClass], default: nil)
-  attribute(:tls_cert_file, kind_of: [String, NilClass], default: nil)
-  attribute(:tls_key_file, kind_of: [String, NilClass], default: nil)
-  attribute(:disable_mlock, kind_of: [TrueClass, FalseClass, NilClass], default: nil)
-  attribute(:statsite_addr, kind_of: [String, NilClass], default: nil)
-  attribute(:statsd_addr, kind_of: [String, NilClass], default: nil)
-  attribute(:backend_type,
-            kind_of: Symbol,
-            default: :inmem,
-            equal_to: %i{consul zookeeper inmem file})
-  attribute(:backend_options, options_collector: true)
+  attribute(:listen_address, kind_of: String)
+  attribute(:tls_disable, equal_to: [true, false], default: false)
+  attribute(:tls_cert_file, kind_of: String)
+  attribute(:tls_key_file, kind_of: String)
+  attribute(:disable_mlock, equal_to: [true, false], default: false)
+  attribute(:statsite_addr, kind_of: String)
+  attribute(:statsd_addr, kind_of: String)
+  attribute(:backend_type, default: :inmem, equal_to: %i{consul zookeeper inmem file})
+  attribute(:backend_options, option_collector: true)
 
   def tls?
     !tls_disable
@@ -45,11 +42,10 @@ class Chef::Resource::VaultConfig < Chef::Resource
   # Vault service's configuration format.
   # @see https://vaultproject.io/docs/config/index.html
   def to_json
-    invalid_options = %i{path user group backend_type backend_options}
-    config = to_hash.reject do |k, v|
-      return true if v.nil?
-      invalid_options.include?(k.to_sym)
-    end.merge(backend_type => (backend_options || {}))
+    for_keeps = %i{listen_address tls_disable tls_cert_file tls_key_file disable_mlock statsite_addr statsd_addr}
+    config = to_hash.keep_if do |k, v|
+      for_keeps.include?(k.to_sym)
+    end.merge('backend' => { backend_type => (backend_options || {}) })
     JSON.pretty_generate(config, quirks_mode: true)
   end
 
@@ -58,7 +54,6 @@ class Chef::Resource::VaultConfig < Chef::Resource
       if new_resource.tls?
         include_recipe 'chef-vault::default'
 
-        item = chef_vault_item_for_environment(node['vault']['bag_name'], node['vault']['bag_item'])
         directory ::File.dirname(new_resource.tls_cert_file) do
           recursive true
           owner 'root'
@@ -66,6 +61,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
           mode '0644'
         end
 
+        item = chef_vault_item(node['vault']['bag_name'], node['vault']['bag_item'])
         file new_resource.tls_cert_file do
           content item['certificate']
           mode '0644'

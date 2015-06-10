@@ -8,15 +8,19 @@ default['vault']['service_name'] = 'vault'
 default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
+default['vault']['bag_name'] = 'secrets'
+default['vault']['bag_item'] = 'vault'
+
+default['vault']['config_path'] = '/etc/vault/default.json'
 default['vault']['config']['listen_address'] = '127.0.0.1:8200'
 default['vault']['config']['tls_disable'] = false
-default['vault']['config']['tls_cert_file'] = '/etc/ssl/certs/vault.cert'
-default['vault']['config']['tls_key_file'] = '/etc/ssl/private/vault.pem'
+default['vault']['config']['tls_cert_file'] = '/etc/ssl/certs/vault.crt'
+default['vault']['config']['tls_key_file'] = '/etc/ssl/private/vault.key'
 
 default['vault']['version'] = '0.1.2'
 default['vault']['package_name'] = 'vault'
 default['vault']['install_method'] = :binary
-default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
+default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip"
 default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
 default['vault']['checksums'] = {
   '0.1.2_darwin_386' => 'a4264b83432d8415fa8acbe60dafee7de119fba8b2472211861bd40a5e45381f',
