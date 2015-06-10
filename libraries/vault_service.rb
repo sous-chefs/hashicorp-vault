@@ -6,6 +6,7 @@
 #
 require 'poise_service/service_mixin'
 
+# Resource for managing the Vault service on an instance.
 # @since 1.0.0
 class Chef::Resource::VaultService < Chef::Resource
   provides(:vault_service)
@@ -21,7 +22,7 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute install_method
   # @return [Symbol]
-  attribute(:install_method, kind_of: Symbol, required: true, equal_to: %i{source binary})
+  attribute(:install_method, kind_of: Symbol, required: true, equal_to: %i{source binary package})
 
   # @!attribute install_path
   # @return [String]
@@ -42,6 +43,10 @@ class Chef::Resource::VaultService < Chef::Resource
   # @!attribute environment
   # @return [String]
   attribute(:environment, kind_of: Hash, default: { PATH: '/usr/local/bin:/usr/bin:/bin' })
+
+  # @!attribute package_name
+  # @return [String]
+  attribute(:package_name, kind_of: String, default: 'vault')
 
   # @!attribute binary_url
   # @return [String]
@@ -65,6 +70,7 @@ class Chef::Resource::VaultService < Chef::Resource
   end
 end
 
+# Provider for managing the Vault service on an instance.
 # @since 1.0.0
 class Chef::Provider::VaultService < Chef::Provider
   provides(:vault_service)
@@ -74,6 +80,11 @@ class Chef::Provider::VaultService < Chef::Provider
     notifying_block do
       poise_service_user new_resource.user do
         group new_resource.group
+      end
+
+      package new_resource.package_name do
+        version new_resource.package_version unless new_resource.package_version.nil?
+        only_if { new_resource.install_method == 'package' }
       end
 
       if new_resource.install_method == 'binary'
