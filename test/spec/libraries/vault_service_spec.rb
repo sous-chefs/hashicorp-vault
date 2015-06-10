@@ -6,6 +6,7 @@ describe_recipe 'hashicorp-vault::default' do
   end
 
   context 'with default attributes' do
+    it { expect(chef_run).to create_poise_user('vault').with(group: 'vault') }
     it 'converges successfully' do
       chef_run
     end

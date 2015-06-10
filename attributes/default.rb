@@ -8,7 +8,13 @@ default['vault']['service_name'] = 'vault'
 default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
+default['vault']['config']['listen_address'] = '127.0.0.1:8200'
+default['vault']['config']['tls_disable'] = false
+default['vault']['config']['tls_cert_file'] = '/etc/ssl/certs/vault.cert'
+default['vault']['config']['tls_key_file'] = '/etc/ssl/private/vault.pem'
+
 default['vault']['version'] = '0.1.2'
+default['vault']['install_method'] = :binary
 default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
 default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
 default['vault']['checksums'] = {

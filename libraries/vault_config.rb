@@ -24,7 +24,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:group, kind_of: String, default: 'vault')
 
   # @see https://vaultproject.io/docs/config/index.html
-  attribute(:listen_address, kind_of: String, default: '127.0.0.1:8200')
+  attribute(:listen_address, kind_of: [String. NilClass], default: nil)
   attribute(:tls_disable, kind_of: [TrueClass, FalseClass, NilClass], default: nil)
   attribute(:tls_cert_file, kind_of: [String, NilClass], default: nil)
   attribute(:tls_key_file, kind_of: [String, NilClass], default: nil)
@@ -54,15 +54,41 @@ class Chef::Resource::VaultConfig < Chef::Resource
   end
 
   action(:create) do
-    # TODO: (jbellone) Perhaps we break this out and use chef-vault to
-    # seed the initial secrets configuration here? I do not like the
-    # idea of specifying this outside of the HWRP.
-    if new_resource.tls?
-      fail 'TLS certificate file must be set!' if new_resource.tls_cert_file.empty?
-      fail 'TLS key file must be set!' if new_resource.tls_key_file.empty?
-    end
-
     notifying_block do
+      if new_resource.tls?
+        include_recipe 'chef-vault::default'
+
+        item = chef_vault_item_for_environment(node['vault']['bag_name'], node['vault']['bag_item'])
+        directory ::File.dirname(new_resource.tls_cert_file) do
+          recursive true
+          owner 'root'
+          group 'root'
+          mode '0644'
+        end
+
+        file new_resource.tls_cert_file do
+          content item['certificate']
+          mode '0644'
+          owner new_resource.user
+          group new_resource.group
+        end
+
+        directory ::File.dirname(new_resource.tls_key_file) do
+          recursive true
+          mode '0640'
+          owner 'root'
+          group 'root'
+        end
+
+        file new_resource.tls_key_file do
+          sensitive true
+          content item['private_key']
+          mode '0640'
+          owner new_resource.user
+          group new_resource.group
+        end
+      end
+
       directory ::File.dirname(new_resource.path) do
         recursive true
         mode '0644'

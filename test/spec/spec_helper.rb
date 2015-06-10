@@ -39,6 +39,4 @@ RSpec.shared_context 'recipe tests', type: :recipe do
   before do
     stub_command("test -L /usr/local/bin/vault").and_return(true)
   end
-
-  let(:chef_run) { ChefSpec::ServerRunner.converge(described_recipe) }
 end
