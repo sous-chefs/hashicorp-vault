@@ -14,6 +14,7 @@ default['vault']['config']['tls_cert_file'] = '/etc/ssl/certs/vault.cert'
 default['vault']['config']['tls_key_file'] = '/etc/ssl/private/vault.pem'
 
 default['vault']['version'] = '0.1.2'
+default['vault']['package_name'] = 'vault'
 default['vault']['install_method'] = :binary
 default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/%(name)/%(name)_%(version).zip"
 default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
