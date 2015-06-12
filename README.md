@@ -1,4 +1,10 @@
 # vault-cookbook
+![Build Status](https://img.shields.io/travis/coderanger/chef-collectd.svg)](https://travis-ci.org/johnbellone/vault-cookbook)
+[![Cookbook Version](https://img.shields.io/cookbook/v/poise.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
+[![Coverage](https://img.shields.io/codecov/c/github/coderanger/chef-collectd.svg)](https://codecov.io/github/johnbellone/vault-cookbook)
+llectd)
+[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
 
 ## Usage
