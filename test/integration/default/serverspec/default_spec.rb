@@ -15,7 +15,9 @@ end
 
 describe file('/home/vault/.vault.json') do
   it { should be_file }
-  it { should be_mode '0640' }
+  it { should be_mode 640 }
+  it { should be_owned_by('vault') }
+  it { should be_grouped_into('vault') }
 end
 
 describe service('vault') do
@@ -29,7 +31,7 @@ describe file('/etc/ssl/certs/vault.crt') do
   it { should be_file }
   it { should be_owned_by('vault') }
   it { should be_grouped_into('vault') }
-  it { should be_mode('0644') }
+  it { should be_mode 644 }
 end
 
 describe file('/etc/ssl/private/vault.key') do
@@ -38,5 +40,5 @@ describe file('/etc/ssl/private/vault.key') do
   it { should be_file }
   it { should be_owned_by('vault') }
   it { should be_grouped_into('vault') }
-  it { should be_mode('0640') }
+  it { should be_mode 640 }
 end
