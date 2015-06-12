@@ -11,7 +11,6 @@ default['vault']['service_group'] = 'vault'
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
-default['vault']['config_path'] = '/etc/vault/default.json'
 default['vault']['config']['listen_address'] = '127.0.0.1:8200'
 default['vault']['config']['tls_disable'] = false
 default['vault']['config']['tls_cert_file'] = '/etc/ssl/certs/vault.crt'

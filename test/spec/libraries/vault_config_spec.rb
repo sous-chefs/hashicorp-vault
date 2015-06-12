@@ -18,7 +18,7 @@ describe_recipe 'hashicorp-vault::default' do
     it { expect(chef_run).to create_directory('/etc/ssl/private') }
 
     it do
-      expect(chef_run).to create_file('/etc/vault/default.json')
+      expect(chef_run).to create_file('/home/vault/.vault')
       .with(owner: 'vault')
       .with(group: 'vault')
       .with(mode: '0640')
@@ -55,7 +55,7 @@ describe_recipe 'hashicorp-vault::default' do
 
     it { expect(chef_run).not_to include_recipe('chef-vault::default') }
     it do
-      expect(chef_run).to create_file('/etc/vault/default.json')
+      expect(chef_run).to create_file('/home/vault/.vault')
       .with(owner: 'vault')
       .with(group: 'vault')
       .with(mode: '0640')
