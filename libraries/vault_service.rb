@@ -30,7 +30,7 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute config_filename
   # @return [String]
-  attribute(:config_filename, kind_of: String, default: '/home/vault/.vault')
+  attribute(:config_filename, kind_of: String, default: '/home/vault/.vault.json')
 
   # @!attribute user
   # @return [String]
@@ -57,7 +57,7 @@ class Chef::Resource::VaultService < Chef::Resource
   attribute(:source_repository, kind_of: String)
 
   def command
-    "vault server -config=#{config_filename}"
+    "vault server -config=#{config_filename} -log-level debug"
   end
 
   def binary_checksum

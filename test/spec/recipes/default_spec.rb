@@ -12,8 +12,8 @@ describe_recipe 'hashicorp-vault::default' do
     end.converge(described_recipe)
   end
 
-  it { expect(chef_run).to create_vault_config('/etc/vault/default.json') }
-  it { expect(chef_run).to enable_vault_service('vault').with(config_filename: '/etc/vault/default.json') }
+  it { expect(chef_run).to create_vault_config('/home/vault/.vault.json') }
+  it { expect(chef_run).to enable_vault_service('vault').with(config_filename: '/home/vault/.vault.json') }
   context 'with default attributes' do
     it 'converges successfully' do
       chef_run

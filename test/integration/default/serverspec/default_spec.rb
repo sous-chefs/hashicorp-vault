@@ -13,9 +13,9 @@ describe user('vault') do
   it { should exist }
 end
 
-describe file('/home/vault/.vault') do
+describe file('/home/vault/.vault.json') do
   it { should be_file }
-  it { should be_mode '0644' }
+  it { should be_mode '0640' }
 end
 
 describe service('vault') do

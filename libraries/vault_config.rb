@@ -87,7 +87,6 @@ class Chef::Resource::VaultConfig < Chef::Resource
 
       directory ::File.dirname(new_resource.path) do
         recursive true
-        mode '0644'
       end
 
       file new_resource.path do
