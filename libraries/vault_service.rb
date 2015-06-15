@@ -57,7 +57,7 @@ class Chef::Resource::VaultService < Chef::Resource
   attribute(:source_repository, kind_of: String)
 
   def command
-    "vault server -config=#{config_filename} -log-level debug"
+    "vault server -config=#{config_filename}"
   end
 
   def binary_checksum
