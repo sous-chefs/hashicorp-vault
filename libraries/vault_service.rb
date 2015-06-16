@@ -9,6 +9,7 @@ require 'poise_service/service_mixin'
 # Resource for managing the Vault service on an instance.
 # @since 1.0.0
 class Chef::Resource::VaultService < Chef::Resource
+  include Poise
   provides(:vault_service)
   include PoiseService::ServiceMixin
 
@@ -22,15 +23,15 @@ class Chef::Resource::VaultService < Chef::Resource
 
   # @!attribute install_method
   # @return [Symbol]
-  attribute(:install_method, default: :binary, equal_to: %i{source binary package})
+  attribute(:install_method, default: 'binary', equal_to: %w{source binary package})
 
   # @!attribute install_path
   # @return [String]
   attribute(:install_path, kind_of: String, default: '/srv')
 
-  # @!attribute config_filename
+  # @!attribute config_path
   # @return [String]
-  attribute(:config_filename, kind_of: String, default: '/home/vault/.vault.json')
+  attribute(:config_path, kind_of: String, default: '/home/vault/.vault.json')
 
   # @!attribute user
   # @return [String]
@@ -52,12 +53,12 @@ class Chef::Resource::VaultService < Chef::Resource
   # @return [String]
   attribute(:binary_url, kind_of: String)
 
-  # @!attribute source_repository
+  # @!attribute source_url
   # @return [String]
-  attribute(:source_repository, kind_of: String)
+  attribute(:source_url, kind_of: String)
 
   def command
-    "vault server -config=#{config_filename}"
+    "vault server -config=#{config_path}"
   end
 
   def binary_checksum
@@ -73,6 +74,7 @@ end
 # Provider for managing the Vault service on an instance.
 # @since 1.0.0
 class Chef::Provider::VaultService < Chef::Provider
+  include Poise
   provides(:vault_service)
   include PoiseService::ServiceMixin
 
@@ -80,10 +82,10 @@ class Chef::Provider::VaultService < Chef::Provider
     notifying_block do
       package new_resource.package_name do
         version new_resource.version unless new_resource.version.nil?
-        only_if { new_resource.install_method == :package }
+        only_if { new_resource.install_method == 'package' }
       end
 
-      if new_resource.install_method == :binary
+      if new_resource.install_method == 'binary'
         artifact = libartifact_file "vault-#{new_resource.version}" do
           artifact_name 'vault'
           artifact_version new_resource.version
@@ -97,7 +99,7 @@ class Chef::Provider::VaultService < Chef::Provider
         end
       end
 
-      if new_resource.install_method == :source
+      if new_resource.install_method == 'source'
         include_recipe 'golang::default'
 
         source_dir = directory ::File.join(new_resource.install_path, 'src') do
@@ -105,7 +107,7 @@ class Chef::Provider::VaultService < Chef::Provider
         end
 
         git ::File.join(source_dir.path, "vault-#{new_resource.version}") do
-          repository new_resource.source_repository
+          repository new_resource.source_url
           reference new_resource.version
           action :checkout
         end

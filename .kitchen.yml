@@ -17,4 +17,6 @@ suites:
     run_list:
       - recipe[hashicorp-vault::default]
     attributes:
-      dev_mode: true
+      vault:
+        config:
+          disable_mlock: true

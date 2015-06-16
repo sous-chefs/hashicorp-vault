@@ -14,8 +14,8 @@ describe_recipe 'hashicorp-vault::default' do
     end
 
     it { expect(chef_run).to include_recipe('chef-vault::default') }
-    it { expect(chef_run).to create_directory('/etc/ssl/certs') }
-    it { expect(chef_run).to create_directory('/etc/ssl/private') }
+    it { expect(chef_run).to create_directory('/etc/vault/ssl/certs') }
+    it { expect(chef_run).to create_directory('/etc/vault/ssl/private') }
 
     it do
       expect(chef_run).to create_file('/home/vault/.vault.json')
@@ -25,7 +25,7 @@ describe_recipe 'hashicorp-vault::default' do
     end
 
     it do
-      expect(chef_run).to create_file('/etc/ssl/certs/vault.crt')
+      expect(chef_run).to create_file('/etc/vault/ssl/certs/vault.crt')
       .with(content: 'foo')
       .with(owner: 'vault')
       .with(group: 'vault')
@@ -33,7 +33,7 @@ describe_recipe 'hashicorp-vault::default' do
     end
 
     it do
-      expect(chef_run).to create_file('/etc/ssl/private/vault.key')
+      expect(chef_run).to create_file('/etc/vault/ssl/private/vault.key')
       .with(content: 'bar')
       .with(sensitive: true)
       .with(owner: 'vault')

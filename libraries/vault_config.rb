@@ -31,7 +31,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:disable_mlock, equal_to: [true, false], default: false)
   attribute(:statsite_addr, kind_of: String)
   attribute(:statsd_addr, kind_of: String)
-  attribute(:backend_type, default: :inmem, equal_to: %i{consul zookeeper inmem file})
+  attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
   attribute(:backend_options, option_collector: true)
 
   def tls?
@@ -100,6 +100,16 @@ class Chef::Resource::VaultConfig < Chef::Resource
 
   action(:delete) do
     notifying_block do
+      if new_resource.tls?
+        file new_resource.tls_cert_file do
+          action :delete
+        end
+
+        file new_resource.tls_key_file do
+          action :delete
+        end
+      end
+
       file new_resource.path do
         action :delete
       end

@@ -11,18 +11,19 @@ default['vault']['service_group'] = 'vault'
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
+default['vault']['version'] = '0.1.2'
+
 default['vault']['config']['path'] = '/home/vault/.vault.json'
 default['vault']['config']['listen_address'] = '127.0.0.1:8200'
 default['vault']['config']['tls_disable'] = false
-default['vault']['config']['tls_cert_file'] = '/etc/vault/vault.crt'
-default['vault']['config']['tls_key_file'] = '/etc/vault/vault.key'
-default['vault']['config']['disable_mlock'] = true
+default['vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'
+default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
 
-default['vault']['version'] = '0.1.2'
-default['vault']['package_name'] = 'vault'
-default['vault']['install_method'] = :binary
-default['vault']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip"
-default['vault']['source_repository'] = 'https://github.com/hashicorp/vault'
+default['vault']['service']['package_name'] = 'vault'
+default['vault']['service']['install_method'] = 'binary'
+default['vault']['service']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip"
+default['vault']['service']['source_url'] = 'https://github.com/hashicorp/vault'
+
 default['vault']['checksums'] = {
   '0.1.2_darwin_386' => 'a4264b83432d8415fa8acbe60dafee7de119fba8b2472211861bd40a5e45381f',
   '0.1.2_darwin_amd64' => '42fe870cedb1152d1cb43e22c14a8786a30476764055de37a2fbf98e92cebe9b',
