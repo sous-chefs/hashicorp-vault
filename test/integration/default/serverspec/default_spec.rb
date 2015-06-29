@@ -25,7 +25,11 @@ describe service('vault') do
   it { should be_running }
 end
 
-describe file('/etc/ssl/certs/vault.crt') do
+describe port(8200) do
+  it { should be_listening }
+end
+
+describe file('/etc/vault/ssl/certs/vault.crt') do
   it { should contain '-----BEGIN CERTIFICATE-----' }
   it { should contain '-----END CERTIFICATE-----' }
   it { should be_file }
@@ -34,7 +38,7 @@ describe file('/etc/ssl/certs/vault.crt') do
   it { should be_mode 644 }
 end
 
-describe file('/etc/ssl/private/vault.key') do
+describe file('/etc/vault/ssl/private/vault.key') do
   it { should contain '-----BEGIN RSA PRIVATE KEY-----' }
   it { should contain '-----END RSA PRIVATE KEY-----' }
   it { should be_file }

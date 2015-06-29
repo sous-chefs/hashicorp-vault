@@ -20,3 +20,6 @@ suites:
       vault:
         config:
           disable_mlock: true
+          backend_type: 'file'
+          backend_options:
+            path: '/home/vault/storage'
