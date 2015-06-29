@@ -27,7 +27,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:address, kind_of: String)  # formerly :listen_address
   # for Vault configuration: tls_disable, only "" evaluates to false
   # @see @see https://vaultproject.io/docs/config/index.html
-  # 'If non-empty, then TLS will be disabled. This is an opt-in; Vault assumes by default that TLS will be used.'
+  # 'If non-empty, then TLS will be disabled'
   attribute(:tls_disable, kind_of: String, default: "")
   attribute(:tls_cert_file, kind_of: String)
   attribute(:tls_key_file, kind_of: String)
@@ -38,7 +38,7 @@ class Chef::Resource::VaultConfig < Chef::Resource
   attribute(:backend_options, option_collector: true)
 
   def tls?
-    !tls_disable
+    tls_disable.match(/^$/)
   end
 
   # Transforms the resource into a JSON format which matches the
@@ -65,8 +65,8 @@ class Chef::Resource::VaultConfig < Chef::Resource
         directory ::File.dirname(new_resource.tls_cert_file) do
           recursive true
           owner 'root'
-          group 'root'
-          mode '0644'
+          group new_resource.group
+          mode '0755'
         end
 
         item = chef_vault_item(node['vault']['bag_name'], node['vault']['bag_item'])
@@ -79,9 +79,9 @@ class Chef::Resource::VaultConfig < Chef::Resource
 
         directory ::File.dirname(new_resource.tls_key_file) do
           recursive true
-          mode '0640'
+          mode '0750'
           owner 'root'
-          group 'root'
+          group new_resource.group
         end
 
         file new_resource.tls_key_file do
