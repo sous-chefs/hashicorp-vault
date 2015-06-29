@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe command('which vault') do
+describe command('/usr/local/bin/vault -v') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match '/usr/local/bin/vault' }
+  its(:stdout) { should match 'Vault v0.1.2' }
 end
 
 describe group('vault') do
