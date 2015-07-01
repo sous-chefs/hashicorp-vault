@@ -10,6 +10,7 @@ require 'poise'
 class Chef::Resource::VaultConfig < Chef::Resource
   include Poise(fused: true)
   provides(:vault_config)
+  default_action(:create)
 
   # @!attribute path
   # @return [String]

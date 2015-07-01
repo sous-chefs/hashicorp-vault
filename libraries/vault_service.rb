@@ -12,6 +12,7 @@ class Chef::Resource::VaultService < Chef::Resource
   include Poise
   provides(:vault_service)
   include PoiseService::ServiceMixin
+  default_action(:enable)
 
   # @!attribute service_name
   # @return [String]

@@ -23,6 +23,5 @@ vault_service node['vault']['service_name'] do |r|
   version node['vault']['version']
 
   node['vault']['service'].each_pair { |k, v| r.send(k, v) }
-  subscribes :reload, "vault_config[#{node['vault']['config']['path']}]", :immediately
-  action [:enable, :start]
+  subscribes :restart, "vault_config[#{node['vault']['config']['path']}]", :delayed
 end
