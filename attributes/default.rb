@@ -8,6 +8,8 @@ default['vault']['service_name'] = 'vault'
 default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
+# Chef-vault required for certificate management
+default['vault']['manage_certificate'] = true
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 

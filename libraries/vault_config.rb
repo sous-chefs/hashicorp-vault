@@ -74,30 +74,32 @@ module VaultCookbook
               mode '0755'
             end
 
-            item = chef_vault_item(
-              new_resource.bag_name,
-              new_resource.bag_item
-            )
-            file new_resource.tls_cert_file do
-              content item['certificate']
-              mode '0644'
-              owner new_resource.user
-              group new_resource.group
-            end
+            if node['vault']['manage_certificate']
+              item = chef_vault_item(
+                new_resource.bag_name,
+                new_resource.bag_item
+              )
+              file new_resource.tls_cert_file do
+                content item['certificate']
+                mode '0644'
+                owner new_resource.user
+                group new_resource.group
+              end
 
-            directory ::File.dirname(new_resource.tls_key_file) do
-              recursive true
-              mode '0750'
-              owner 'root'
-              group new_resource.group
-            end
+              directory ::File.dirname(new_resource.tls_key_file) do
+                recursive true
+                mode '0750'
+                owner 'root'
+                group new_resource.group
+              end
 
-            file new_resource.tls_key_file do
-              sensitive true
-              content item['private_key']
-              mode '0640'
-              owner new_resource.user
-              group new_resource.group
+              file new_resource.tls_key_file do
+                sensitive true
+                content item['private_key']
+                mode '0640'
+                owner new_resource.user
+                group new_resource.group
+              end
             end
           end
 
