@@ -40,7 +40,9 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
 
       def tls?
-        tls_disable.match(/^$/)
+        return true if tls_disable.match(/^$/) && node['vault']['manage_certificate']
+
+        false
       end
 
       # Transforms the resource into a JSON format which matches the
@@ -71,7 +73,10 @@ module VaultCookbook
               mode '0755'
             end
 
-            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
+            item = chef_vault_item(
+              new_resource.bag_name,
+              new_resource.bag_item
+            )
             file new_resource.tls_cert_file do
               content item['certificate']
               mode '0644'
