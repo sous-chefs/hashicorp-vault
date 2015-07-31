@@ -38,9 +38,12 @@ module VaultCookbook
       attribute(:statsd_addr, kind_of: String)
       attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
       attribute(:backend_options, option_collector: true)
+      attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: true)
 
       def tls?
-        tls_disable.match(/^$/)
+        return true if tls_disable.match(/^$/) && manage_certificate
+
+        false
       end
 
       # Transforms the resource into a JSON format which matches the
@@ -71,7 +74,10 @@ module VaultCookbook
               mode '0755'
             end
 
-            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
+            item = chef_vault_item(
+              new_resource.bag_name,
+              new_resource.bag_item
+            )
             file new_resource.tls_cert_file do
               content item['certificate']
               mode '0644'
