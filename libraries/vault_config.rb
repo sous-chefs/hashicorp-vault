@@ -28,7 +28,7 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)  # formerly :listen_address
-      attribute(:tls_disable, kind_of: String, default: '')
+      attribute(:tls_disable, kind_of: String, required: false, default: nil)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
@@ -40,17 +40,18 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
 
       def tls?
-        tls_disable.match(/^$/)
+        tls_disable != nil
       end
 
       # Transforms the resource into a JSON format which matches the
       # Vault service's configuration format.
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
-        listener_keeps = %i{address tls_disable tls_cert_file tls_key_file}
+        listener_keeps = %i{address tls_cert_file tls_key_file}
         listener_options = to_hash.keep_if do |k, _|
-          listener_keeps.include?(k.to_sym)
+            listener_keeps.include?(k.to_sym)
         end
+        listener_options.put(:tls_disable) if tls_disable != nil
         config_keeps = %i{disable_mlock statsite_addr statsd_addr}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
