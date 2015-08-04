@@ -36,6 +36,7 @@ module VaultCookbook
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:statsite_addr, kind_of: String)
       attribute(:statsd_addr, kind_of: String)
+      attribute(:disable_hostname, kind_of: String)
       attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
       attribute(:backend_options, option_collector: true)
 
