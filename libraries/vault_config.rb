@@ -36,6 +36,7 @@ module VaultCookbook
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:statsite_addr, kind_of: String)
       attribute(:statsd_addr, kind_of: String)
+      attribute(:disable_hostname, kind_of: String)
       attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
       attribute(:backend_options, option_collector: true)
 
@@ -51,11 +52,16 @@ module VaultCookbook
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end
-        config_keeps = %i{disable_mlock statsite_addr statsd_addr}
+        telemetry_keeps = %i{statsite_address statsd_addr disable_hostname}
+        telemetry_options = to_hash.keep_if do |k, _|
+            telemetry_keeps.include?(k.to_sym)
+        end
+        config_keeps = %i{disable_mlock}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end.merge('backend' => { backend_type => (backend_options || {}) })
         config.merge!('listener' => { 'tcp' => listener_options })
+        config.merge!('telemetry' => telemetry_options)
         JSON.pretty_generate(config, quirks_mode: true)
       end
 
