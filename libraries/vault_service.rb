@@ -140,6 +140,5 @@ module VaultCookbook
         service.restart_on_update(true)
       end
     end
-
   end
 end

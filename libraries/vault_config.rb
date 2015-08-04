@@ -48,11 +48,11 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         listener_keeps = %i{address tls_disable tls_cert_file tls_key_file}
-        listener_options = to_hash.keep_if do |k,v|
+        listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end
         config_keeps = %i{disable_mlock statsite_addr statsd_addr}
-        config = to_hash.keep_if do |k, v|
+        config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end.merge('backend' => { backend_type => (backend_options || {}) })
         config.merge!('listener' => { 'tcp' => listener_options })

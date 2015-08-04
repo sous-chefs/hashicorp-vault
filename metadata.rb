@@ -10,7 +10,6 @@ supports 'ubuntu', '>= 12.04'
 supports 'redhat', '>= 6.4'
 supports 'centos', '>= 6.4'
 
-suggests 'consul'
 depends 'chef-vault'
 depends 'golang'
 depends 'libartifact', '~> 1.2'
