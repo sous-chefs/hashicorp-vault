@@ -18,9 +18,9 @@ module VaultCookbook
       # @return [String]
       attribute(:path, kind_of: String, name_attribute: true)
 
-      # @!attribute user
+      # @!attribute owner
       # @return [String]
-      attribute(:user, kind_of: String, default: 'vault')
+      attribute(:owner, kind_of: String, default: 'vault')
 
       # @!attribute group
       # @return [String]
@@ -28,14 +28,11 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)  # formerly :listen_address
-      # for Vault configuration: tls_disable, only "" evaluates to false
-      # @see @see https://vaultproject.io/docs/config/index.html
-      # 'If non-empty, then TLS will be disabled'
-      attribute(:tls_disable, kind_of: String, default: "")
+      attribute(:tls_disable, kind_of: String, default: '')
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
-      attribute(:bag_name, kind_of: String)
-      attribute(:bag_item, kind_of: String)
+      attribute(:bag_name, kind_of: String, default: 'secrets')
+      attribute(:bag_item, kind_of: String, default: 'vault')
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:statsite_addr, kind_of: String)
       attribute(:statsd_addr, kind_of: String)
@@ -74,14 +71,11 @@ module VaultCookbook
               mode '0755'
             end
 
-            item = chef_vault_item(
-              new_resource.bag_name,
-              new_resource.bag_item
-            )
+            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
             file new_resource.tls_cert_file do
               content item['certificate']
               mode '0644'
-              owner new_resource.user
+              owner new_resource.owner
               group new_resource.group
             end
 
@@ -96,7 +90,7 @@ module VaultCookbook
               sensitive true
               content item['private_key']
               mode '0640'
-              owner new_resource.user
+              owner new_resource.owner
               group new_resource.group
             end
           end
@@ -107,7 +101,7 @@ module VaultCookbook
 
           file new_resource.path do
             content new_resource.to_json
-            owner new_resource.user
+            owner new_resource.owner
             group new_resource.group
             mode '0640'
           end
