@@ -7,7 +7,7 @@ describe VaultCookbook::Resource::VaultConfig do
     before do
       recipe = double('Chef::Recipe')
       allow_any_instance_of(Chef::RunContext).to receive(:include_recipe).and_return([recipe])
-      allow_any_instance_of(Chef::DSL::Recipe).to receive(:chef_vault_item) { { 'ca_certificate' => 'foo', 'certificate' => 'bar', 'private_key' => 'baz' } }
+      allow_any_instance_of(Chef::Provider).to receive(:chef_vault_item) { { 'ca_certificate' => 'foo', 'certificate' => 'bar', 'private_key' => 'baz' } }
     end
 
     recipe do

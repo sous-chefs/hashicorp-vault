@@ -14,8 +14,8 @@ describe_recipe 'hashicorp-vault::default' do
 
   it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
   it { expect(chef_run).to create_vault_config('/home/vault/.vault.json') }
-  it { expect(chef_run).to enable_vault_service('vault').with(config_path: '/home/vault/.vault.json') }
-  it { expect(chef_run).to start_vault_service('vault') }
+  it { expect(chef_run).to create_vault_service('vault').with(config_path: '/home/vault/.vault.json') }
+  it { expect(chef_run).to enable_vault_service('vault') }
   context 'with default attributes' do
     it 'converges successfully' do
       chef_run

@@ -35,5 +35,6 @@ at_exit { ChefSpec::Coverage.report! }
 RSpec.shared_context 'recipe tests', type: :recipe do
   before do
     stub_command("test -L /usr/local/bin/vault").and_return(true)
+    stub_command("getcap /srv/vault/current/vault|grep cap_ipc_lock+ep").and_return(true)
   end
 end

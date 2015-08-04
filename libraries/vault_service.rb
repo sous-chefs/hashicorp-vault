@@ -17,10 +17,6 @@ module VaultCookbook
       actions(:create)
       default_action(:create)
 
-      # @!attribute service_name
-      # @return [String]
-      attribute(:service_name, kind_of: String, name_attribute: true)
-
       # @!attribute version
       # @return [String]
       attribute(:version, kind_of: String, required: true)
