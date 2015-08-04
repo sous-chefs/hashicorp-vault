@@ -1,68 +1,43 @@
-require 'spec_helper'
+require 'poise_boiler/spec_helper'
+require_relative '../../../libraries/vault_config'
 
-describe_recipe 'hashicorp-vault::default' do
-  context 'with default attributes' do
-    cached(:chef_run) do
-      ChefSpec::ServerRunner.new(step_into: %w{vault_config}) do |node, server|
-        server.create_data_bag('secrets', {
-          'vault' => {
-            'certificate' => 'foo',
-            'private_key' => 'bar'
-          }
-        })
-      end.converge(described_recipe)
+describe VaultCookbook::Resource::VaultConfig do
+  step_into(:vault_config)
+  context '#action_create' do
+    before do
+      recipe = double('Chef::Recipe')
+      allow_any_instance_of(Chef::RunContext).to receive(:include_recipe).and_return([recipe])
+      allow_any_instance_of(Chef::DSL::Recipe).to receive(:chef_vault_item) { { 'ca_certificate' => 'foo', 'certificate' => 'bar', 'private_key' => 'baz' } }
     end
 
-    it { expect(chef_run).to include_recipe('chef-vault::default') }
-    it { expect(chef_run).to create_directory('/etc/vault/ssl/certs') }
-    it { expect(chef_run).to create_directory('/etc/vault/ssl/private') }
-
-    it do
-      expect(chef_run).to create_file('/home/vault/.vault.json')
-      .with(owner: 'vault')
-      .with(group: 'vault')
-      .with(mode: '0640')
+    recipe do
+      vault_config '/etc/vault/vault.json' do
+        tls_key_file '/etc/vault/ssl/private/vault.key'
+        tls_cert_file '/etc/vault/ssl/certs/vault.crt'
+      end
     end
 
+    it { is_expected.to create_directory('/etc/vault/ssl/certs') }
+    it { is_expected.to create_directory('/etc/vault/ssl/private') }
+
     it do
-      expect(chef_run).to create_file('/etc/vault/ssl/certs/vault.crt')
-      .with(content: 'foo')
+      is_expected.to create_file('/etc/vault/ssl/certs/vault.crt')
+      .with(content: 'bar')
       .with(owner: 'vault')
       .with(group: 'vault')
       .with(mode: '0644')
     end
 
     it do
-      expect(chef_run).to create_file('/etc/vault/ssl/private/vault.key')
-      .with(content: 'bar')
+      is_expected.to create_file('/etc/vault/ssl/private/vault.key')
+      .with(content: 'baz')
       .with(sensitive: true)
       .with(owner: 'vault')
       .with(group: 'vault')
       .with(mode: '0640')
     end
 
-    it 'converges successfully' do
-      chef_run
-    end
-  end
-
-  context 'with TLS disabled' do
-    cached(:chef_run) do
-      ChefSpec::ServerRunner.new(step_into: %w{vault_config}) do |node|
-        node.set['vault']['config']['tls_disable'] = true
-      end.converge(described_recipe)
-    end
-
-    it { expect(chef_run).not_to include_recipe('chef-vault::default') }
-    it do
-      expect(chef_run).to create_file('/home/vault/.vault.json')
-      .with(owner: 'vault')
-      .with(group: 'vault')
-      .with(mode: '0640')
-    end
-
-    it 'converges successfully' do
-      chef_run
-    end
+    it { is_expected.to create_directory('/etc/vault') }
+    it { is_expected.to create_file('/etc/vault/vault.json') }
   end
 end
