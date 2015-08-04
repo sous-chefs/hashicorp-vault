@@ -40,7 +40,7 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
 
       def tls?
-        tls_disable == "true"
+        tls_disable != nil
       end
 
       # Transforms the resource into a JSON format which matches the
