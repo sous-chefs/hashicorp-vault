@@ -26,13 +26,18 @@ recipe which installs and configures Vault. These values are passed directly int
 Chef resource/providers which are exposed for more advanced configuration.
 
 ### Advanced Usage
+This cookbook covers all the configuration options listed on the [Vault configuration page](https://vaultproject.io/docs/config/index.html). 
+
 As mentioned above, attributes can be defined that get passed into the resource providers 
-and alter the configuration of Vault.  This cookbook covers all the configuration options listed 
-on the Vault configuration page [here](https://vaultproject.io/docs/config/index.html).
-These attributes mirror what has been defined in the resource providers below and can be provided 
-right off of the `node['vault']` attribute.  For instance to set a parameter for the vault\_config
- resource your parmeter would look like `node.default['vault']['config']['<property>'] = ` 
-and for a vault\_server resource `node.default['vault']['server']['<property>'] =` 
+and alter the configuration of Vault.  These attributes mirror what has been defined in the resource 
+providers below and can be provided right off of the `node['vault']` attribute.  
+
+For instance to set a parameter for the vault\_config resource you would configure an attribute 
+like `node['vault']['config']['<property>']` where `<property>`  is a value from the table below for vault\_config.  
+
+Similarly to configure a property for the vault\_server esource set an attribute 
+`node['vault']['server']['<property>']` again where `<property>` this time is a value from 
+the vault\_server table below
 
 Here are some examples of what it would look like to configure certain options in a wrapper cookbook
 
