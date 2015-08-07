@@ -27,7 +27,7 @@ module VaultCookbook
       attribute(:group, kind_of: String, default: 'vault')
 
       # @see https://vaultproject.io/docs/config/index.html
-      attribute(:address, kind_of: String)  # formerly :listen_address
+      attribute(:address, kind_of: String)
       attribute(:tls_disable, kind_of: String, default: '')
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
