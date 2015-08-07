@@ -20,7 +20,7 @@ default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
 
 default['vault']['service']['package_name'] = 'vault'
 default['vault']['service']['install_method'] = 'binary'
-default['vault']['service']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip"  # rubocop:disable Style/StringLiterals
+default['vault']['service']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip" # rubocop:disable Style/StringLiterals
 default['vault']['service']['source_url'] = 'https://github.com/hashicorp/vault'
 
 default['vault']['checksums'] = {
