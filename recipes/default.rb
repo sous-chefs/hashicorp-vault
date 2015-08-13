@@ -24,7 +24,7 @@ service = vault_service node['vault']['service_name'] do |r|
   version node['vault']['version']
 
   node['vault']['service'].each_pair { |k, v| r.send(k, v) }
-  action [:create, :enable]
+  action [:enable, :start]
 end
 
 vault_binary = File.join(service.install_path, 'vault', 'current', 'vault')

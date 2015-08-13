@@ -14,8 +14,6 @@ module VaultCookbook
       include Poise
       provides(:vault_service)
       include PoiseService::ServiceMixin
-      actions(:create)
-      default_action(:create)
 
       # @!attribute version
       # @return [String]
@@ -80,8 +78,7 @@ module VaultCookbook
       provides(:vault_service)
       include PoiseService::ServiceMixin
 
-      # @since 1.2.0
-      def action_create
+      def action_enable
         notifying_block do
           package new_resource.package_name do
             version new_resource.version unless new_resource.version.nil?
@@ -126,6 +123,7 @@ module VaultCookbook
             end
           end
         end
+        super
       end
 
       def service_options(service)
