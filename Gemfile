@@ -27,10 +27,6 @@ group :unit do
   gem 'chefspec'
 end
 
-group :integration do
-  gem 'serverspec'
-end
-
 group :development do
   gem 'guard'
   gem 'guard-kitchen'
