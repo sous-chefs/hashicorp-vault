@@ -1,44 +1,50 @@
 require 'spec_helper'
 
 describe command('which vault') do
-  its(:exit_status) { should eq 0 }
-  its(:stdout) { should match '/usr/local/bin/vault' }
+  its(:exit_status) { is_expected.to eq 0 }
+  its(:stdout) { is_expected.to match '/usr/local/bin/vault' }
 end
 
 describe group('vault') do
-  it { should exist }
+  it { is_expected.to exist }
 end
 
 describe user('vault') do
-  it { should exist }
+  it { is_expected.to exist }
 end
 
 describe file('/home/vault/.vault.json') do
-  it { should be_file }
-  it { should be_mode 640 }
-  it { should be_owned_by('vault') }
-  it { should be_grouped_into('vault') }
+  it { is_expected.to be_file }
+  it { is_expected.to be_mode 640 }
+  it { is_expected.to be_owned_by('vault') }
+  it { is_expected.to be_grouped_into('vault') }
 end
 
 describe service('vault') do
-  it { should be_enabled }
-  it { should be_running }
+  it { is_expected.to be_enabled }
+  it { is_expected.to be_running }
 end
 
 describe file('/etc/ssl/certs/vault.crt') do
-  it { should contain '-----BEGIN CERTIFICATE-----' }
-  it { should contain '-----END CERTIFICATE-----' }
-  it { should be_file }
-  it { should be_owned_by('vault') }
-  it { should be_grouped_into('vault') }
-  it { should be_mode 644 }
+  it { is_expected.to be_file }
+  it { is_expected.to be_owned_by('vault') }
+  it { is_expected.to be_grouped_into('vault') }
+  it { is_expected.to be_mode 644 }
+  describe '#content' do
+    subject { super().content }
+    it { is_expected.to include '-----BEGIN CERTIFICATE-----' }
+    it { is_expected.to include '-----END CERTIFICATE-----' }
+  end
 end
 
 describe file('/etc/ssl/private/vault.key') do
-  it { should contain '-----BEGIN RSA PRIVATE KEY-----' }
-  it { should contain '-----END RSA PRIVATE KEY-----' }
-  it { should be_file }
-  it { should be_owned_by('vault') }
-  it { should be_grouped_into('vault') }
-  it { should be_mode 640 }
+  it { is_expected.to be_file }
+  it { is_expected.to be_owned_by('vault') }
+  it { is_expected.to be_grouped_into('vault') }
+  it { is_expected.to be_mode 640 }
+  describe '#content' do
+    subject { super().content }
+    it { is_expected.to include '-----BEGIN RSA PRIVATE KEY-----' }
+    it { is_expected.to include '-----END RSA PRIVATE KEY-----' }
+  end
 end
