@@ -10,6 +10,9 @@ script:
 rvm:
   - 2.1
   - 2.2
+cache:
+  directories:
+    - vendor/bundle
 branches:
   only:
     - master
