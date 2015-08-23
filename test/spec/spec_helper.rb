@@ -16,9 +16,7 @@ RSpec.configure do |config|
   Kernel.srand config.seed
   config.order = :random
 
-  if config.files_to_run.one?
-    config.default_formatter = 'doc'
-  end
+  config.default_formatter = 'doc' if config.files_to_run.one?
 
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
@@ -34,7 +32,7 @@ at_exit { ChefSpec::Coverage.report! }
 
 RSpec.shared_context 'recipe tests', type: :recipe do
   before do
-    stub_command("test -L /usr/local/bin/vault").and_return(true)
-    stub_command("getcap /srv/vault/current/vault|grep cap_ipc_lock+ep").and_return(true)
+    stub_command('test -L /usr/local/bin/vault').and_return(true)
+    stub_command('getcap /srv/vault/current/vault|grep cap_ipc_lock+ep').and_return(true)
   end
 end
