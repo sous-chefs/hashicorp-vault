@@ -18,6 +18,14 @@ describe file('/home/vault/.vault.json') do
   it { is_expected.to be_mode 640 }
   it { is_expected.to be_owned_by('vault') }
   it { is_expected.to be_grouped_into('vault') }
+  describe '#content' do
+    subject { super().content }
+    it { is_expected.to include '"address": "127.0.0.1:8200"' }
+    it { is_expected.to include '"tls_cert_file": "/etc/vault/ssl/certs/vault.crt"' }
+    it { is_expected.to include '"tls_key_file": "/etc/vault/ssl/private/vault.key"' }
+    it { is_expected.to include '"disable_mlock": false' }
+    it { is_expected.to match(/"inmem": {\s+}/) }
+  end
 end
 
 describe service('vault') do
