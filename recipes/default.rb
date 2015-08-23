@@ -21,6 +21,7 @@ service = vault_service node['vault']['service_name'] do |r|
   user node['vault']['service_user']
   group node['vault']['service_group']
   version node['vault']['version']
+  config_path node['vault']['config_path']
 
   node['vault']['service'].each_pair { |k, v| r.send(k, v) }
   action [:enable, :start]
