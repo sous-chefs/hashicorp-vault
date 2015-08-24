@@ -1,3 +1,5 @@
 source 'https://supermarket.chef.io'
-cookbook 'chef-vault', git: 'https://github.com/johnbellone/chef-vault-cookbook'
+
 metadata
+
+cookbook 'chef-vault', github: 'chef-cookbooks/chef-vault', ref: '902a089'
