@@ -1,14 +1,21 @@
-require 'spec_helper'
+require 'chefspec'
+require 'chefspec/berkshelf'
+require 'chefspec/cacher'
 
-describe_recipe 'hashicorp-vault::default' do
+describe 'hashicorp-vault::default' do
+  before do
+    stub_command('test -L /usr/local/bin/vault').and_return(true)
+    stub_command('getcap /srv/vault/current/vault|grep cap_ipc_lock+ep').and_return(false)
+  end
+
   cached(:chef_run) do
-    ChefSpec::ServerRunner.new do |_node, server|
+    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |_node, server|
       server.create_data_bag('secrets',
         'vault' => {
           'certificate' => 'foo',
           'private_key' => 'bar'
         })
-    end.converge(described_recipe)
+    end.converge('hashicorp-vault::default')
   end
 
   it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
