@@ -2,13 +2,17 @@
 language: ruby
 notifications:
   slack: blpsi:eHp3Czg42iGzaTgG8sAFeD9v
+install:
+  - bundle install --retry 3 --deployment --without kitchen_vagrant kitchen_cloud
+  - bundle exec berks install
 script:
-  - bin/rubocop
-  - bin/foodcritic .
-  - bin/rspec
+  - bundle exec rake travis
 rvm:
   - 2.1
   - 2.2
+cache:
+  directories:
+    - vendor/bundle
 branches:
   only:
     - master

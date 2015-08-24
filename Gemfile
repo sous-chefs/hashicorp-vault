@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+
 gem 'chef-vault', '~> 2.6'
 gem 'poise', '~> 2.0'
 gem 'poise-service', '~> 1.0'
@@ -24,10 +25,6 @@ end
 group :unit do
   gem 'berkshelf'
   gem 'chefspec'
-end
-
-group :integration do
-  gem 'serverspec'
 end
 
 group :development do

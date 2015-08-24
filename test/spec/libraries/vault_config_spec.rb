@@ -22,19 +22,19 @@ describe VaultCookbook::Resource::VaultConfig do
 
     it do
       is_expected.to create_file('/etc/vault/ssl/certs/vault.crt')
-      .with(content: 'bar')
-      .with(owner: 'vault')
-      .with(group: 'vault')
-      .with(mode: '0644')
+        .with(content: 'bar')
+        .with(owner: 'vault')
+        .with(group: 'vault')
+        .with(mode: '0644')
     end
 
     it do
       is_expected.to create_file('/etc/vault/ssl/private/vault.key')
-      .with(content: 'baz')
-      .with(sensitive: true)
-      .with(owner: 'vault')
-      .with(group: 'vault')
-      .with(mode: '0640')
+        .with(content: 'baz')
+        .with(sensitive: true)
+        .with(owner: 'vault')
+        .with(group: 'vault')
+        .with(mode: '0640')
     end
 
     it { is_expected.to create_directory('/etc/vault') }
