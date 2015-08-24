@@ -25,7 +25,7 @@ describe service('vault') do
   it { is_expected.to be_running }
 end
 
-describe file('/etc/ssl/certs/vault.crt') do
+describe file('/etc/vault/ssl/certs/vault.crt') do
   it { is_expected.to be_file }
   it { is_expected.to be_owned_by('vault') }
   it { is_expected.to be_grouped_into('vault') }
@@ -37,7 +37,7 @@ describe file('/etc/ssl/certs/vault.crt') do
   end
 end
 
-describe file('/etc/ssl/private/vault.key') do
+describe file('/etc/vault/ssl/private/vault.key') do
   it { is_expected.to be_file }
   it { is_expected.to be_owned_by('vault') }
   it { is_expected.to be_grouped_into('vault') }
