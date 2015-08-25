@@ -8,15 +8,20 @@ default['vault']['service_name'] = 'vault'
 default['vault']['service_user'] = 'vault'
 default['vault']['service_group'] = 'vault'
 
+# Chef-vault required for certificate management
+default['vault']['manage_certificate'] = true
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
 default['vault']['version'] = '0.2.0'
 
-default['vault']['config']['path'] = '/home/vault/.vault.json'
-default['vault']['config']['address'] = '127.0.0.1:8200'
-default['vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'
-default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
+default['vault']['config_path'] = '/home/vault/.vault.json'
+default['vault']['config']['listener']['tcp'] = {
+  address: '127.0.0.1:8200',
+  tls_cert_file: '/etc/vault/ssl/certs/vault.crt',
+  tls_key_file: '/etc/vault/ssl/private/vault.key'
+}
+default['vault']['config']['disable_mlock'] = false
 
 default['vault']['service']['package_name'] = 'vault'
 default['vault']['service']['install_method'] = 'binary'

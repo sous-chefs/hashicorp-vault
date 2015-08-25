@@ -12,8 +12,15 @@ describe VaultCookbook::Resource::VaultConfig do
   context '#action_create' do
     recipe do
       vault_config '/etc/vault/vault.json' do
-        tls_key_file '/etc/vault/ssl/private/vault.key'
-        tls_cert_file '/etc/vault/ssl/certs/vault.crt'
+        config(
+          'backend' => { 'inmem' => {} },
+          'listener' => {
+            'tcp' => {
+              'tls_key_file' => '/etc/vault/ssl/private/vault.key',
+              'tls_cert_file' => '/etc/vault/ssl/certs/vault.crt'
+            }
+          }
+        )
       end
     end
 

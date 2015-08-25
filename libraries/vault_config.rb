@@ -26,37 +26,24 @@ module VaultCookbook
       # @return [String]
       attribute(:group, kind_of: String, default: 'vault')
 
-      # @see https://vaultproject.io/docs/config/index.html
-      attribute(:address, kind_of: String)
-      attribute(:tls_disable, kind_of: String, default: '')
-      attribute(:tls_cert_file, kind_of: String)
-      attribute(:tls_key_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
       attribute(:bag_item, kind_of: String, default: 'vault')
-      attribute(:disable_mlock, equal_to: [true, false], default: false)
-      attribute(:statsite_addr, kind_of: String)
-      attribute(:statsd_addr, kind_of: String)
-      attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
-      attribute(:backend_options, option_collector: true)
+
+      # @see https://vaultproject.io/docs/config/
+      attribute(:config, kind_of: Hash)
 
       def tls?
-        tls_disable.match(/^$/)
+        return false if config['listener'].key?('tls_disable') && config['listener']['tls_disable'].any?
+
+        node['vault']['manage_certificate']
       end
 
-      # Transforms the resource into a JSON format which matches the
-      # Vault service's configuration format.
-      # @see https://vaultproject.io/docs/config/index.html
-      def to_json
-        listener_keeps = %i{address tls_disable tls_cert_file tls_key_file}
-        listener_options = to_hash.keep_if do |k, _|
-          listener_keeps.include?(k.to_sym)
-        end
-        config_keeps = %i{disable_mlock statsite_addr statsd_addr}
-        config = to_hash.keep_if do |k, _|
-          config_keeps.include?(k.to_sym)
-        end.merge('backend' => { backend_type => (backend_options || {}) })
-        config.merge!('listener' => { 'tcp' => listener_options })
-        JSON.pretty_generate(config, quirks_mode: true)
+      def tls_cert_file
+        config['listener']['tcp']['tls_cert_file']
+      end
+
+      def tls_key_file
+        config['listener']['tcp']['tls_key_file']
       end
 
       action(:create) do
@@ -71,7 +58,10 @@ module VaultCookbook
               mode '0755'
             end
 
-            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
+            item = chef_vault_item(
+              new_resource.bag_name,
+              new_resource.bag_item
+            )
             file new_resource.tls_cert_file do
               content item['certificate']
               mode '0644'
@@ -100,7 +90,7 @@ module VaultCookbook
           end
 
           file new_resource.path do
-            content new_resource.to_json
+            content json_config new_resource.config
             owner new_resource.owner
             group new_resource.group
             mode '0640'

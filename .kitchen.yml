@@ -14,4 +14,12 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[hashicorp-vault::default]
+      - recipe[hashicorp-vault_tester::default]
+
+  - name: no_cert_mgmt
+    run_list:
+      - recipe[hashicorp-vault_tester::no_cert_mgmt]
+
+  - name: zookeeper
+    run_list:
+      - recipe[hashicorp-vault_tester::zookeeper_no_cert]
