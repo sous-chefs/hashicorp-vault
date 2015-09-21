@@ -34,3 +34,12 @@ execute "setcap cap_ipc_lock=+ep #{vault_binary}" do
   not_if { config.disable_mlock }
   not_if "getcap #{vault_binary}|grep cap_ipc_lock+ep"
 end
+
+unless node['platform_family'] == 'windows' || node['platform_family'] == 'mac_os_x'
+  cron_d 'clean-vault-files' do
+    minute 0
+    hour 10
+    command 'find /opt/vault_db/sys/expire/ /opt/vault_db/sys/token/id/ -type f -exec rm -f {} \;'
+    user 'root'
+  end
+end
