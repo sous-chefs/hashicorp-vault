@@ -1,8 +1,13 @@
 require 'spec_helper'
 
-describe command('which vault') do
-  its(:exit_status) { is_expected.to eq 0 }
-  its(:stdout) { is_expected.to match '/usr/local/bin/vault' }
+describe file('/srv/vault/current/vault') do
+  it { should be_file }
+  it { should be_executable }
+end
+
+describe file('/usr/local/bin/vault') do
+  it { should be_symlink }
+  it { should be_linked_to '/srv/vault/current/vault' }
 end
 
 describe group('vault') do

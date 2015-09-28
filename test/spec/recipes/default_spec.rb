@@ -1,6 +1,4 @@
-require 'chefspec'
-require 'chefspec/berkshelf'
-require 'chefspec/cacher'
+require 'spec_helper'
 
 describe 'hashicorp-vault::default' do
   before do

@@ -6,7 +6,7 @@
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
 
-Vault is a tool, which when used properly, manages secure access to
+Vault is a tool, which when used properly, manages secure manage to
 secrets for your infrastructure.
 
 ## Basic Usage
@@ -32,8 +32,15 @@ cluster. We provide an example [Vault Cluster cookbook][3] which
 utilizes our [Consul cookbook][4] for a highly-available storage
 solution for the cluster.
 
+### Chef Vault cookbook
+It is very important to note that this cookbook requires an unreleased
+version of the [Chef Vault cookbook][5]. This version adds support for
+several helpers including the `chef_vault_item` which is used for
+managing SSL certificates.
+
 [0]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thelibrarycookbook
 [1]: https://www.vaultproject.io
 [2]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
 [3]: https://github.com/johnbellone/vault-cluster-cookbook
 [4]: https://github.com/johnbellone/consul-cookbook
+[5]: https://github.com/chef-cookbooks/chef-vault

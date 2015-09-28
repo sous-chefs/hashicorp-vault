@@ -2,7 +2,7 @@
 # Cookbook: hashicorp-vault-cookbook
 # License: Apache 2.0
 #
-# Copyright (C) 2015 Bloomberg Finance L.P.
+# Copyright 2015, Bloomberg Finance L.P.
 #
 require 'poise'
 
@@ -67,28 +67,17 @@ module VaultCookbook
           if new_resource.tls?
             include_recipe 'chef-vault::default'
 
-            directory ::File.dirname(new_resource.tls_cert_file) do
-              recursive true
-              owner 'root'
-              group new_resource.group
-              mode '0755'
+            [new_resource.tls_cert_file, new_resource.tls_key_file].each do |dirname|
+              directory ::File.dirname(dirname) do
+                recursive true
+              end
             end
 
-            item = chef_vault_item(
-              new_resource.bag_name,
-              new_resource.bag_item
-            )
+            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
             file new_resource.tls_cert_file do
               content item['certificate']
               mode '0644'
               owner new_resource.owner
-              group new_resource.group
-            end
-
-            directory ::File.dirname(new_resource.tls_key_file) do
-              recursive true
-              mode '0750'
-              owner 'root'
               group new_resource.group
             end
 

@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-
 gem 'chef-vault', '~> 2.6'
 gem 'poise', '~> 2.0'
 gem 'poise-service', '~> 1.0'

@@ -2,7 +2,7 @@
 # Cookbook: hashicorp-vault-cookbook
 # License: Apache 2.0
 #
-# Copyright (C) 2015 Bloomberg Finance L.P.
+# Copyright 2015, Bloomberg Finance L.P.
 #
 require 'poise_service/service_mixin'
 
@@ -56,7 +56,7 @@ module VaultCookbook
       attribute(:source_url, kind_of: String)
 
       def command
-        "vault server -config=#{config_path}"
+        "/usr/local/bin/vault server -config=#{config_path}"
       end
 
       def binary_checksum
@@ -82,6 +82,7 @@ module VaultCookbook
         notifying_block do
           package new_resource.package_name do
             version new_resource.version unless new_resource.version.nil?
+            action :upgrade
             only_if { new_resource.install_method == 'package' }
           end
 

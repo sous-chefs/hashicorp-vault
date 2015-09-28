@@ -15,7 +15,6 @@ suites:
   - name: default
     run_list:
       - recipe[hashicorp-vault::default]
-
   - name: no_cert_mgmt
     run_list:
       - recipe[hashicorp-vault::default]
