@@ -11,7 +11,7 @@ default['vault']['service_group'] = 'vault'
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
-default['vault']['version'] = '0.3.0'
+default['vault']['version'] = '0.3.1'
 
 default['vault']['config']['path'] = '/home/vault/.vault.json'
 default['vault']['config']['address'] = '127.0.0.1:8200'
@@ -45,5 +45,12 @@ default['vault']['checksums'] = {
   '0.3.0_linux_amd64' => '30b8953e98059d1e8d97f6a164aa574a346a58caf9c5c74a911056f42fbef4d5',
   '0.3.0_linux_arm' => 'c57623ee3ba311451c5b8cc7cc1893e06ed38d19279390de784bf833d63e0bdb',
   '0.3.0_windows_386' => '6151401f56a09188e958d3af8d99d58e6ea2984117b13998d57c245faed936e3',
-  '0.3.0_windows_amd64' => '012f79bb190817075d15a714e92fdb6fa26c638c46c4e9587143f5f69a2f3e0e'
+  '0.3.0_windows_amd64' => '012f79bb190817075d15a714e92fdb6fa26c638c46c4e9587143f5f69a2f3e0e',
+  '0.3.1_darwin_386' => '4ff4ef6e0c0507a09be569c72e49fe4b013acc1a3fa8eedae2e267f7f39cdf08',
+  '0.3.1_darwin_amd64' => '0a67d3ee6743c96e6cb96484b208555a2ea6f19fd7b51057410fd6f4a49aafad',
+  '0.3.1_linux_386' => '2e09df75efed43c1f29c1be020ad49d712a6eb5b2413961aea7d5ed47b982f36',
+  '0.3.1_linux_amd64' => '4005f0ae1bd88ad2676859430209129ed13bc3ade6b64fcf40cc3a6d4d9469e7',
+  '0.3.1_linux_arm' => '920e5ea35212d6e885be93ef66d6a6045357f6f5f0a3415255339674544d33be',
+  '0.3.1_windows_386' => '021834c98bb42e3c902c642326a637184c6519e2d40208e0976d885867042da2',
+  '0.3.1_windows_amd64' => '972c86317c4389db5edd3fadfebd3cd4c9a94c5bc6045dd3fec47d9cb4fe0491'
 }
