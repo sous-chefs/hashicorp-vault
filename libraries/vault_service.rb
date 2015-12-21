@@ -91,7 +91,7 @@ module VaultCookbook
               artifact_name 'vault'
               artifact_version new_resource.version
               install_path new_resource.install_path
-              remote_url new_resource.binary_url % { version: new_resource.binary_filename }
+              remote_url new_resource.binary_url % { version: new_resource.version, filename: new_resource.binary_filename }
               remote_checksum new_resource.binary_checksum
             end
 
