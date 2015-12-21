@@ -11,7 +11,7 @@ default['vault']['service_group'] = 'vault'
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
-default['vault']['version'] = '0.3.1'
+default['vault']['version'] = '0.4.0'
 
 default['vault']['config']['path'] = '/home/vault/.vault.json'
 default['vault']['config']['address'] = '127.0.0.1:8200'
@@ -21,7 +21,7 @@ default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
 
 default['vault']['service']['package_name'] = 'vault'
 default['vault']['service']['install_method'] = 'binary'
-default['vault']['service']['binary_url'] = "https://dl.bintray.com/mitchellh/vault/vault_%{version}.zip" # rubocop:disable Style/StringLiterals
+default['vault']['service']['binary_url'] = "https://releases.hashicorp.com/vault/%{version}/vault_%{filename}.zip" # rubocop:disable Style/StringLiterals
 default['vault']['service']['source_url'] = 'https://github.com/hashicorp/vault'
 
 default['vault']['checksums'] = {
@@ -52,5 +52,12 @@ default['vault']['checksums'] = {
   '0.3.1_linux_amd64' => '4005f0ae1bd88ad2676859430209129ed13bc3ade6b64fcf40cc3a6d4d9469e7',
   '0.3.1_linux_arm' => '920e5ea35212d6e885be93ef66d6a6045357f6f5f0a3415255339674544d33be',
   '0.3.1_windows_386' => '021834c98bb42e3c902c642326a637184c6519e2d40208e0976d885867042da2',
-  '0.3.1_windows_amd64' => '972c86317c4389db5edd3fadfebd3cd4c9a94c5bc6045dd3fec47d9cb4fe0491'
+  '0.3.1_windows_amd64' => '972c86317c4389db5edd3fadfebd3cd4c9a94c5bc6045dd3fec47d9cb4fe0491',
+  '0.4.0_darwin_386' => 'dad7401d0692e531713d8c0b23e77dea1f7df9cb1c689e3e2dea06b607100f30',
+  '0.4.0_darwin_amd64' => 'be81a99496c9949d261cf119cd58ee617088fffd9feaa045605e00063c490bb6',
+  '0.4.0_linux_386' => '595af129648b0ea1c0810e6c976d298a16b4f2d348e1cf31ebac7800ebf66c0b',
+  '0.4.0_linux_amd64' => 'f56933cb7a445db89f8832016a862ca39b3e63dedb05709251e59d6bb40c56e8',
+  '0.4.0_linux_arm' => '9883ff7d8cb858ce7163f75f3b6157aaa06d4b1a612d7fa9956869e73cc13bd4',
+  '0.4.0_windows_386' => 'd2d8e9440f87221b6b5b887e0929ccfd6ba827a37755f7b10a40188e580040af',
+  '0.4.0_windows_amd64' => '6e91a7d8817a2fc03859dfeda40f4175593b273d3b2564d3e59e9405c1d8b260'
 }
