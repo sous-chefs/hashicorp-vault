@@ -28,7 +28,7 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)
-      attribute(:tls_disable, kind_of: String, default: '')
+      attribute(:tls_disable, kind_of: String, default: 'false')
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
@@ -41,7 +41,7 @@ module VaultCookbook
       attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: true)
 
       def tls?
-        return true if tls_disable.match(/^$/) && manage_certificate
+        return true if ! ['1', 'true'].include?(tls_disable) && manage_certificate
 
         false
       end
