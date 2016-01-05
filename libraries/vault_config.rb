@@ -41,7 +41,7 @@ module VaultCookbook
       attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: true)
 
       def tls?
-        return true if ! ['1', 'true'].include?(tls_disable) && manage_certificate
+        return true if ! %w('1', 'true').include?(tls_disable) && manage_certificate
 
         false
       end
