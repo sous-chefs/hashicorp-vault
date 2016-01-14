@@ -18,6 +18,7 @@ default['vault']['config']['address'] = '127.0.0.1:8200'
 default['vault']['config']['manage_certificate'] = true
 default['vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'
 default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
+default['vault']['config']['tls_ca_file'] = '/etc/vault/ssl/certs/ca.crt'
 
 default['vault']['service']['package_name'] = 'vault'
 default['vault']['service']['install_method'] = 'binary'

@@ -16,6 +16,7 @@ describe VaultCookbook::Resource::VaultConfig do
       vault_config '/etc/vault/.vault.json' do
         tls_key_file '/etc/vault/ssl/private/vault.key'
         tls_cert_file '/etc/vault/ssl/certs/vault.crt'
+        tls_ca_file '/etc/vault/ssl/certs/ca.crt'
       end
     end
 
@@ -24,6 +25,7 @@ describe VaultCookbook::Resource::VaultConfig do
 
     it { is_expected.to render_file('/etc/vault/ssl/certs/vault.crt').with_content('bar') }
     it { is_expected.to render_file('/etc/vault/ssl/private/vault.key').with_content('baz') }
+    it { is_expected.to render_file('/etc/vault/ssl/private/ca.crt').with_content('baz') }
 
     it { is_expected.to create_directory('/etc/vault') }
     it { is_expected.to render_file('/etc/vault/.vault.json') }

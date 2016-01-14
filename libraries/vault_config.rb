@@ -31,6 +31,7 @@ module VaultCookbook
       attribute(:tls_disable, kind_of: String, default: 'false')
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
+      attribute(:tls_ca_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
       attribute(:bag_item, kind_of: String, default: 'vault')
       attribute(:disable_mlock, equal_to: [true, false], default: false)
@@ -50,16 +51,16 @@ module VaultCookbook
       # Vault service's configuration format.
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
-        listener_keeps = %i{address tls_cert_file tls_key_file}
+        listener_keeps = %i{address tls_cert_file tls_key_file tls_ca_file}
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end
-        listener_options[:tls_disable] = tls_disable unless self.tls?
+        listener_options[:tls_disable] = tls_disable unless tls?
         config_keeps = %i{disable_mlock statsite_addr statsd_addr}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end.merge('backend' => { backend_type => (backend_options || {}) })
-        config.merge!('listener' => { 'tcp' => listener_options })
+        config['listener'] = { 'tcp' => listener_options }
         JSON.pretty_generate(config, quirks_mode: true)
       end
 
@@ -89,6 +90,13 @@ module VaultCookbook
               owner new_resource.owner
               group new_resource.group
             end
+            file new_resource.tls_ca_file do
+              sensitive true
+              content item['ca_certificate']
+              mode '0640'
+              owner new_resource.owner
+              group new_resource.group
+            end
           end
 
           directory ::File.dirname(new_resource.path) do
@@ -112,6 +120,9 @@ module VaultCookbook
             end
 
             file new_resource.tls_key_file do
+              action :delete
+            end
+            file new_resource.tls_ca_file do
               action :delete
             end
           end
