@@ -26,6 +26,9 @@ service = vault_service node['vault']['service_name'] do |r|
 end
 
 vault_binary = File.join(service.install_path, 'vault', 'current', 'vault')
+
+package 'libcap2-bin' if platform_family?('debian')
+
 execute "setcap cap_ipc_lock=+ep #{vault_binary}" do
   not_if { node['platform_family'] == 'windows' }
   not_if { node['platform_family'] == 'mac_os_x' }
