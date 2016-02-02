@@ -9,7 +9,6 @@ describe VaultCookbook::Resource::VaultService do
   let(:chefspec_options) { {platform: 'ubuntu', version: '14.04'} }
 
   before do
-    allow(File).to receive(:readlink).with('/usr/local/bin/vault').and_return('/srv/vault/current/vault')
     stub_command("getcap /srv/vault/current/vault|grep cap_ipc_lock+ep").and_return(false)
   end
 
