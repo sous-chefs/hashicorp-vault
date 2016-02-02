@@ -11,7 +11,7 @@ default['vault']['service_group'] = 'vault'
 default['vault']['bag_name'] = 'secrets'
 default['vault']['bag_item'] = 'vault'
 
-default['vault']['version'] = '0.4.0'
+default['vault']['version'] = '0.4.1'
 
 default['vault']['config']['path'] = '/home/vault/.vault.json'
 default['vault']['config']['address'] = '127.0.0.1:8200'
@@ -19,7 +19,6 @@ default['vault']['config']['manage_certificate'] = true
 default['vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'
 default['vault']['config']['tls_key_file'] = '/etc/vault/ssl/private/vault.key'
 
-default['vault']['service']['package_name'] = 'vault'
 default['vault']['service']['install_method'] = 'binary'
 default['vault']['service']['binary_url'] = "https://releases.hashicorp.com/vault/%{version}/vault_%{filename}.zip" # rubocop:disable Style/StringLiterals
 default['vault']['service']['source_url'] = 'https://github.com/hashicorp/vault'
@@ -59,5 +58,12 @@ default['vault']['checksums'] = {
   '0.4.0_linux_amd64' => 'f56933cb7a445db89f8832016a862ca39b3e63dedb05709251e59d6bb40c56e8',
   '0.4.0_linux_arm' => '9883ff7d8cb858ce7163f75f3b6157aaa06d4b1a612d7fa9956869e73cc13bd4',
   '0.4.0_windows_386' => 'd2d8e9440f87221b6b5b887e0929ccfd6ba827a37755f7b10a40188e580040af',
-  '0.4.0_windows_amd64' => '6e91a7d8817a2fc03859dfeda40f4175593b273d3b2564d3e59e9405c1d8b260'
+  '0.4.0_windows_amd64' => '6e91a7d8817a2fc03859dfeda40f4175593b273d3b2564d3e59e9405c1d8b260',
+  '0.4.1_darwin_386' => '9dd6e5c2d233d048d05ebdbae4dbf5e2b10d0e6d1bd626a609e913b1c8f923e0',
+  '0.4.1_darwin_amd64' => 'cdf4f8bb863550e6b29aa44254ed00968f69c9e6b7e9e8c83d70151fe905bd99',
+  '0.4.1_linux_386' => '822b3bca3a4897b34ce45b9081dc48f89cc83c61dbacf4ff47a6dac2d1f70b39',
+  '0.4.1_linux_amd64' => 'f21f8598728faa4e1920704c37047bad6e9b360aec39ba8a1cc712c373ffb61a',
+  '0.4.1_linux_arm' => '2786009465d10db4777791e90b8cbb42753513dcfae52ba74132c2364b8b267f',
+  '0.4.1_windows_386' => '5b7dba8582947723c9064b1ca2ac6c285b6f4b78b4b5cc1bc31256c2baebe991',
+  '0.4.1_windows_amd64' => 'e1f1c31fea51c4477c975d81d16ec399bfe744398c06f21dc209fb88ae019201'
 }

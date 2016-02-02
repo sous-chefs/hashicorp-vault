@@ -15,6 +15,15 @@ suites:
   - name: default
     run_list:
       - recipe[hashicorp-vault::default]
+
+  - name: install_from_source
+    run_list:
+      - recipe[hashicorp-vault::default]
+    attributes:
+      vault:
+        service:
+          install_method: 'source'
+
   - name: no_cert_mgmt
     run_list:
       - recipe[hashicorp-vault::default]
@@ -22,7 +31,7 @@ suites:
       vault:
         config:
           tls_disable: '1'
-          manage_certificate: false
+          manage_certificate: true
 
   - name: tls_disable
     run_list:
