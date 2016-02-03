@@ -54,12 +54,12 @@ module VaultCookbook
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end
-        listener_options[:tls_disable] = tls_disable unless self.tls?
+        listener_options[:tls_disable] = tls_disable unless tls?
         config_keeps = %i{disable_mlock statsite_addr statsd_addr}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end.merge('backend' => { backend_type => (backend_options || {}) })
-        config.merge!('listener' => { 'tcp' => listener_options })
+        config['listener'] = { 'tcp' => listener_options }
         JSON.pretty_generate(config, quirks_mode: true)
       end
 

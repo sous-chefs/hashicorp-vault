@@ -33,9 +33,7 @@ utilizes our [Consul cookbook][4] for a highly-available storage
 solution for the cluster.
 
 ### Chef Vault cookbook
-It is very important to note that this cookbook requires an unreleased
-version of the [Chef Vault cookbook][5]. This version adds support for
-several helpers including the `chef_vault_item` which is used for
+It is very important to note that this cookbook depends on [Chef Vault cookbook][5] for
 managing SSL certificates.
 
 [0]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thelibrarycookbook
