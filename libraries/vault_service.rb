@@ -141,10 +141,10 @@ module VaultCookbook
                            node['go']['gobin']].join(':')
             execute 'make dev' do
               cwd new_resource.source_dir
-              # rubocop:disable Lint/ParenthesesAsGroupedExpression,Style/RedundantParentheses
+              # rubocop:disable Lint/ParenthesesAsGroupedExpression
               environment ({ PATH: "#{custom_path}:#{ENV['PATH']}",
                              GOPATH: node['go']['gopath'].to_s })
-              # rubocop:enable Lint/ParenthesesAsGroupedExpression,Style/RedundantParentheses
+              # rubocop:enable Lint/ParenthesesAsGroupedExpression
             end
           end
 
