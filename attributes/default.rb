@@ -13,7 +13,7 @@ default['vault']['bag_item'] = 'vault'
 
 default['vault']['version'] = '0.5.0'
 
-default['vault']['config']['path'] = '/home/vault/.vault.json'
+default['vault']['config']['path'] = '/etc/vault/vault.json'
 default['vault']['config']['address'] = '127.0.0.1:8200'
 default['vault']['config']['manage_certificate'] = true
 default['vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'
