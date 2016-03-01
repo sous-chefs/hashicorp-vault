@@ -9,31 +9,18 @@ group :lint do
   gem 'foodcritic'
 end
 
-group :kitchen_common do
-  gem 'test-kitchen', '~> 1.4'
-end
-
-group :kitchen_vagrant do
-  gem 'kitchen-vagrant', '~> 0.17'
-end
-
-group :kitchen_cloud do
-  gem 'kitchen-openstack', '~> 1.8'
-end
-
-group :unit do
+group :test, :integration, :unit do
   gem 'berkshelf'
+  gem 'chef-dk'
   gem 'chefspec'
+  gem 'inspec'
+  gem 'kitchen-inspec'
 end
 
 group :development do
-  gem 'guard'
-  gem 'guard-kitchen'
-  gem 'guard-rspec'
-  gem 'guard-rubocop'
+  gem 'awesome_print'
   gem 'rake'
   gem 'stove'
-  gem 'github_changelog_generator'
 end
 
 group :doc do

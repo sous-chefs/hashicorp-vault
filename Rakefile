@@ -19,7 +19,7 @@ task style: ['style:chef', 'style:ruby']
 
 desc 'Run ChefSpec unit tests'
 RSpec::Core::RakeTask.new(:unit) do |t|
-  t.pattern = 'test/spec/**{,/*/**}/*_spec.rb'
+  t.pattern = 'test/unit/**{,/*/**}/*_spec.rb'
 end
 
 # Integration tests. Kitchen.ci
