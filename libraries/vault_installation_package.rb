@@ -5,6 +5,7 @@
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise'
+require_relative 'vault_installation'
 
 module VaultCookbook
   module Provider
@@ -22,10 +23,10 @@ module VaultCookbook
       # @return [Hash]
       # @api private
       def self.default_inversion_options(node, new_resource)
-        super.merge({
+        super.merge(
           version: new_resource.version,
           package_name: 'vault'
-        })
+        )
       end
 
       def action_install

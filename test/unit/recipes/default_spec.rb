@@ -1,4 +1,6 @@
-require 'spec_helper'
+require 'chefspec'
+require 'chefspec/berkshelf'
+require 'chefspec/cacher'
 
 describe 'hashicorp-vault::default' do
   before do
@@ -6,23 +8,21 @@ describe 'hashicorp-vault::default' do
     stub_command('getcap /srv/vault/current/vault|grep cap_ipc_lock+ep').and_return(false)
   end
 
-  cached(:chef_run) do
-    ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |_node, server|
-      server.create_data_bag('secrets',
-        'vault' => {
-          'certificate' => 'foo',
-          'private_key' => 'bar'
-        })
-    end.converge('hashicorp-vault::default')
-  end
-
-  it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
-  it { expect(chef_run).to create_vault_config('/home/vault/.vault.json') }
-  it { expect(chef_run).to enable_vault_service('vault').with(config_path: '/home/vault/.vault.json') }
-  it { expect(chef_run).to start_vault_service('vault') }
-  context 'with default attributes' do
-    it 'converges successfully' do
-      chef_run
+  context 'with default node attributes' do
+    cached(:chef_run) do
+      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |_, server|
+        server.create_data_bag('secrets',
+          'vault' => {
+            'certificate' => 'foo',
+            'private_key' => 'bar'
+          })
+      end.converge('hashicorp-vault::default')
     end
+
+    it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
+    it { expect(chef_run).to create_vault_config('/etc/vault/vault.json') }
+    it { expect(chef_run).to install_vault_installation('0.5.0') }
+    it { expect(chef_run).to enable_vault_service('vault').with(config_path: '/etc/vault/vault.json') }
+    it { expect(chef_run).to start_vault_service('vault') }
   end
 end

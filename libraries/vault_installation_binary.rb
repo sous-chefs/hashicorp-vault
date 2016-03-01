@@ -6,6 +6,7 @@
 #
 require 'poise'
 require_relative 'helpers_installation_binary'
+require_relative 'vault_installation'
 
 module VaultCookbook
   module Provider
@@ -17,19 +18,19 @@ module VaultCookbook
     # @since 2.0
     class VaultInstallationBinary < Chef::Resource
       include Poise(inversion: :vault_installation)
-      include Helpers::InstallationBinary
       provides(:binary)
+      include Helpers::InstallationBinary
 
       # Set the default inversion options.
       # @return [Hash]
       # @api private
       def self.default_inversion_options(node, new_resource)
-        super.merge({
+        super.merge(
           version: new_resource.version,
           archive_url: "https://releases.hashicorp.com/vault/%{version}/#{binary_filename}",
           archive_checksum: default_binary_checksum,
           extract_to: '/opt/vault'
-        })
+        )
       end
 
       def action_install

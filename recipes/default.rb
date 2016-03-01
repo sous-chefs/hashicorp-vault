@@ -17,7 +17,7 @@ config = vault_config node['vault']['config']['path'] do |r|
 end
 
 install = vault_installation node['vault']['version'] do |r|
-  node['vault']['installation'].each_pair { |k, v| r.send(k ,v) }
+  node['vault']['installation'].each_pair { |k, v| r.send(k, v) }
 end
 
 vault_service node['vault']['service_name'] do |r|

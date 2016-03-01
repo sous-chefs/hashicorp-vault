@@ -7,8 +7,8 @@
 
 module VaultCookbook
   module Helpers
-    # @since 1.6
-    module InstallationBinary # rubocop:disable Metrics/ModuleLength
+    # @since 2.0
+    module InstallationBinary
       extend self
 
       def binary_filename
