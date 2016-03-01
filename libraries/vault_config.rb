@@ -2,13 +2,17 @@
 # Cookbook: hashicorp-vault-cookbook
 # License: Apache 2.0
 #
-# Copyright 2015, Bloomberg Finance L.P.
+# Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise'
 
 module VaultCookbook
   module Resource
-    # @since 1.0.0
+    # A `vault_config` resource for managing Vault's configuration
+    # files.
+    # @action create
+    # @provides vault_config
+    # @since 1.0
     class VaultConfig < Chef::Resource
       include Poise(fused: true)
       provides(:vault_config)
