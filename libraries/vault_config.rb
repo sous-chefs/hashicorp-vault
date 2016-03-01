@@ -58,7 +58,7 @@ module VaultCookbook
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end
-        listener_options[:tls_disable] = tls_disable unless tls?
+        listener_options[:tls_disable] = tls_disable.to_s unless tls?
         config_keeps = %i{disable_mlock statsite_addr statsd_addr}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
