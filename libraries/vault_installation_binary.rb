@@ -16,7 +16,7 @@ module VaultCookbook
     # @action remove
     # @provides vault_installation
     # @since 2.0
-    class VaultInstallationBinary < Chef::Resource
+    class VaultInstallationBinary < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:binary)
       include Helpers::InstallationBinary
@@ -33,7 +33,7 @@ module VaultCookbook
         )
       end
 
-      def action_install
+      def action_create
         basename = binary_filename
         notifying_block do
           include_recipe 'libarchive::default'
@@ -59,7 +59,7 @@ module VaultCookbook
         end
       end
 
-      def action_uninstall
+      def action_remove
         notifying_block do
           directory ::File.join(options[:extract_to], new_resource.version) do
             recursive true

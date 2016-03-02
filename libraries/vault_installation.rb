@@ -10,15 +10,15 @@ module VaultCookbook
   module Resource
     # A `vault_installation` resource for managing the installation of
     # Vault.
-    # @action install
-    # @action uninstall
+    # @action create
+    # @action remove
     # @example
     #   vault_installation '0.5.0'
     # @since 2.0
-    class VaultInstallation
+    class VaultInstallation < Chef::Resource
       include Poise(inversion: true)
       provides(:vault_installation)
-      actions(:install, :uninstall)
+      actions(:create, :remove)
 
       # @!attribute version
       # The version of Vault to install.
@@ -26,7 +26,7 @@ module VaultCookbook
       attribute(:version, kind_of: String, name_attribute: true)
 
       def vault_binary
-        provider_for_action(:vault_binary).vault_binary
+        @vault_binary ||= provider_for_action(:vault_binary).vault_binary
       end
     end
   end

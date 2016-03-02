@@ -11,12 +11,10 @@ describe VaultCookbook::Resource::VaultService do
   let(:chefspec_options) { {platform: 'ubuntu', version: '14.04'} }
 
   before do
-    stub_command("getcap /srv/vault/current/vault|grep cap_ipc_lock+ep").and_return(false)
+    stub_command("getcap /opt/vault/0.5.0/vault|grep cap_ipc_lock+ep").and_return(false)
   end
 
-
   context 'with default properties' do
-    it { is_expected.to create_link('/usr/local/bin/vault').with(to: '/srv/vault/current/vault')  }
-    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /srv/vault/current/vault' }
+    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.5.0/vault' }
   end
 end

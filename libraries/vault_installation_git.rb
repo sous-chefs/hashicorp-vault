@@ -15,7 +15,7 @@ module VaultCookbook
     # @action remove
     # @provides vault_installation
     # @since 2.0
-    class VaultInstallationGit < Chef::Resource
+    class VaultInstallationGit < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:binary)
 
@@ -31,7 +31,7 @@ module VaultCookbook
         )
       end
 
-      def action_install
+      def action_create
         notifying_block do
           include_recipe 'golang::default', 'build-essential::default'
 
@@ -51,7 +51,7 @@ module VaultCookbook
         end
       end
 
-      def action_uninstall
+      def action_remove
         notifying_block do
           directory options[:git_path] do
             recursive true

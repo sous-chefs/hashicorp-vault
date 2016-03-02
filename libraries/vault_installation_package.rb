@@ -15,7 +15,7 @@ module VaultCookbook
     # @action remove
     # @provides vault_installation
     # @since 2.0
-    class VaultInstallationPackage < Chef::Resource
+    class VaultInstallationPackage < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:package)
 
@@ -29,7 +29,7 @@ module VaultCookbook
         )
       end
 
-      def action_install
+      def action_create
         notifying_block do
           package options[:package_name] do
             source options[:package_source]
@@ -40,7 +40,7 @@ module VaultCookbook
         end
       end
 
-      def action_uninstall
+      def action_remove
         notifying_block do
           package options[:package_name] do
             source options[:package_source]
