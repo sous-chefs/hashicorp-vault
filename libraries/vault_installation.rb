@@ -1,10 +1,13 @@
 #
-# Cookbook: hashicorp-vault-cookbook
+# Cookbook: hashicorp-vault
 # License: Apache 2.0
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise'
+require_relative 'vault_installation_binary'
+require_relative 'vault_installation_git'
+require_relative 'vault_installation_package'
 
 module VaultCookbook
   module Resource
@@ -19,6 +22,7 @@ module VaultCookbook
       include Poise(inversion: true)
       provides(:vault_installation)
       actions(:create, :remove)
+      default_action(:create)
 
       # @!attribute version
       # The version of Vault to install.
@@ -31,3 +35,9 @@ module VaultCookbook
     end
   end
 end
+
+Chef::Platform::ProviderPriorityMap.instance.priority(:vault_installation, [
+  VaultCookbook::Provider::VaultInstallationBinary,
+  VaultCookbook::Provider::VaultInstallationGit,
+  VaultCookbook::Provider::VaultInstallationPackage
+])

@@ -1,5 +1,5 @@
 #
-# Cookbook: hashicorp-vault-cookbook
+# Cookbook: hashicorp-vault
 # License: Apache 2.0
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
@@ -17,7 +17,9 @@ config = vault_config node['vault']['config']['path'] do |r|
 end
 
 install = vault_installation node['vault']['version'] do |r|
-  node['vault']['installation'].each_pair { |k, v| r.send(k, v) }
+  if node['vault']['installation']
+    node['vault']['installation'].each_pair { |k, v| r.send(k, v) }
+  end
 end
 
 vault_service node['vault']['service_name'] do |r|

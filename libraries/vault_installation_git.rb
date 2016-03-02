@@ -1,11 +1,10 @@
 #
-# Cookbook: hashicorp-vault-cookbook
+# Cookbook: hashicorp-vault
 # License: Apache 2.0
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise'
-require_relative 'vault_installation'
 
 module VaultCookbook
   module Provider
@@ -17,7 +16,7 @@ module VaultCookbook
     # @since 2.0
     class VaultInstallationGit < Chef::Provider
       include Poise(inversion: :vault_installation)
-      provides(:binary)
+      provides(:git)
 
       # Set the default inversion options.
       # @return [Hash]

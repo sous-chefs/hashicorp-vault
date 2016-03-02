@@ -44,3 +44,7 @@ Style/PercentLiteralDelimiters:
   Enabled: false
 Style/ModuleFunction:
   Enabled: false
+Style/IndentationWidth:
+  Enabled: false
+Style/IndentArray:
+  Enabled: false
