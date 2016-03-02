@@ -35,9 +35,3 @@ module VaultCookbook
     end
   end
 end
-
-Chef::Platform::ProviderPriorityMap.instance.priority(:vault_installation, [
-  VaultCookbook::Provider::VaultInstallationBinary,
-  VaultCookbook::Provider::VaultInstallationGit,
-  VaultCookbook::Provider::VaultInstallationPackage
-])

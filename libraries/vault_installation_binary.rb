@@ -18,6 +18,10 @@ module VaultCookbook
       include Poise(inversion: :vault_installation)
       provides(:binary)
 
+      def self.provides_auto?(_node, _resource)
+        true
+      end
+
       # Set the default inversion options.
       # @return [Hash]
       # @api private
