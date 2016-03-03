@@ -66,10 +66,10 @@ module VaultCookbook
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = tls? ?  %i{address tls_cert_file tls_key_file} : %i{address}
+        listener_keeps = tls? ? %i{address tls_cert_file tls_key_file} : %i{address}
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
-        end.merge({ tls_disable: tls_disable.to_s })
+        end.merge(tls_disable: tls_disable.to_s)
         config['listener'] = { 'tcp' => listener_options }
         # backend
         config['backend'] = { backend_type => (backend_options || {}) }
