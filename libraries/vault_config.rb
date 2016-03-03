@@ -32,21 +32,27 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)
-      attribute(:tls_disable, kind_of: String, default: 'false')
+      attribute(:tls_disable, default: 'false', equal_to: %w{0 no false 1 yes true})
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
       attribute(:bag_item, kind_of: String, default: 'vault')
       attribute(:disable_mlock, equal_to: [true, false], default: false)
+      attribute(:default_lease_ttl, kind_of: String)
+      attribute(:max_lease_ttl, kind_of: String)
       attribute(:statsite_addr, kind_of: String)
       attribute(:statsd_addr, kind_of: String)
-      attribute(:backend_type, default: 'inmem', equal_to: %w{consul inmem zookeeper file})
+      attribute(:backend_type, default: 'inmem', equal_to: %w{consul etcd zookeeper dynamodb s3 mysql postgresql inmem file})
       attribute(:backend_options, option_collector: true)
-      attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: true)
+      # Must be equal to one of: consul, etcd, zookeeper, dynamodb,
+      attribute(:habackend_type, kind_of: String)
+      attribute(:habackend_options, option_collector: true)
+      attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: false)
 
       def tls?
-        return true unless %w{1 true}.include?(tls_disable) && manage_certificate
-
+        if manage_certificate
+          return true unless %w{1 yes true}.include?(tls_disable)
+        end
         false
       end
 
@@ -54,16 +60,30 @@ module VaultCookbook
       # Vault service's configuration format.
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
-        listener_keeps = %i{address tls_cert_file tls_key_file}
-        listener_options = to_hash.keep_if do |k, _|
-          listener_keeps.include?(k.to_sym)
-        end
-        listener_options[:tls_disable] = tls_disable.to_s unless tls?
-        config_keeps = %i{disable_mlock statsite_addr statsd_addr}
+        # top-level
+        config_keeps = %i{disable_mlock default_lease_ttl max_lease_ttl}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
-        end.merge('backend' => { backend_type => (backend_options || {}) })
+        end
+        # listener
+        listener_keeps = tls? ?  %i{address tls_cert_file tls_key_file} : %i{address}
+        listener_options = to_hash.keep_if do |k, _|
+          listener_keeps.include?(k.to_sym)
+        end.merge({ tls_disable: tls_disable.to_s })
         config['listener'] = { 'tcp' => listener_options }
+        # backend
+        config['backend'] = { backend_type => (backend_options || {}) }
+        # ha_backend, only some backends support HA
+        if %w{consul etcd zookeeper dynamodb}.include? habackend_type
+          config['ha_backend'] = { habackend_type => (habackend_options || {}) }
+        end
+        # telemetry
+        telemetry_keeps = %i{statsite_addr statsd_addr}
+        telemetry_options = to_hash.keep_if do |k, _|
+          telemetry_keeps.include?(k.to_sym)
+        end
+        config['telemetry'] = telemetry_options unless telemetry_options.empty?
+
         JSON.pretty_generate(config, quirks_mode: true)
       end
 
