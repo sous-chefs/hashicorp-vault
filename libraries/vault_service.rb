@@ -58,7 +58,7 @@ module VaultCookbook
     # service.
     # @provides vault_service
     # @since 1.0
-    class Chef::Provider::VaultService < Chef::Provider
+    class VaultService < Chef::Provider
       include Poise
       provides(:vault_service)
       include PoiseService::ServiceMixin
