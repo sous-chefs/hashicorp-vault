@@ -10,13 +10,7 @@ describe 'hashicorp-vault::default' do
 
   context 'with default node attributes' do
     cached(:chef_run) do
-      ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |_, server|
-        server.create_data_bag('secrets',
-          'hashicorp-vault' => {
-            'certificate' => 'foo',
-            'private_key' => 'bar'
-          })
-      end.converge('hashicorp-vault::default')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04').converge('hashicorp-vault::default')
     end
 
     it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
