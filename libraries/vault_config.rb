@@ -16,17 +16,17 @@ module VaultCookbook
     class VaultConfig < Chef::Resource
       include Poise(fused: true)
       provides(:vault_config)
-      default_action(:create)
 
       # @!attribute path
+      # The Vault configuration file path.
       # @return [String]
       attribute(:path, kind_of: String, name_attribute: true)
-
       # @!attribute owner
+      # The Vault configuration file owner.
       # @return [String]
       attribute(:owner, kind_of: String, default: 'vault')
-
       # @!attribute group
+      # The Vault configuration file group.
       # @return [String]
       attribute(:group, kind_of: String, default: 'vault')
 
@@ -128,7 +128,7 @@ module VaultCookbook
         end
       end
 
-      action(:delete) do
+      action(:remove) do
         notifying_block do
           if new_resource.manage_certificate
             file new_resource.tls_cert_file do
