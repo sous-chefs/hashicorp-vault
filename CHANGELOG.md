@@ -1,7 +1,33 @@
 # Change Log
 
+## [Unreleased](https://github.com/johnbellone/vault-cookbook/tree/HEAD)
+
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v1.5.1...HEAD)
+
+**Implemented enhancements:**
+
+- etcd in not supported as backend secret storage [\#25](https://github.com/johnbellone/vault-cookbook/issues/25)
+
+**Closed issues:**
+
+- tls\_disable attribute only accepts strings [\#40](https://github.com/johnbellone/vault-cookbook/issues/40)
+- Error executing action `create` on resource 'vault\_config\[/home/vault/.vault.json\]' [\#39](https://github.com/johnbellone/vault-cookbook/issues/39)
+- undefined method `delete' for nil:NilClass [\#34](https://github.com/johnbellone/vault-cookbook/issues/34)
+- metadata updates [\#33](https://github.com/johnbellone/vault-cookbook/issues/33)
+- No method chef\_vault\_item [\#24](https://github.com/johnbellone/vault-cookbook/issues/24)
+- vault\_config.rb doesn't writes out telemetry section properly [\#6](https://github.com/johnbellone/vault-cookbook/issues/6)
+
+**Merged pull requests:**
+
+- Fixed Install Issues [\#42](https://github.com/johnbellone/vault-cookbook/pull/42) ([Ginja](https://github.com/Ginja))
+- Coerce tls\_disable attribute to a string. [\#41](https://github.com/johnbellone/vault-cookbook/pull/41) ([CodeGnome](https://github.com/CodeGnome))
+
 ## [v1.5.1](https://github.com/johnbellone/vault-cookbook/tree/v1.5.1) (2016-02-18)
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v1.5.0...v1.5.1)
+
+**Merged pull requests:**
+
+- Add support for Vault 0.5.0 [\#36](https://github.com/johnbellone/vault-cookbook/pull/36) ([legal90](https://github.com/legal90))
 
 ## [v1.5.0](https://github.com/johnbellone/vault-cookbook/tree/v1.5.0) (2016-02-03)
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v1.4.0...v1.5.0)
@@ -13,6 +39,7 @@
 
 **Merged pull requests:**
 
+- Multiple fixes [\#35](https://github.com/johnbellone/vault-cookbook/pull/35) ([sh9189](https://github.com/sh9189))
 - Fix tls\_disable with vault 0.4.0 [\#30](https://github.com/johnbellone/vault-cookbook/pull/30) ([shaneramey](https://github.com/shaneramey))
 - support vault 0.4.0 [\#28](https://github.com/johnbellone/vault-cookbook/pull/28) ([shaneramey](https://github.com/shaneramey))
 - Modify attributes to support vault 0.3.1 [\#26](https://github.com/johnbellone/vault-cookbook/pull/26) ([NickLaMuro](https://github.com/NickLaMuro))
@@ -28,6 +55,7 @@
 
 **Merged pull requests:**
 
+- Move test data bag item to standard location [\#19](https://github.com/johnbellone/vault-cookbook/pull/19) ([jeffbyrnes](https://github.com/jeffbyrnes))
 - Clean up spec tests & switch to using Rake [\#18](https://github.com/johnbellone/vault-cookbook/pull/18) ([jeffbyrnes](https://github.com/jeffbyrnes))
 - Pin chef-vault to specific ref [\#16](https://github.com/johnbellone/vault-cookbook/pull/16) ([jeffbyrnes](https://github.com/jeffbyrnes))
 - Update Serverspec assertions as per Rspec 3 [\#15](https://github.com/johnbellone/vault-cookbook/pull/15) ([jeffbyrnes](https://github.com/jeffbyrnes))
@@ -48,6 +76,7 @@
 
 **Closed issues:**
 
+- Vault service fails to start [\#5](https://github.com/johnbellone/vault-cookbook/issues/5)
 - Upgrading to Vault 0.2.0 [\#2](https://github.com/johnbellone/vault-cookbook/issues/2)
 
 **Merged pull requests:**
