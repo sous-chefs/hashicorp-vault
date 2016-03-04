@@ -32,7 +32,7 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)
-      attribute(:tls_disable, default: 'false', equal_to: %w{0 no false 1 yes true})
+      attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
       attribute(:bag_name, kind_of: String, default: 'secrets')
@@ -44,14 +44,16 @@ module VaultCookbook
       attribute(:statsd_addr, kind_of: String)
       attribute(:backend_type, default: 'inmem', equal_to: %w{consul etcd zookeeper dynamodb s3 mysql postgresql inmem file})
       attribute(:backend_options, option_collector: true)
-      # Must be equal to one of: consul, etcd, zookeeper, dynamodb,
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
-      attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: false)
+      attribute(:manage_certificate, equal_to: [true, false], default: false)
 
       def tls?
-        return true unless %w{1 yes true}.include?(tls_disable)
-        false
+        if tls_disable === true || tls_disable === 'yes' || tls_disable === 1
+          false
+        else
+          true
+        end
       end
 
       # Transforms the resource into a JSON format which matches the

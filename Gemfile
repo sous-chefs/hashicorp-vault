@@ -13,8 +13,7 @@ group :test, :integration, :unit do
   gem 'berkshelf'
   gem 'chef-dk'
   gem 'chefspec'
-  gem 'inspec'
-  gem 'kitchen-inspec'
+  gem 'serverspec'
 end
 
 group :development do

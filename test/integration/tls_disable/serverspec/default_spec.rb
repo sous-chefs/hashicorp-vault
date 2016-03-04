@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe file('/home/vault/.vault.json') do
+describe file('/etc/vault/vault.json') do
   describe '#content' do
     subject { super().content }
     it { is_expected.to include '"tls_disable": "1"' }
