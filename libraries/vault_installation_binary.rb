@@ -18,6 +18,7 @@ module VaultCookbook
       include Poise(inversion: :vault_installation)
       provides(:binary)
 
+      # @api private
       def self.provides_auto?(_node, _resource)
         true
       end
@@ -84,10 +85,10 @@ module VaultCookbook
       end
 
       def self.binary_basename(node, resource)
-        case node['kernel']['arch']
+        case node['kernel']['machine']
         when 'x86_64' then ['vault', resource.version, node['os'], 'amd64'].join('_')
-        when 'x86' then ['vault', resource.version, node['os'], '386'].join('_')
-        else ['vault', resource.version, node['os'], node['kernel']['arch']].join('_')
+        when 'i386' then ['vault', resource.version, node['os'], '386'].join('_')
+        else ['vault', resource.version, node['os'], node['kernel']['machine']].join('_')
         end.concat('.zip')
       end
 
