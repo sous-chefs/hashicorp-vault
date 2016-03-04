@@ -9,28 +9,31 @@
 Vault is a tool, which when used properly, manages secure manage to
 secrets for your infrastructure.
 
-## Basic Usage
-This cookbook was designed from the ground up to make it dead simple
-to install and configure a Vault cluster using Chef. It also
-highlights several of our best practices for developing reusable
-infrastructure at Bloomberg.
+## Platform Support
+The following platforms have been certified with integration tests
+using Test Kitchen:
 
-This cookbook provides [node attributes](attributes/default.rb) which
-can be used to fine tune the default recipe which installs and
-configures Kafka. The values from the node attributes are passed
-directly into the configuration and service resources.
-
-Out of the box the following platforms are certified to work and
-are tested using our [Test Kitchen][8] configuration. Additional platforms
-_may_ work, but your mileage may vary.
-- CentOS (RHEL) 6.7, 7.2
+- CentOS (RHEL) 5.11, 6.7, 7.2
 - Ubuntu 12.04, 14.04
 
-The correct way to use this cookbook is to create a
-[wrapper cookbook][2] which configures all the members of the Vault
-cluster. We provide an example [Vault Cluster cookbook][3] which
-utilizes our [Consul cookbook][4] for a highly-available storage
-solution for the cluster.
+## Basic Usage
+This cookbook was designed from the ground up to make it dead simple
+to install and configure the [Vault daemon][1] as a system service
+using Chef. It highlights several of our best practices for developing
+reusable infrastructure at Bloomberg.
+
+This cookbook provides three sets of
+[node attributes](attributes/default.rb) which can be used to fine
+tune the default recipe which installs and configures Vault. The
+values from these node attributes are fed directly into the custom
+resources.
+
+This cookbook can be added to the run list of all of the nodes that
+you want to be part of the cluster. But the best way to use this is in
+a [wrapper cookbook][2] which sets up a backend, and potentially even
+TLS certificates. We provide an example [Vault Cluster cookbook][3]
+which uses our [Consul cookbook][4] for a highly-available
+storage solution.
 
 [0]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thelibrarycookbook
 [1]: https://www.vaultproject.io

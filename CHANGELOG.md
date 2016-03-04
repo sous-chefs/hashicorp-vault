@@ -1,8 +1,18 @@
 # Change Log
 
-## [Unreleased](https://github.com/johnbellone/vault-cookbook/tree/HEAD)
+## [2.0](https://github.com/johnbellone/vault-cookbook/tree/v2.0.0)
 
-[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v1.5.1...HEAD)
+This major release contains several changes, some of which are
+backwards incompatible:
+
+1. The installation of Vault has been separated into its own custom
+   resource & providers.
+1. The binary provider now defaults to unzipping into the /opt/vault
+   directory.
+1. This cookbook no longer makes an attempt to manage TLS
+   certificates.
+
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.0.0...HEAD)
 
 **Implemented enhancements:**
 
