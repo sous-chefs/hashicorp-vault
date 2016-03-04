@@ -43,10 +43,8 @@ module VaultCookbook
 
           execute 'make dev' do
             cwd options[:git_path]
-            # rubocop:disable Lint/ParenthesesAsGroupedExpression
             environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
                         GOPATH: node['go']['gopath'])
-            # rubocop:enable Lint/ParenthesesAsGroupedExpression
           end
         end
       end

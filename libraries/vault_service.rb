@@ -23,30 +23,31 @@ module VaultCookbook
       include PoiseService::ServiceMixin
 
       # @!attribute config_path
+      # The Vault configuration file path.
       # @return [String]
       attribute(:config_path, kind_of: String, default: '/etc/vault/vault.json')
-
       # @!attribute directory
+      # The directory to start the Vault process.
       # @return [String]
       attribute(:directory, kind_of: String, default: '/var/run/vault')
-
       # @!attribute user
+      # The service user that Vault process should run as.
       # @return [String]
       attribute(:user, kind_of: String, default: 'vault')
-
       # @!attribute group
+      # The service group the Vault process should run as.
       # @return [String]
       attribute(:group, kind_of: String, default: 'vault')
-
       # @!attribute environment
+      # The environment the Vault process should run with.
       # @return [String]
       attribute(:environment, kind_of: Hash, default: { PATH: '/usr/local/bin:/usr/bin:/bin' })
-
       # @!attribute disable_mlock
+      # @see https://www.vaultproject.io/docs/config/index.html#disable_mlock
       # @return [String]
       attribute(:disable_mlock, kind_of: [TrueClass, FalseClass], default: false)
-
       # @!attribute vault_binary
+      # The location of the Vault executable.
       # @return [String]
       attribute(:vault_binary, kind_of: String, default: '/usr/local/bin/vault')
     end

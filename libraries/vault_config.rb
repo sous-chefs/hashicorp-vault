@@ -46,10 +46,10 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
-      attribute(:telemetry_options, options_collector: true)
+      attribute(:telemetry_options, options_collector: true, default: {})
 
       def tls?
-        if tls_disable === true || tls_disable === 'yes' || tls_disable === 1
+        if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
           false
         else
           true
