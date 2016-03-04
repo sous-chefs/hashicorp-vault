@@ -15,6 +15,6 @@ describe VaultCookbook::Resource::VaultService do
   end
 
   context 'with default properties' do
-    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.5.0/vault' }
+    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.5.1/vault' }
   end
 end

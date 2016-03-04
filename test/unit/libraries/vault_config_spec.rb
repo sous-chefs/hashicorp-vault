@@ -25,10 +25,6 @@ describe VaultCookbook::Resource::VaultConfig do
 
     it { is_expected.to create_directory('/etc/vault/ssl/certs') }
     it { is_expected.to create_directory('/etc/vault/ssl/private') }
-
-    it { is_expected.to render_file('/etc/vault/ssl/certs/vault.crt').with_content('bar') }
-    it { is_expected.to render_file('/etc/vault/ssl/private/vault.key').with_content('baz') }
-
     it { is_expected.to create_directory('/etc/vault') }
     it { is_expected.to render_file('/etc/vault/vault.json') }
   end

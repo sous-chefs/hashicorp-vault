@@ -46,7 +46,6 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
-      attribute(:manage_certificate, equal_to: [true, false], default: false)
 
       def tls?
         if tls_disable === true || tls_disable === 'yes' || tls_disable === 1
@@ -89,32 +88,6 @@ module VaultCookbook
 
       action(:create) do
         notifying_block do
-          if new_resource.manage_certificate
-            include_recipe 'chef-vault::default'
-
-            [new_resource.tls_cert_file, new_resource.tls_key_file].each do |dirname|
-              directory ::File.dirname(dirname) do
-                recursive true
-              end
-            end
-
-            item = chef_vault_item(new_resource.bag_name, new_resource.bag_item)
-            file new_resource.tls_cert_file do
-              content item['certificate']
-              mode '0644'
-              owner new_resource.owner
-              group new_resource.group
-            end
-
-            file new_resource.tls_key_file do
-              sensitive true
-              content item['private_key']
-              mode '0640'
-              owner new_resource.owner
-              group new_resource.group
-            end
-          end
-
           directory ::File.dirname(new_resource.path) do
             recursive true
           end
@@ -130,16 +103,6 @@ module VaultCookbook
 
       action(:remove) do
         notifying_block do
-          if new_resource.manage_certificate
-            file new_resource.tls_cert_file do
-              action :delete
-            end
-
-            file new_resource.tls_key_file do
-              action :delete
-            end
-          end
-
           file new_resource.path do
             action :delete
           end

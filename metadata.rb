@@ -11,7 +11,6 @@ supports 'redhat', '>= 6.4'
 supports 'centos', '>= 6.4'
 supports 'windows'
 
-depends 'chef-vault', '~> 1.3'
 depends 'golang', '~> 1.7'
 depends 'libarchive', '~> 0.6'
 depends 'poise', '~> 2.6'
