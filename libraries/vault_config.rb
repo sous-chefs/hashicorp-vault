@@ -45,9 +45,7 @@ module VaultCookbook
       attribute(:manage_certificate, kind_of: [TrueClass, FalseClass], default: true)
 
       def tls?
-        return true unless %w{1 true}.include?(tls_disable) && manage_certificate
-
-        false
+        ! %w{1 true}.include?(tls_disable)
       end
 
       # Transforms the resource into a JSON format which matches the
@@ -69,7 +67,7 @@ module VaultCookbook
 
       action(:create) do
         notifying_block do
-          if new_resource.tls?
+          if new_resource.tls? && new_resource.manage_certificate
             include_recipe 'chef-vault::default'
 
             [new_resource.tls_cert_file, new_resource.tls_key_file].each do |dirname|
@@ -110,7 +108,7 @@ module VaultCookbook
 
       action(:delete) do
         notifying_block do
-          if new_resource.tls?
+          if new_resource.tls? && new_resource.manage_certificate
             file new_resource.tls_cert_file do
               action :delete
             end
