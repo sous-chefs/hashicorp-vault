@@ -15,8 +15,6 @@ module VaultCookbook
     # Vault.
     # @action create
     # @action remove
-    # @example
-    #   vault_installation '0.5.0'
     # @since 2.0
     class VaultInstallation < Chef::Resource
       include Poise(inversion: true)

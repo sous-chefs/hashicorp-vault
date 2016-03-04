@@ -13,10 +13,15 @@ module VaultCookbook
     # @action create
     # @action remove
     # @provides vault_installation
+    # @example
+    #   vault_installation '0.5.0' do
+    #     provider 'git'
+    #   end
     # @since 2.0
     class VaultInstallationGit < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:git)
+      inversion_attribute 'hashicorp-vault'
 
       # Set the default inversion options.
       # @return [Hash]

@@ -13,10 +13,13 @@ module VaultCookbook
     # @action create
     # @action remove
     # @provides vault_installation
+    # @example
+    #   vault_installation '0.5.0'
     # @since 2.0
     class VaultInstallationBinary < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:binary)
+      inversion_attribute 'hashicorp-vault'
 
       # @api private
       def self.provides_auto?(_node, _resource)
