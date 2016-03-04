@@ -30,8 +30,8 @@ suites:
     attributes:
       vault:
         config:
-          tls_disable: '1'
-          manage_certificate: true
+          tls_disable: '0'
+          manage_certificate: false
 
   - name: tls_disable
     run_list:
