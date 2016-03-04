@@ -1,4 +1,4 @@
-# vault-cookbook
+# hashicorp-vault cookbook
 [![Build Status](https://img.shields.io/travis/johnbellone/vault-cookbook.svg)](https://travis-ci.org/johnbellone/vault-cookbook)
 [![Cookbook Version](https://img.shields.io/cookbook/v/hashicorp-vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
 [![Coverage](https://img.shields.io/codecov/c/github/johnbellone/vault-cookbook.svg)](https://codecov.io/github/johnbellone/vault-cookbook)
