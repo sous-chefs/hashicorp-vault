@@ -11,7 +11,7 @@ describe VaultCookbook::Resource::VaultService do
   let(:chefspec_options) { {platform: 'ubuntu', version: '14.04', log_level: :debug} }
 
   before do
-    stub_command("getcap /opt/vault/0.5.0/vault|grep cap_ipc_lock+ep").and_return(false)
+    stub_command("getcap /opt/vault/0.5.1/vault|grep cap_ipc_lock+ep").and_return(false)
   end
 
   context 'with default properties' do

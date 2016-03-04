@@ -25,7 +25,6 @@ module VaultCookbook
         super.merge(
           version: new_resource.version,
           git_url: 'https://github.com/hashicorp/vault',
-          git_ref: 'master',
           git_path: '/usr/local/src/vault'
         )
       end
@@ -33,19 +32,21 @@ module VaultCookbook
       def action_create
         notifying_block do
           include_recipe 'golang::default', 'build-essential::default'
+          golang_package 'github.com/mitchellh/gox'
+          golang_package 'github.com/tools/godep'
 
           git options[:git_path] do
             repository options[:git_url]
-            reference options[:git_ref]
+            reference options.fetch(:git_ref, "v#{new_resource.version}")
             action :checkout
           end
 
-          golang_package 'github.com/mitchellh/gox' do
-            action :install
-          end
-
-          golang_package 'github.com/tools/godep' do
-            action :install
+          execute 'make dev' do
+            cwd options[:git_path]
+            # rubocop:disable Lint/ParenthesesAsGroupedExpression
+            environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
+                        GOPATH: node['go']['gopath'])
+            # rubocop:enable Lint/ParenthesesAsGroupedExpression
           end
         end
       end

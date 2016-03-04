@@ -9,34 +9,18 @@ platforms:
   - name: ubuntu-14.04
   - name: ubuntu-12.04
   - name: centos-7.1
-  - name: centos-6.6
+  - name: centos-6.7
 
 suites:
   - name: default
     run_list:
       - recipe[hashicorp-vault::default]
-
-  - name: install_from_source
+  - name: git
     run_list:
+      - recipe[apt::default]
+      - recipe[yum::default]
       - recipe[hashicorp-vault::default]
     attributes:
-      vault:
-        service:
-          install_method: 'source'
-
-  - name: no_cert_mgmt
-    run_list:
-      - recipe[hashicorp-vault::default]
-    attributes:
-      vault:
-        config:
-          tls_disable: '1'
-          manage_certificate: true
-
-  - name: tls_disable
-    run_list:
-      - recipe[hashicorp-vault::default]
-    attributes:
-      vault:
-        config:
-          tls_disable: '1'
+      hashicorp-vault:
+        installation:
+          provider: git
