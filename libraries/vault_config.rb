@@ -46,6 +46,7 @@ module VaultCookbook
       attribute(:backend_options, option_collector: true)
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
+      attribute(:telemetry_options, options_collector: true)
 
       def tls?
         if tls_disable === true || tls_disable === 'yes' || tls_disable === 1
@@ -75,11 +76,6 @@ module VaultCookbook
         # ha_backend, only some backends support HA
         if %w{consul etcd zookeeper dynamodb}.include? habackend_type
           config['ha_backend'] = { habackend_type => (habackend_options || {}) }
-        end
-        # telemetry
-        telemetry_keeps = %i{statsite_addr statsd_addr}
-        telemetry_options = to_hash.keep_if do |k, _|
-          telemetry_keeps.include?(k.to_sym)
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
 
