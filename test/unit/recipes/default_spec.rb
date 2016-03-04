@@ -12,7 +12,7 @@ describe 'hashicorp-vault::default' do
     cached(:chef_run) do
       ChefSpec::ServerRunner.new(platform: 'ubuntu', version: '14.04') do |_, server|
         server.create_data_bag('secrets',
-          'vault' => {
+          'hashicorp-vault' => {
             'certificate' => 'foo',
             'private_key' => 'bar'
           })
