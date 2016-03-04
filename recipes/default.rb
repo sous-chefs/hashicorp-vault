@@ -4,36 +4,36 @@
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
-poise_service_user node['vault']['service_user'] do
-  group node['vault']['service_group']
+poise_service_user node['hashicorp-vault']['service_user'] do
+  group node['hashicorp-vault']['service_group']
 end
 
-config = vault_config node['vault']['config']['path'] do |r|
-  owner node['vault']['service_user']
-  group node['vault']['service_group']
+config = vault_config node['hashicorp-vault']['config']['path'] do |r|
+  owner node['hashicorp-vault']['service_user']
+  group node['hashicorp-vault']['service_group']
 
-  if node['vault']['config']
-    node['vault']['config'].each_pair { |k, v| r.send(k, v) }
+  if node['hashicorp-vault']['config']
+    node['hashicorp-vault']['config'].each_pair { |k, v| r.send(k, v) }
   end
-  notifies :restart, "vault_service[#{node['vault']['service_name']}]", :delayed
+  notifies :restart, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
 end
 
-install = vault_installation node['vault']['version'] do |r|
-  if node['vault']['installation']
-    node['vault']['installation'].each_pair { |k, v| r.send(k, v) }
+install = vault_installation node['hashicorp-vault']['version'] do |r|
+  if node['hashicorp-vault']['installation']
+    node['hashicorp-vault']['installation'].each_pair { |k, v| r.send(k, v) }
   end
-  notifies :restart, "vault_service[#{node['vault']['service_name']}]", :delayed
+  notifies :restart, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
 end
 
-vault_service node['vault']['service_name'] do |r|
-  user node['vault']['service_user']
-  group node['vault']['service_group']
-  config_path node['vault']['config']['path']
+vault_service node['hashicorp-vault']['service_name'] do |r|
+  user node['hashicorp-vault']['service_user']
+  group node['hashicorp-vault']['service_group']
+  config_path node['hashicorp-vault']['config']['path']
   disable_mlock config.disable_mlock
   vault_binary install.vault_binary
 
-  if node['vault']['service']
-    node['vault']['service'].each_pair { |k, v| r.send(k, v) }
+  if node['hashicorp-vault']['service']
+    node['hashicorp-vault']['service'].each_pair { |k, v| r.send(k, v) }
   end
   action [:enable, :start]
 end

@@ -65,7 +65,7 @@ module VaultCookbook
       def action_enable
         notifying_block do
           directory new_resource.directory do
-            owner new_resource.owner
+            owner new_resource.user
             group new_resource.group
           end
 
@@ -83,7 +83,7 @@ module VaultCookbook
       end
 
       def service_options(service)
-        service.command("#{new_resource.vault_binary} -config=#{new_resource.config_path}")
+        service.command("#{new_resource.vault_binary} server -config=#{new_resource.config_path}")
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
