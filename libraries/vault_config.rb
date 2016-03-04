@@ -87,7 +87,7 @@ module VaultCookbook
 
       action(:create) do
         notifying_block do
-          if manage_certificate
+          if new_resource.manage_certificate
             include_recipe 'chef-vault::default'
 
             [new_resource.tls_cert_file, new_resource.tls_key_file].each do |dirname|
@@ -128,7 +128,7 @@ module VaultCookbook
 
       action(:delete) do
         notifying_block do
-          if manage_certificate
+          if new_resource.manage_certificate
             file new_resource.tls_cert_file do
               action :delete
             end
