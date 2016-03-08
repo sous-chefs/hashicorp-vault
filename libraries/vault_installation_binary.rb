@@ -65,7 +65,7 @@ module VaultCookbook
             owner options[:extract_owner]
             group options[:extract_group]
             extract_to ::File.join(options[:extract_to], new_resource.version)
-            extract_options options[:extract_options]
+            not_if { ::File.exist? ::File.join(options[:extract_to], new_resource.version, 'vault') }
           end
         end
       end
