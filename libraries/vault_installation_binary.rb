@@ -96,8 +96,8 @@ module VaultCookbook
       end
 
       def self.binary_checksum(node, resource)
-        case [node['os'], node['kernel']['arch']].join('-')
-        when 'darwin-x86'
+        case [node['os'], node['kernel']['machine']].join('-')
+        when 'darwin-i386'
           case resource.version
           when '0.1.2' then 'a4264b83432d8415fa8acbe60dafee7de119fba8b2472211861bd40a5e45381f'
           when '0.2.0' then '22f003b89dc34e6601f8d6cbcd79915bd010e0fa1a14fc291adc4905c5abcc00'
@@ -119,7 +119,7 @@ module VaultCookbook
           when '0.5.0' then '8f5ca5927f876737566a23442f098afa1ed3dc9d5b238c3c8f7563e06ab6c64c'
           when '0.5.1' then '0466e5a0bfe777586ce4c9b3dfa9f48bbc6e902550aefbb2281725a3bd46179c'
           end
-        when 'linux-x86'
+        when 'linux-i386'
           case resource.version
           when '0.1.2' then '20cf0fb7df3fb451bfd80ef7d14a7884d17e1a04b15ebdd3030d046d07d71b5a'
           when '0.2.0' then '9a4cb5470182e163eaa9d2526beb60c6a215c931c15452065f8caa4aa5821816'
@@ -152,7 +152,7 @@ module VaultCookbook
           when '0.5.0' then '722bf424694a60b5608af1bc2b5563ee06cedc03697d2ebc45676e8caf4e9f75'
           when '0.5.1' then '2cc0b40de5d0869b39e0a3fd7de308e6365b823a825a9d743dda0d3783d61655'
           end
-        when 'windows-x86'
+        when 'windows-i386'
           case resource.version
           when '0.1.2' then '3baa8eb1334c8af0cf696e0a5510da9f68ec3ee3b45afaa9a3037ca2ea562338'
           when '0.2.0' then '64aa7893678ae047c61021c97499feb20f924e51f65e9b7ea257cc17355182ec'
