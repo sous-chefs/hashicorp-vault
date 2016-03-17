@@ -15,14 +15,13 @@ config = vault_config node['hashicorp-vault']['config']['path'] do |r|
   if node['hashicorp-vault']['config']
     node['hashicorp-vault']['config'].each_pair { |k, v| r.send(k, v) }
   end
-  notifies :restart, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
+  notifies :reload, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
 end
 
 install = vault_installation node['hashicorp-vault']['version'] do |r|
   if node['hashicorp-vault']['installation']
     node['hashicorp-vault']['installation'].each_pair { |k, v| r.send(k, v) }
   end
-  notifies :restart, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
 end
 
 vault_service node['hashicorp-vault']['service_name'] do |r|

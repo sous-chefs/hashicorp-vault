@@ -7,9 +7,23 @@ provisioner:
 
 platforms:
   - name: ubuntu-14.04
+    run_list:
+      - recipe[apt::default]
   - name: ubuntu-12.04
+    run_list:
+      - recipe[apt::default]
   - name: centos-7.2
+    run_list:
+      - recipe[yum::default]
   - name: centos-6.7
+    run_list:
+      - recipe[yum::default]
+  - name: debian-8.2
+    run_list:
+      - recipe[apt::default]
+  - name: debian-7.9
+    run_list:
+      - recipe[apt::default]
 
 suites:
   - name: default
@@ -17,8 +31,6 @@ suites:
       - recipe[hashicorp-vault::default]
   - name: git
     run_list:
-      - recipe[apt::default]
-      - recipe[yum::default]
       - recipe[hashicorp-vault::default]
     attributes:
       hashicorp-vault:

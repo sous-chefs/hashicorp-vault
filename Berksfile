@@ -3,4 +3,6 @@ metadata
 
 group :test, :integration do
   cookbook 'apt'
+  cookbook 'windows'
+  cookbook 'yum'
 end
