@@ -1,18 +1,18 @@
 # Change Log
 
-## [2.0](https://github.com/johnbellone/vault-cookbook/tree/v2.0.0)
+## [v2.1.0](https://github.com/johnbellone/vault-cookbook/tree/v2.1.0) (2016-03-17)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.0.0...v2.1.0)
 
-This major release contains several changes, some of which are
-backwards incompatible:
+**Closed issues:**
 
-1. The installation of Vault has been separated into its own custom
-   resource & providers.
-1. The binary provider now defaults to unzipping into the /opt/vault
-   directory.
-1. This cookbook no longer makes an attempt to manage TLS
-   certificates.
+- Getting warning message in Chef run [\#46](https://github.com/johnbellone/vault-cookbook/issues/46)
 
-[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.0.0...HEAD)
+**Merged pull requests:**
+
+- Fix binary installation for i386 architectures. [\#44](https://github.com/johnbellone/vault-cookbook/pull/44) ([johnbellone](https://github.com/johnbellone))
+
+## [v2.0.0](https://github.com/johnbellone/vault-cookbook/tree/v2.0.0) (2016-03-04)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v1.5.1...v2.0.0)
 
 **Implemented enhancements:**
 
