@@ -19,7 +19,7 @@ module VaultCookbook
     class VaultInstallationBinary < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:binary)
-      inversion_attribute 'hashicorp-vault'
+      inversion_attribute('hashicorp-vault')
 
       # @api private
       def self.provides_auto?(_node, _resource)
@@ -47,25 +47,15 @@ module VaultCookbook
         }
 
         notifying_block do
-          include_recipe 'libarchive::default'
-
-          archive = remote_file options[:archive_basename] do
-            path ::File.join(Chef::Config[:file_cache_path], name)
-            source archive_url
-            checksum options[:archive_checksum]
-          end
-
           directory ::File.join(options[:extract_to], new_resource.version) do
             recursive true
           end
 
-          libarchive_file options[:archive_basename] do
-            path archive.path
-            mode options[:extract_mode]
-            owner options[:extract_owner]
-            group options[:extract_group]
-            extract_to ::File.join(options[:extract_to], new_resource.version)
-            extract_options options[:extract_options]
+          zipfile options[:archive_basename] do
+            path ::File.join(options[:extract_to], new_resource.version)
+            source archive_url
+            checksum options[:archive_checksum]
+            not_if { ::File.exist?(vault_program) }
           end
         end
       end
@@ -79,7 +69,7 @@ module VaultCookbook
         end
       end
 
-      def vault_binary
+      def vault_program
         ::File.join(options[:extract_to], new_resource.version, 'vault')
       end
 

@@ -46,10 +46,10 @@ module VaultCookbook
       # @see https://www.vaultproject.io/docs/config/index.html#disable_mlock
       # @return [String]
       attribute(:disable_mlock, kind_of: [TrueClass, FalseClass], default: false)
-      # @!attribute vault_binary
+      # @!attribute program
       # The location of the Vault executable.
       # @return [String]
-      attribute(:vault_binary, kind_of: String, default: '/usr/local/bin/vault')
+      attribute(:program, kind_of: String, default: '/usr/local/bin/vault')
     end
   end
 
@@ -74,17 +74,17 @@ module VaultCookbook
             only_if { platform?('ubuntu') && node['platform_version'].split('.')[0] == '12' }
           end
 
-          execute "setcap cap_ipc_lock=+ep #{new_resource.vault_binary}" do
+          execute "setcap cap_ipc_lock=+ep #{new_resource.program}" do
             not_if { platform_family?('windows', 'mac_os_x') }
             not_if { new_resource.disable_mlock }
-            not_if "getcap #{new_resource.vault_binary}|grep cap_ipc_lock+ep"
+            not_if "getcap #{new_resource.program}|grep cap_ipc_lock+ep"
           end
         end
         super
       end
 
       def service_options(service)
-        service.command("#{new_resource.vault_binary} server -config=#{new_resource.config_path}")
+        service.command("#{new_resource.program} server -config=#{new_resource.config_path}")
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)

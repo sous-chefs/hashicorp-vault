@@ -27,8 +27,8 @@ module VaultCookbook
       # @return [String]
       attribute(:version, kind_of: String, name_attribute: true)
 
-      def vault_binary
-        @vault_binary ||= provider_for_action(:vault_binary).vault_binary
+      def vault_program
+        @program ||= provider_for_action(:vault_program).vault_program
       end
     end
   end

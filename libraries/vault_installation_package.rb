@@ -21,7 +21,7 @@ module VaultCookbook
     class VaultInstallationPackage < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:package)
-      inversion_attribute 'hashicorp-vault'
+      inversion_attribute('hashicorp-vault')
 
       # Set the default inversion options.
       # @return [Hash]
@@ -55,8 +55,8 @@ module VaultCookbook
         end
       end
 
-      def vault_binary
-        options.fetch(:vault_binary, '/usr/local/bin/vault')
+      def vault_program
+        options.fetch(:vault_program, '/usr/local/bin/vault')
       end
     end
   end

@@ -30,7 +30,7 @@ vault_service node['hashicorp-vault']['service_name'] do |r|
   group node['hashicorp-vault']['service_group']
   config_path node['hashicorp-vault']['config']['path']
   disable_mlock config.disable_mlock
-  vault_binary install.vault_binary
+  program install.vault_program
 
   if node['hashicorp-vault']['service']
     node['hashicorp-vault']['service'].each_pair { |k, v| r.send(k, v) }

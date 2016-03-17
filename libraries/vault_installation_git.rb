@@ -21,7 +21,7 @@ module VaultCookbook
     class VaultInstallationGit < Chef::Provider
       include Poise(inversion: :vault_installation)
       provides(:git)
-      inversion_attribute 'hashicorp-vault'
+      inversion_attribute('hashicorp-vault')
 
       # Set the default inversion options.
       # @return [Hash]
@@ -63,7 +63,7 @@ module VaultCookbook
         end
       end
 
-      def vault_binary
+      def vault_program
         ::File.join(options[:git_path], 'bin', 'vault')
       end
     end
