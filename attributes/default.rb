@@ -4,6 +4,10 @@
 #
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
+default['hashicorp-vault']['gems'] = {
+  vault: '0.4.0'
+}
+
 default['hashicorp-vault']['service_name'] = 'vault'
 default['hashicorp-vault']['service_user'] = 'vault'
 default['hashicorp-vault']['service_group'] = 'vault'
