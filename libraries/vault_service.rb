@@ -88,7 +88,7 @@ module VaultCookbook
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
-        service.restart_on_update(true)
+        service.restart_on_update(false)
         service.provider(:sysvinit)
 
         if node.platform_family?('rhel') && node.platform_version.to_i == 6
