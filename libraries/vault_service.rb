@@ -90,6 +90,7 @@ module VaultCookbook
         service.environment(new_resource.environment)
         service.restart_on_update(false)
         service.options(:sysvinit, template: 'hashicorp-vault:sysvinit.service.erb')
+        service.options(:systemd, template: 'hashicorp-vault:systemd.service.erb')
 
         if node.platform_family?('rhel') && node.platform_version.to_i == 6
           service.provider(:sysvinit)
