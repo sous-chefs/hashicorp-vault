@@ -11,6 +11,7 @@ default['hashicorp-vault']['gems'] = {
 default['hashicorp-vault']['service_name'] = 'vault'
 default['hashicorp-vault']['service_user'] = 'vault'
 default['hashicorp-vault']['service_group'] = 'vault'
+default['hashicorp-vault']['service_provider'] = :sysvinit
 
 default['hashicorp-vault']['version'] = '0.5.2'
 
