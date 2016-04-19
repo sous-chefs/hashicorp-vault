@@ -6,6 +6,7 @@
 #
 poise_service_user node['hashicorp-vault']['service_user'] do
   group node['hashicorp-vault']['service_group']
+  not_if { node['hashicorp-vault']['service_user'] == 'root' }
 end
 
 config = vault_config node['hashicorp-vault']['config']['path'] do |r|
