@@ -4,7 +4,7 @@ maintainer_email 'jbellone@bloomberg.net'
 license 'Apache 2.0'
 description 'Application cookbook for installing and configuring Vault.'
 long_description 'Application cookbook for installing and configuring Vault.'
-version '2.1.1'
+version '2.1.2'
 
 supports 'ubuntu', '>= 12.04'
 supports 'redhat', '>= 6.4'
