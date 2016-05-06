@@ -56,7 +56,8 @@ module VaultCookbook
         notifying_block do
           run_context.include_recipe 'hashicorp-vault::gems'
 
-          lease_id = node[new_resource.path]
+          node.default_unless['hashicorp-vault']['leases'] = []
+          lease_id = node['hashicorp-vault']['leases'][new_resource.path]
 
           begin
             client = Vault::Client.new(new_resource.config)
@@ -87,7 +88,7 @@ module VaultCookbook
               return
             end
 
-            node.set[new_resource.path] = secret.lease_id if secret.renewable?
+            node.set['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
             # Store secret in-memory for the rest of the Chef run
             node.run_state[new_resource.path] = secret
             new_resource.updated_by_last_action(true)
