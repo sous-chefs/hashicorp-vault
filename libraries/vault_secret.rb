@@ -27,6 +27,10 @@ module VaultCookbook
       # The number of attempts to try & read a Vault secret.
       # @return [Fixnum]
       attribute(:attempts, kind_of: Fixnum, default: 2)
+      # The run state reference where the secret value will be saved,
+      # e.q. node.run_state['run_state_reference']
+      # @return [String]
+      attribute(:run_state_reference, kind_of: String, default: nil)
       # @see https://github.com/hashicorp/vault-ruby
       attribute(:address, kind_of: String, required: true)
       attribute(:token, kind_of: String)
@@ -90,7 +94,8 @@ module VaultCookbook
 
             node.set['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
             # Store secret in-memory for the rest of the Chef run
-            node.run_state[new_resource.path] = secret
+            reference = new_resource.run_state_reference || new_resource.path
+            node.run_state[reference] = secret
             new_resource.updated_by_last_action(true)
           rescue Vault::HTTPError => e
             Chef::Log.warn("Failed to read #{new_resource.path}.\n" + e.message)
