@@ -60,7 +60,7 @@ module VaultCookbook
         notifying_block do
           run_context.include_recipe 'hashicorp-vault::gems'
 
-          node.default_unless['hashicorp-vault']['leases'] = []
+          node.default_unless['hashicorp-vault']['leases'] = {}
           lease_id = node['hashicorp-vault']['leases'][new_resource.path]
 
           begin
