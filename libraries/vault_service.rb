@@ -71,7 +71,10 @@ module VaultCookbook
           end
 
           package 'libcap2-bin' do
-            only_if { platform?('ubuntu') && node['platform_version'].split('.')[0] == '12' }
+            only_if do
+              (platform?('ubuntu') && node['platform_version'].split('.')[0] == '12') ||
+                (platform?('debian') && node['platform_version'].split('.')[0] == '7')
+            end
           end
 
           execute "setcap cap_ipc_lock=+ep #{new_resource.program}" do
