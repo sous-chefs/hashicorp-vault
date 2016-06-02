@@ -30,7 +30,7 @@ module VaultCookbook
         super.merge(
           version: new_resource.version,
           git_url: 'https://github.com/hashicorp/vault',
-          git_path: '/usr/local/src/vault'
+          git_path: "#{node['go']['gopath']}/src/github.com/hashicorp/vault"
         )
       end
 
@@ -39,6 +39,13 @@ module VaultCookbook
           include_recipe 'golang::default', 'build-essential::default'
           golang_package 'github.com/mitchellh/gox'
           golang_package 'github.com/tools/godep'
+          golang_package 'golang.org/x/tools/cmd/cover'
+          golang_package 'github.com/golang/go/src/cmd/vet'
+
+          directory options[:git_path] do
+            action :create
+            recursive true
+          end
 
           git options[:git_path] do
             repository options[:git_url]
@@ -46,10 +53,12 @@ module VaultCookbook
             action :checkout
           end
 
-          execute 'make dev' do
-            cwd options[:git_path]
-            environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
-                        GOPATH: node['go']['gopath'])
+          ['godep restore', 'make dev'].each do |step|
+            execute step do
+              cwd options[:git_path]
+              environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
+                          GOPATH: node['go']['gopath'])
+            end
           end
         end
       end
