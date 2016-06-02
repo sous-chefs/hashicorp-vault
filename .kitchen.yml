@@ -36,5 +36,3 @@ suites:
       hashicorp-vault:
         installation:
           provider: git
-      go:
-        version: '1.6'

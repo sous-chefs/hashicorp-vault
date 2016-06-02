@@ -27,6 +27,8 @@ module VaultCookbook
       # @return [Hash]
       # @api private
       def self.default_inversion_options(node, new_resource)
+        # Checkout inside $GOPATH to ensure discovery works for included
+        # packages (e.g., `vault/cli`)
         super.merge(
           version: new_resource.version,
           git_url: 'https://github.com/hashicorp/vault',
@@ -36,12 +38,16 @@ module VaultCookbook
 
       def action_create
         notifying_block do
+          # Require Go 1.6.1 as Vault depends on new functionality in net/http
+          node.default['go']['version'] = '1.6.1'
           include_recipe 'golang::default', 'build-essential::default'
+          # Install required go packages for building Vault
           golang_package 'github.com/mitchellh/gox'
           golang_package 'github.com/tools/godep'
           golang_package 'golang.org/x/tools/cmd/cover'
           golang_package 'github.com/golang/go/src/cmd/vet'
 
+          # Ensure paths exist for checkout, or git will fail
           directory options[:git_path] do
             action :create
             recursive true
@@ -53,6 +59,7 @@ module VaultCookbook
             action :checkout
           end
 
+          # Use godep to restore dependencies before attempting to compile
           ['godep restore', 'make dev'].each do |step|
             execute step do
               cwd options[:git_path]
