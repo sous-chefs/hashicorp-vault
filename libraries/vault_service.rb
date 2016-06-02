@@ -70,6 +70,8 @@ module VaultCookbook
             group new_resource.group
           end
 
+          # libcap2-bin provides set/getcap; not installed by default in
+          # ubuntu ~ 12 and debian < 8
           package 'libcap2-bin' do
             only_if do
               (platform?('ubuntu') && node['platform_version'].split('.')[0] == '12') ||
