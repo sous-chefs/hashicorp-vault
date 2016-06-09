@@ -1,5 +1,5 @@
 require 'chefspec'
-require 'chefspec/berkshelf'
+require 'chefspec/policyfile'
 require 'chefspec/cacher'
 
 describe 'hashicorp-vault::default' do
