@@ -35,8 +35,6 @@ module VaultCookbook
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
-      attribute(:bag_name, kind_of: String, default: 'secrets')
-      attribute(:bag_item, kind_of: String, default: 'vault')
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
