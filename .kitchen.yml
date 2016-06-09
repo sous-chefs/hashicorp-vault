@@ -6,32 +6,24 @@ provisioner:
   name: chef_zero
 
 platforms:
+  - name: ubuntu-16.04
+    named_run_list: ubuntu
   - name: ubuntu-14.04
-    run_list:
-      - recipe[apt::default]
+    named_run_list: ubuntu
   - name: ubuntu-12.04
-    run_list:
-      - recipe[apt::default]
+    named_run_list: ubuntu
   - name: centos-7.2
-    run_list:
-      - recipe[yum::default]
+    named_run_list: redhat
   - name: centos-6.7
-    run_list:
-      - recipe[yum::default]
+    named_run_list: redhat
   - name: debian-8.2
-    run_list:
-      - recipe[apt::default]
+    named_run_list: debian
   - name: debian-7.9
-    run_list:
-      - recipe[apt::default]
+    named_run_list: debian
 
 suites:
   - name: default
-    run_list:
-      - recipe[hashicorp-vault::default]
   - name: git
-    run_list:
-      - recipe[hashicorp-vault::default]
     attributes:
       hashicorp-vault:
         installation:
