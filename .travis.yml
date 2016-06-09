@@ -1,17 +1,16 @@
 ---
 language: ruby
+cache: bundler
+sudo: false
 notifications:
   slack: bloomberg-rnd:BvYmxrV9xj902XWTRNrkLNkR
 script: bundle exec rake travis
-before_install:
-  - gem update bundler
-  - gem update berkshelf
-  - gem update --system
 rvm:
-  - 2.2
+  - 2.1.8
+  - 2.2.5
+  - 2.3.1
 branches:
   only:
     - master
-builder_args: --without kitchen_vagrant
 matrix:
   fast_finish: true
