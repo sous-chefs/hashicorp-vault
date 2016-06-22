@@ -5,8 +5,7 @@ After=network.target
 
 [Service]
 Environment=<%= @environment.map {|key, val| %Q{"#{key}=#{val}"} }.join(' ') %>
-PermissionsStartOnly=true
-ExecStartPre=/bin/mkdir -p <%= @directory %>
+RuntimeDirectory=vault
 ExecStart=<%= @command %>
 ExecReload=/bin/kill -<%= @reload_signal %> $MAINPID
 KillSignal=<%= @stop_signal %>
