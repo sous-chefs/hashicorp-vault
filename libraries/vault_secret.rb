@@ -31,6 +31,8 @@ module VaultCookbook
       # e.q. node.run_state['run_state_reference']
       # @return [String]
       attribute(:run_state_reference, kind_of: String, default: nil)
+      # Raise an exeption if the secret could not be read
+      attribute(:exit_on_error, kind_of: [TrueClass, FalseClass], default: true)
       # @see https://github.com/hashicorp/vault-ruby
       attribute(:address, kind_of: String, required: true)
       attribute(:token, kind_of: String)
@@ -86,20 +88,24 @@ module VaultCookbook
               end
               client.logical.read(new_resource.path)
             end
-
-            if secret.nil?
-              Chef::Log.fatal("Could not read secret - #{new_resource.path}")
-              return
-            end
-
-            node.set['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
-            # Store secret in-memory for the rest of the Chef run
-            reference = new_resource.run_state_reference || new_resource.path
-            node.run_state[reference] = secret
-            new_resource.updated_by_last_action(true)
           rescue Vault::HTTPError => e
-            Chef::Log.warn("Failed to read #{new_resource.path}.\n" + e.message)
+            message = "Failed to read scret - #{new_resource.path}.\n#{e.message}"
+            raise message if new_resource.exit_on_error
+            Chef::Log.fatal message
           end
+
+          if secret.nil?
+            message = "Could not read secret - #{new_resource.path}"
+            raise message if new_resource.exit_on_error
+            Chef::Log.fatal message
+            return
+          end
+
+          node.set['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
+          # Store secret in-memory for the rest of the Chef run
+          reference = new_resource.run_state_reference || new_resource.path
+          node.run_state[reference] = secret
+          new_resource.updated_by_last_action(true)
         end
       end
     end
