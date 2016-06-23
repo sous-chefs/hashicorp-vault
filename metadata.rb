@@ -12,7 +12,7 @@ supports 'centos', '>= 6.4'
 supports 'windows'
 supports 'freebsd'
 
-depends 'build-essential', '~> 3.2'
+depends 'build-essential'
 depends 'golang', '~> 1.7'
 depends 'poise', '~> 2.6'
 depends 'poise-service', '~> 1.1'
