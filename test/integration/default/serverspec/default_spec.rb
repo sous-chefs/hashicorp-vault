@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe file('/opt/vault/0.5.3/vault') do
+describe file('/opt/vault/0.6.0/vault') do
   it { should be_file }
   it { should be_executable }
 end
