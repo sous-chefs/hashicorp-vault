@@ -6,7 +6,7 @@ require_relative '../../../libraries/vault_config'
 
 describe VaultCookbook::Resource::VaultConfig do
   step_into(:vault_config)
-  let(:chefspec_options) { {platform: 'ubuntu', version: '14.04', log_level: :debug} }
+  let(:chefspec_options) { { platform: 'ubuntu', version: '14.04', log_level: :debug } }
 
   context '#action_create' do
     recipe do
