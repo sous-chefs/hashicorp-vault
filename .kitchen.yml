@@ -23,7 +23,11 @@ platforms:
 
 suites:
   - name: default
+    run_list:
+      - recipe[hashicorp-vault::default]
   - name: git
+    run_list:
+      - recipe[hashicorp-vault::default]
     attributes:
       hashicorp-vault:
         installation:
