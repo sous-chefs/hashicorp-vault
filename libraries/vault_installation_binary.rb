@@ -57,6 +57,10 @@ module VaultCookbook
             checksum options[:archive_checksum]
             not_if { ::File.exist?(vault_program) }
           end
+
+          link '/usr/local/bin/vault' do
+            to options[:extract_to] + '/' + new_resource.version + '/vault'
+          end
         end
       end
 
@@ -65,6 +69,11 @@ module VaultCookbook
           directory ::File.join(options[:extract_to], new_resource.version) do
             recursive true
             action :delete
+          end
+
+          link '/usr/local/bin/vault' do
+            action :delete
+            only_if 'test -L /usr/local/bin/vault'
           end
         end
       end
