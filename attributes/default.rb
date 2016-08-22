@@ -12,7 +12,7 @@ default['hashicorp-vault']['service_name'] = 'vault'
 default['hashicorp-vault']['service_user'] = 'vault'
 default['hashicorp-vault']['service_group'] = 'vault'
 
-default['hashicorp-vault']['version'] = '0.6.0'
+default['hashicorp-vault']['version'] = '0.6.1'
 
 default['hashicorp-vault']['config']['path'] = '/etc/vault/vault.json'
 default['hashicorp-vault']['config']['address'] = '127.0.0.1:8200'
