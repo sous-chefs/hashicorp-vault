@@ -10,6 +10,9 @@ transport:
 provisioner:
   name: dokken
 
+verifier:
+  root_path: /opt/verifier
+
 platforms:
   - name: centos-7
     named_run_list: centos
@@ -21,12 +24,24 @@ platforms:
         - RUN yum -y install lsof which systemd-sysv initscripts sudo
     attributes:
       poise-service:
-        consul:
+        hashicorp-vault:
           provider: systemd
   - name: centos-6
     named_run_list: centos
     driver:
       image: centos:6
+      platform: rhel
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN yum -y install which initscripts sudo
+    attributes:
+      poise-service:
+        hashicorp-vault:
+          provider: upstart
+  - name: centos-5
+    named_run_list: centos
+    driver:
+      image: centos:5
       platform: rhel
       pid_one_command: /sbin/init
       intermediate_instructions:
@@ -38,55 +53,36 @@ platforms:
       pid_one_command: /bin/systemd
       intermediate_instructions:
         - RUN /usr/bin/apt-get update -y
-        - RUN /usr/bin/apt-get install sudo -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
     attributes:
       poise-service:
-        consul:
+        hashicorp-vault:
           provider: systemd
   - name: ubuntu-14.04
     named_run_list: debian
     driver:
-      image: ubuntu:14.04
+      image: ubuntu-upstart:14.04
       pid_one_command: /sbin/init
       intermediate_instructions:
         - RUN /usr/bin/apt-get update -y
-        - RUN /usr/bin/apt-get install sudo -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
+    attributes:
+      poise-service:
+        hashicorp-vault:
+          provider: upstart
   - name: ubuntu-12.04
     named_run_list: debian
     driver:
-      image: ubuntu:12.04
+      image: ubuntu-upstart:12.04
       pid_one_command: /sbin/init
       intermediate_instructions:
         - RUN /usr/bin/apt-get update -y
-        - RUN /usr/bin/apt-get install sudo -y
-  - name: debian-8
-    named_run_list: debian
-    driver:
-      image: debian:8
-      pid_one_command: /bin/systemd
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install lsb-release sudo -y
+        - RUN /usr/bin/apt-get install sudo net-tools -y
     attributes:
       poise-service:
-        consul:
-          provider: systemd
-  - name: debian-7
-    named_run_list: debian
-    driver:
-      image: debian:7
-      pid_one_command: /sbin/init
-      intermediate_instructions:
-        - RUN /usr/bin/apt-get update
-        - RUN /usr/bin/apt-get install lsb-release sudo -y
+        hashicorp-vault:
+          provider: upstart
 suites:
   - name: default
     provisioner:
       policyfile: test/fixtures/policies/default.rb
-  - name: git
-    provisioner:
-      policyfile: test/fixtures/policies/git.rb
-    attributes:
-      hashicorp-vault:
-        installation:
-          provider: git
