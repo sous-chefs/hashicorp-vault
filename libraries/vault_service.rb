@@ -76,7 +76,7 @@ module VaultCookbook
 
           execute "setcap cap_ipc_lock=+ep #{new_resource.program}" do
             not_if { platform_family?('windows', 'mac_os_x', 'freebsd') }
-            not_if { platform_family?('rhel') && platform_version.to_i < 6 }
+            not_if { platform_family?('rhel') && node['platform_version'].to_i < 6 }
             not_if { new_resource.disable_mlock }
             not_if "getcap #{new_resource.program}|grep cap_ipc_lock+ep"
           end
@@ -93,7 +93,7 @@ module VaultCookbook
         service.options(:sysvinit, template: 'hashicorp-vault:sysvinit.service.erb')
         service.options(:systemd, template: 'hashicorp-vault:systemd.service.erb')
 
-        if node.platform_family?('rhel') && node.platform_version.to_i == 6
+        if platform_family?('rhel') && node['platform_version'].to_i == 6
           service.provider(:sysvinit)
         end
       end
