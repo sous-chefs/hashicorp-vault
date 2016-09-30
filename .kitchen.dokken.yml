@@ -25,7 +25,7 @@ platforms:
         - RUN yum -y install lsof which systemd-sysv initscripts sudo
     attributes:
       poise-service:
-        hashicorp-vault:
+        vault:
           provider: systemd
   - name: centos-6
     named_run_list: centos
@@ -35,10 +35,6 @@ platforms:
       pid_one_command: /sbin/init
       intermediate_instructions:
         - RUN yum -y install which initscripts sudo
-    attributes:
-      poise-service:
-        hashicorp-vault:
-          provider: upstart
   - name: centos-5
     named_run_list: centos
     driver:
@@ -57,7 +53,7 @@ platforms:
         - RUN /usr/bin/apt-get install sudo net-tools -y
     attributes:
       poise-service:
-        hashicorp-vault:
+        vault:
           provider: systemd
   - name: ubuntu-14.04
     named_run_list: debian
@@ -69,7 +65,7 @@ platforms:
         - RUN /usr/bin/apt-get install sudo net-tools -y
     attributes:
       poise-service:
-        hashicorp-vault:
+        vault:
           provider: upstart
   - name: ubuntu-12.04
     named_run_list: debian
@@ -81,7 +77,7 @@ platforms:
         - RUN /usr/bin/apt-get install sudo net-tools -y
     attributes:
       poise-service:
-        hashicorp-vault:
+        vault:
           provider: upstart
 suites:
   - name: default
