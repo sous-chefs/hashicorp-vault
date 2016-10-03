@@ -43,6 +43,10 @@ platforms:
       pid_one_command: /sbin/init
       intermediate_instructions:
         - RUN yum -y install which initscripts sudo
+    attributes:
+      hashicorp-vault:
+        config:
+          disable_mlock: true
   - name: ubuntu-16.04
     named_run_list: debian
     driver:

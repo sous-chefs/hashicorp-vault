@@ -21,6 +21,10 @@ platforms:
     named_run_list: centos
   - name: centos-5.11
     named_run_list: centos
+    attributes:
+      hashicorp-vault:
+        config:
+          disable_mlock: true
 
 suites:
   - name: default
