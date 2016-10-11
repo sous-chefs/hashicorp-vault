@@ -87,10 +87,9 @@ module VaultCookbook
 
       action(:auth) do
         notifying_block do
-          run_context.include_recipe 'hashicorp-vault::gems'
-
           token = new_resource.token || node.run_state[new_resource.run_state_reference]
           begin
+            require 'vault'
             client = Vault::Client.new(new_resource.config)
 
             # We already have a token, try to renew it
@@ -102,6 +101,8 @@ module VaultCookbook
               new_resource.updated_by_last_action(false)
               return
             end
+          rescue LoadError
+            raise 'The "vault" gem is required. Include recipe[hashicorp-vault::gems] to install it.'
           rescue Vault::HTTPClientError => e
             # Renewal failed - token could have been:
             # manually revoked, or not renewed in time
