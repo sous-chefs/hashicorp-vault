@@ -32,6 +32,7 @@ module VaultCookbook
 
       # @see https://vaultproject.io/docs/config/index.html
       attribute(:address, kind_of: String)
+      attribute(:cluster_address, kind_of: String)
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
@@ -64,7 +65,7 @@ module VaultCookbook
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = tls? ? %i{address tls_cert_file tls_key_file} : %i{address}
+        listener_keeps = tls? ? %i{address cluster_address tls_cert_file tls_key_file} : %i{address cluster_address}
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end.merge(tls_disable: tls_disable.to_s)
