@@ -36,6 +36,7 @@ module VaultCookbook
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
+      attribute(:cache_size, kind_of: Fixnum)
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
@@ -60,7 +61,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i{disable_mlock default_lease_ttl max_lease_ttl}
+        config_keeps = %i{cache_size disable_mlock default_lease_ttl max_lease_ttl}
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
