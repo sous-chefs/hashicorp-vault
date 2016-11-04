@@ -1,5 +1,81 @@
 # Change Log
 
+## [Unreleased](https://github.com/johnbellone/vault-cookbook/tree/HEAD)
+
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.4.0...HEAD)
+
+**Closed issues:**
+
+- CentOS-\* kitchen tests fail w/ sudo issue [\#78](https://github.com/johnbellone/vault-cookbook/issues/78)
+- Vault archive download address should be configurable [\#74](https://github.com/johnbellone/vault-cookbook/issues/74)
+- Vault 0.5.3 -\> 0.6.0 is breaking. Cookbook major version should have been rev'd. [\#70](https://github.com/johnbellone/vault-cookbook/issues/70)
+- Initializing and unsealing [\#69](https://github.com/johnbellone/vault-cookbook/issues/69)
+
+**Merged pull requests:**
+
+- Enable passwordless sudo for tests [\#80](https://github.com/johnbellone/vault-cookbook/pull/80) ([legal90](https://github.com/legal90))
+- Add 0.6.2 support [\#79](https://github.com/johnbellone/vault-cookbook/pull/79) ([Ginja](https://github.com/Ginja))
+- Add cluster\_address for listener options [\#77](https://github.com/johnbellone/vault-cookbook/pull/77) ([freimer](https://github.com/freimer))
+- Refactor integration tests and Travis CI configuration [\#75](https://github.com/johnbellone/vault-cookbook/pull/75) ([legal90](https://github.com/legal90))
+- Fix init script syntax for compatibility with RHEL/CentOS  5 [\#73](https://github.com/johnbellone/vault-cookbook/pull/73) ([legal90](https://github.com/legal90))
+- Add support of Vault 0.6.1 [\#71](https://github.com/johnbellone/vault-cookbook/pull/71) ([legal90](https://github.com/legal90))
+- Create/Delete symbolic link to /usr/local/bin [\#68](https://github.com/johnbellone/vault-cookbook/pull/68) ([dpattmann](https://github.com/dpattmann))
+- Add default recipe to kitchen run\_list [\#67](https://github.com/johnbellone/vault-cookbook/pull/67) ([dpattmann](https://github.com/dpattmann))
+- Remove 'godep restore' for vault versions \> 0.5.0 [\#66](https://github.com/johnbellone/vault-cookbook/pull/66) ([dpattmann](https://github.com/dpattmann))
+
+## [v2.4.0](https://github.com/johnbellone/vault-cookbook/tree/v2.4.0) (2016-06-24)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.3.0...v2.4.0)
+
+**Fixed bugs:**
+
+- Service doesn't come back after reboot because the default service directory is missing [\#55](https://github.com/johnbellone/vault-cookbook/issues/55)
+- Failing to run service as nonroot [\#54](https://github.com/johnbellone/vault-cookbook/issues/54)
+
+**Merged pull requests:**
+
+- Vault 0.6.0 [\#65](https://github.com/johnbellone/vault-cookbook/pull/65) ([axtl](https://github.com/axtl))
+- Create work dir before service starts as it does not persist across restarts [\#64](https://github.com/johnbellone/vault-cookbook/pull/64) ([willejs](https://github.com/willejs))
+- Liberate "build-essential" version constraint [\#63](https://github.com/johnbellone/vault-cookbook/pull/63) ([legal90](https://github.com/legal90))
+- vault\_secret: Raise an exception if Vault read has failed [\#61](https://github.com/johnbellone/vault-cookbook/pull/61) ([legal90](https://github.com/legal90))
+
+## [v2.3.0](https://github.com/johnbellone/vault-cookbook/tree/v2.3.0) (2016-06-09)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.2.0...v2.3.0)
+
+**Closed issues:**
+
+- What are bag\_name, bag\_item attributes used for? [\#58](https://github.com/johnbellone/vault-cookbook/issues/58)
+- Test against newer build-essential [\#57](https://github.com/johnbellone/vault-cookbook/issues/57)
+
+**Merged pull requests:**
+
+- Vault 0.5.3 update \(with test fixes, build-essential update\) [\#62](https://github.com/johnbellone/vault-cookbook/pull/62) ([axtl](https://github.com/axtl))
+- Fix default value of "leases" attribute [\#60](https://github.com/johnbellone/vault-cookbook/pull/60) ([legal90](https://github.com/legal90))
+- vault\_secret: Save lease ID to the nested attribute [\#56](https://github.com/johnbellone/vault-cookbook/pull/56) ([legal90](https://github.com/legal90))
+
+## [v2.2.0](https://github.com/johnbellone/vault-cookbook/tree/v2.2.0) (2016-04-19)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.1.1...v2.2.0)
+
+**Fixed bugs:**
+
+- Specifying 'root' removes root login shell [\#53](https://github.com/johnbellone/vault-cookbook/issues/53)
+
+**Closed issues:**
+
+- Configure consul backend in hashicorp-vault \> 1.5.x [\#48](https://github.com/johnbellone/vault-cookbook/issues/48)
+
+**Merged pull requests:**
+
+- Prevent "vault" service to be restarted on update [\#52](https://github.com/johnbellone/vault-cookbook/pull/52) ([legal90](https://github.com/legal90))
+- Use custom templates for "systemd" and "sysvinit" service providers [\#51](https://github.com/johnbellone/vault-cookbook/pull/51) ([legal90](https://github.com/legal90))
+- Added a resource for reading secrets from Vault [\#49](https://github.com/johnbellone/vault-cookbook/pull/49) ([Ginja](https://github.com/Ginja))
+
+## [v2.1.1](https://github.com/johnbellone/vault-cookbook/tree/v2.1.1) (2016-03-17)
+[Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.1.0...v2.1.1)
+
+**Merged pull requests:**
+
+- Fixed typo in vault\_config provider property [\#47](https://github.com/johnbellone/vault-cookbook/pull/47) ([Ginja](https://github.com/Ginja))
+
 ## [v2.1.0](https://github.com/johnbellone/vault-cookbook/tree/v2.1.0) (2016-03-17)
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.0.0...v2.1.0)
 
