@@ -35,7 +35,7 @@ module VaultCookbook
 
       def action_create
         notifying_block do
-          package options[:package_name] do
+          package options[:package_name] do # ~FC009, attribute checksum unrecognized
             source options[:package_source]
             checksum options[:package_checksum]
             version options[:version]
@@ -46,7 +46,7 @@ module VaultCookbook
 
       def action_remove
         notifying_block do
-          package options[:package_name] do
+          package options[:package_name] do # ~FC038, action uninstall unrecognized
             source options[:package_source]
             checksum options[:package_checksum]
             version options[:version]
