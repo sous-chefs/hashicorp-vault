@@ -37,7 +37,7 @@ module VaultCookbook
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
       attribute(:cache_size, kind_of: Fixnum)
-      attribute(:disable_cache, equal_to: [true, false], default: false)
+      attribute(:disable_cache, equal_to: [true, false])
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
