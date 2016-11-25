@@ -50,6 +50,10 @@ module VaultCookbook
       # The location of the Vault executable.
       # @return [String]
       attribute(:program, kind_of: String, default: '/usr/local/bin/vault')
+      # @!attribute log_level
+      # The log-level of the service
+      # @return [String]
+      attribute(:log_level, default: 'info', equal_to: %w{trace debug info warn err})
     end
   end
 
@@ -85,7 +89,7 @@ module VaultCookbook
       end
 
       def service_options(service)
-        service.command("#{new_resource.program} server -config=#{new_resource.config_path}")
+        service.command("#{new_resource.program} server -config=#{new_resource.config_path} -log-level=#{new_resource.log_level}")
         service.directory(new_resource.directory)
         service.user(new_resource.user)
         service.environment(new_resource.environment)
