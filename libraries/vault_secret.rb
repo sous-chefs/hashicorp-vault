@@ -40,7 +40,9 @@ module VaultCookbook
       attribute(:proxy_port, kind_of: String)
       attribute(:proxy_username, kind_of: String)
       attribute(:proxy_password, kind_of: String)
+      attribute(:ssl_ca_cert, kind_of: String)
       attribute(:ssl_pem_file, kind_of: String)
+      attribute(:ssl_pem_contents, kind_of: String)
       attribute(:ssl_verify, kind_of: [TrueClass, FalseClass])
       attribute(:timeout, kind_of: Fixnum)
       attribute(:ssl_timeout, kind_of: Fixnum)
@@ -49,7 +51,8 @@ module VaultCookbook
 
       def config_options
         %i(address token proxy_address proxy_port proxy_username proxy_password
-           ssl_pem_file ssl_verify timeout ssl_timeout open_timeout read_timeout)
+           ssl_pem_file ssl_pem_contents ssl_ca_cert ssl_verify
+           timeout ssl_timeout open_timeout read_timeout)
       end
 
       def config
