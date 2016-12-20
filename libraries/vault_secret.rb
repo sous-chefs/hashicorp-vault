@@ -89,7 +89,7 @@ module VaultCookbook
               client.logical.read(new_resource.path)
             end
           rescue Vault::HTTPError => e
-            message = "Failed to read scret - #{new_resource.path}.\n#{e.message}"
+            message = "Failed to read secret - #{new_resource.path}.\n#{e.message}"
             raise message if new_resource.exit_on_error
             Chef::Log.fatal message
           end
