@@ -1,4 +1,4 @@
-describe file('/opt/vault/0.6.3/vault') do
+describe file('/opt/vault/0.6.4/vault') do
   it { should be_file }
   it { should be_executable }
 end
