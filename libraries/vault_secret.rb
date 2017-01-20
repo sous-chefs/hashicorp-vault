@@ -26,7 +26,7 @@ module VaultCookbook
       # @!attribute attempts
       # The number of attempts to try & read a Vault secret.
       # @return [Fixnum]
-      attribute(:attempts, kind_of: Fixnum, default: 2)
+      attribute(:attempts, kind_of: Integer, default: 2)
       # The run state reference where the secret value will be saved,
       # e.q. node.run_state['run_state_reference']
       # @return [String]
@@ -44,10 +44,10 @@ module VaultCookbook
       attribute(:ssl_pem_file, kind_of: String)
       attribute(:ssl_pem_contents, kind_of: String)
       attribute(:ssl_verify, kind_of: [TrueClass, FalseClass])
-      attribute(:timeout, kind_of: Fixnum)
-      attribute(:ssl_timeout, kind_of: Fixnum)
-      attribute(:open_timeout, kind_of: Fixnum)
-      attribute(:read_timeout, kind_of: Fixnum)
+      attribute(:timeout, kind_of: Integer)
+      attribute(:ssl_timeout, kind_of: Integer)
+      attribute(:open_timeout, kind_of: Integer)
+      attribute(:read_timeout, kind_of: Integer)
 
       def config_options
         %i(address token proxy_address proxy_port proxy_username proxy_password
