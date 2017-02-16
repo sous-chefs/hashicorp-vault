@@ -33,7 +33,7 @@ module VaultCookbook
         archive_basename = binary_basename(node, new_resource)
         super.merge(
           version: new_resource.version,
-          archive_url: default_archive_url % { version: new_resource.version, basename: archive_basename },
+          archive_url: format(default_archive_url, version: new_resource.version, basename: archive_basename),
           archive_basename: archive_basename,
           archive_checksum: binary_checksum(node, new_resource),
           extract_to: '/opt/vault'
@@ -41,10 +41,9 @@ module VaultCookbook
       end
 
       def action_create
-        archive_url = options[:archive_url] % {
+        archive_url = format(options[:archive_url],
           version: options[:version],
-          basename: options[:archive_basename],
-        }
+          basename: options[:archive_basename])
 
         notifying_block do
           directory ::File.join(options[:extract_to], new_resource.version) do
@@ -59,7 +58,7 @@ module VaultCookbook
           end
 
           link '/usr/local/bin/vault' do
-            to options[:extract_to] + '/' + new_resource.version + '/vault'
+            to ::File.join(options[:extract_to], new_resource.version, 'vault')
           end
         end
       end
