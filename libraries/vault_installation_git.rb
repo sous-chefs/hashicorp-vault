@@ -60,20 +60,18 @@ module VaultCookbook
           end
 
           # Use godep to restore dependencies before attempting to compile
-          ['godep restore'].each do |step|
-            execute step do
+          if new_resource.version < '0.6.0'
+            execute('godep restore') do
               cwd options[:git_path]
               environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
                           GOPATH: node['go']['gopath'])
             end
-          end if new_resource.version < '0.6.0'
+          end
 
-          ['make dev'].each do |step|
-            execute step do
-              cwd options[:git_path]
-              environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
-                          GOPATH: node['go']['gopath'])
-            end
+          execute 'make dev' do
+            cwd options[:git_path]
+            environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
+                        GOPATH: node['go']['gopath'])
           end
         end
       end

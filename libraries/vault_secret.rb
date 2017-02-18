@@ -25,7 +25,7 @@ module VaultCookbook
       attribute(:path, kind_of: String, name_attribute: true)
       # @!attribute attempts
       # The number of attempts to try & read a Vault secret.
-      # @return [Fixnum]
+      # @return [Integer]
       attribute(:attempts, kind_of: Integer, default: 2)
       # The run state reference where the secret value will be saved,
       # e.q. node.run_state['run_state_reference']
