@@ -13,6 +13,7 @@ group :test, :integration, :unit do
   gem 'chef-dk'
   gem 'chefspec'
   gem 'serverspec'
+  gem 'rb-readline'
 end
 
 group :development do

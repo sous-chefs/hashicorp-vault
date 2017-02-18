@@ -36,14 +36,14 @@ module VaultCookbook
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
-      attribute(:cache_size, kind_of: Fixnum)
+      attribute(:cache_size, kind_of: Integer)
       attribute(:disable_cache, equal_to: [true, false])
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
       attribute(:statsite_addr, kind_of: String)
       attribute(:statsd_addr, kind_of: String)
-      attribute(:backend_type, default: 'inmem', equal_to: %w{consul etcd zookeeper dynamodb s3 mysql postgresql inmem file})
+      attribute(:backend_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
       attribute(:backend_options, option_collector: true)
       attribute(:habackend_type, kind_of: String)
       attribute(:habackend_options, option_collector: true)
@@ -62,12 +62,12 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i{cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl}
+        config_keeps = %i(cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = tls? ? %i{address cluster_address tls_cert_file tls_key_file} : %i{address cluster_address}
+        listener_keeps = tls? ? %i(address cluster_address tls_cert_file tls_key_file) : %i(address cluster_address)
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end.merge(tls_disable: tls_disable.to_s)
@@ -75,7 +75,7 @@ module VaultCookbook
         # backend
         config['backend'] = { backend_type => (backend_options || {}) }
         # ha_backend, only some backends support HA
-        if %w{consul etcd zookeeper dynamodb}.include? habackend_type
+        if %w(consul etcd zookeeper dynamodb).include? habackend_type
           config['ha_backend'] = { habackend_type => (habackend_options || {}) }
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?

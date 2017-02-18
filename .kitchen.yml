@@ -10,17 +10,11 @@ verifier:
 
 platforms:
   - name: ubuntu-16.04
-    named_run_list: debian
   - name: ubuntu-14.04
-    named_run_list: debian
   - name: ubuntu-12.04
-    named_run_list: debian
   - name: centos-7.2
-    named_run_list: centos
   - name: centos-6.8
-    named_run_list: centos
   - name: centos-5.11
-    named_run_list: centos
     attributes:
       hashicorp-vault:
         config:
