@@ -13,7 +13,7 @@ secrets for your infrastructure.
 The following platforms have been certified with integration tests
 using Test Kitchen:
 
-- CentOS (RHEL) 5.11, 6.8, 7.2
+- CentOS (RHEL) 6.8, 7.2
 - Ubuntu 12.04, 14.04, 16.04
 
 ## Basic Usage

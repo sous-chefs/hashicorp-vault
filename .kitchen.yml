@@ -14,12 +14,7 @@ platforms:
   - name: ubuntu-12.04
   - name: centos-7.2
   - name: centos-6.8
-  - name: centos-5.11
-    attributes:
-      hashicorp-vault:
-        config:
-          disable_mlock: true
-
+  
 suites:
   - name: default
     provisioner:
