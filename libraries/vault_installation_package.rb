@@ -50,11 +50,11 @@ module VaultCookbook
 
       def action_remove
         notifying_block do
-          package res_options[:package_name] do # ~FC038, action uninstall unrecognized
+          package res_options[:package_name] do
             source res_options[:package_source]
             checksum res_options[:package_checksum]
             version res_options[:version]
-            action :uninstall
+            action :remove
           end
         end
       end
