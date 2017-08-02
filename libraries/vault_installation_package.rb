@@ -23,6 +23,10 @@ module VaultCookbook
       provides(:package)
       inversion_attribute('hashicorp-vault')
 
+      # The built-in resource "package" has it's own attribute named "options",
+      # so we should use an alias to access Poise inversion options.
+      alias res_options options
+
       # Set the default inversion options.
       # @return [Hash]
       # @api private
@@ -35,10 +39,10 @@ module VaultCookbook
 
       def action_create
         notifying_block do
-          package options[:package_name] do # ~FC009, attribute checksum unrecognized
-            source options[:package_source]
-            checksum options[:package_checksum]
-            version options[:version]
+          package res_options[:package_name] do # ~FC009, attribute checksum unrecognized
+            source res_options[:package_source]
+            checksum res_options[:package_checksum]
+            version res_options[:version]
             action :upgrade
           end
         end
@@ -46,10 +50,10 @@ module VaultCookbook
 
       def action_remove
         notifying_block do
-          package options[:package_name] do # ~FC038, action uninstall unrecognized
-            source options[:package_source]
-            checksum options[:package_checksum]
-            version options[:version]
+          package res_options[:package_name] do # ~FC038, action uninstall unrecognized
+            source res_options[:package_source]
+            checksum res_options[:package_checksum]
+            version res_options[:version]
             action :uninstall
           end
         end
