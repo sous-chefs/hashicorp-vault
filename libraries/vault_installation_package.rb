@@ -39,9 +39,8 @@ module VaultCookbook
 
       def action_create
         notifying_block do
-          package res_options[:package_name] do # ~FC009, attribute checksum unrecognized
+          package res_options[:package_name] do
             source res_options[:package_source]
-            checksum res_options[:package_checksum]
             version res_options[:version]
             action :upgrade
           end
@@ -52,7 +51,6 @@ module VaultCookbook
         notifying_block do
           package res_options[:package_name] do
             source res_options[:package_source]
-            checksum res_options[:package_checksum]
             version res_options[:version]
             action :remove
           end
