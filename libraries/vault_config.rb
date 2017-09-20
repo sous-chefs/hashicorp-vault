@@ -31,22 +31,32 @@ module VaultCookbook
       attribute(:group, kind_of: String, default: 'vault')
 
       # @see https://vaultproject.io/docs/config/index.html
+      # TCP Listener options
       attribute(:address, kind_of: String)
       attribute(:cluster_address, kind_of: String)
+      attribute(:proxy_protocol_behavior, equal_to: %i(use_always allow_authorized deny_unauthorized))
+      attribute(:proxy_protocol_authorized_addrs, kind_of: String)
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
       attribute(:tls_key_file, kind_of: String)
+      attribute(:tls_min_version, kind_of: String)
+      attribute(:tls_cipher_suites, kind_of: String)
+      attribute(:tls_prefer_server_cipher_suites, kind_of: String)
+      attribute(:tls_require_and_verify_client_cert, kind_of: String)
+      attribute(:tls_client_ca_file, kind_of: String)
+      # Global options
+      attribute(:cluster_name, kind_of: String)
       attribute(:cache_size, kind_of: Integer)
       attribute(:disable_cache, equal_to: [true, false])
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
-      attribute(:statsite_addr, kind_of: String)
-      attribute(:statsd_addr, kind_of: String)
-      attribute(:backend_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
-      attribute(:backend_options, option_collector: true)
-      attribute(:habackend_type, kind_of: String)
-      attribute(:habackend_options, option_collector: true)
+      # Storage options
+      attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
+      attribute(:storage_options, option_collector: true)
+      attribute(:hastorage_type, kind_of: String)
+      attribute(:hastorage_options, option_collector: true)
+      # Telemetry options
       attribute(:telemetry_options, option_collector: true, default: {})
 
       def tls?
@@ -62,21 +72,23 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
+        config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = tls? ? %i(address cluster_address tls_cert_file tls_key_file) : %i(address cluster_address)
+        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs)
+        tls_params = %i(tls_cert_file tls_key_file tls_min_version tls_cipher_suites tls_prefer_server_cipher_suites tls_require_and_verify_client_cert tls_client_ca_file)
+        listener_keeps += tls_params if tls?
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end.merge(tls_disable: tls_disable.to_s)
         config['listener'] = { 'tcp' => listener_options }
-        # backend
-        config['backend'] = { backend_type => (backend_options || {}) }
-        # ha_backend, only some backends support HA
-        if %w(consul etcd zookeeper dynamodb).include? habackend_type
-          config['ha_backend'] = { habackend_type => (habackend_options || {}) }
+        # storage
+        config['storage'] = { storage_type => (storage_options || {}) }
+        # ha_storage, only some storages support HA
+        if %w(consul etcd zookeeper dynamodb).include? hastorage_type
+          config['ha_storage'] = { hastorage_type => (hastorage_options || {}) }
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
 
