@@ -49,6 +49,10 @@ module VaultCookbook
       attribute(:open_timeout, kind_of: Integer)
       attribute(:read_timeout, kind_of: Integer)
 
+      def whyrun_supported?
+        true
+      end
+
       def config_options
         %i(address token proxy_address proxy_port proxy_username proxy_password
            ssl_pem_file ssl_pem_contents ssl_ca_cert ssl_verify
@@ -74,7 +78,6 @@ module VaultCookbook
             # We have a lease for this secret, try to renew it
             unless lease_id.nil?
               client.sys.renew(lease_id)
-              new_resource.updated_by_last_action(false)
               return
             end
           rescue Vault::HTTPClientError => e
@@ -104,11 +107,10 @@ module VaultCookbook
             return
           end
 
-          node.set['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
+          node.normal['hashicorp-vault']['leases'][new_resource.path] = secret.lease_id if secret.renewable?
           # Store secret in-memory for the rest of the Chef run
           reference = new_resource.run_state_reference || new_resource.path
           node.run_state[reference] = secret
-          new_resource.updated_by_last_action(true)
         end
       end
     end
