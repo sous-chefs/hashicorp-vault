@@ -6,15 +6,32 @@ require_relative '../../../libraries/vault_service'
 
 describe VaultCookbook::Resource::VaultService do
   step_into(:vault_service)
-  recipe 'hashicorp-vault::default'
+  context 'on Ubuntu platform' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(
+        platform: 'ubuntu', version: '14.04', step_into: ['vault_service']
+      ).converge('hashicorp-vault::default')
+    end
 
-  let(:chefspec_options) { { platform: 'ubuntu', version: '14.04', log_level: :debug } }
+    before do
+      stub_command('getcap /opt/vault/0.6.5/vault|grep cap_ipc_lock+ep').and_return(false)
+    end
 
-  before do
-    stub_command('getcap /opt/vault/0.6.5/vault|grep cap_ipc_lock+ep').and_return(false)
+    it 'with default properties' do
+      expect(chef_run).to install_package('libcap2-bin')
+      expect(chef_run).to run_execute('setcap cap_ipc_lock=+ep /opt/vault/0.6.5/vault')
+    end
   end
 
-  context 'with default properties' do
-    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.6.5/vault' }
+  context 'on RHEL < 6' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new(
+        platform: 'redhat', version: '5.11', step_into: ['vault_service']
+      ).converge('hashicorp-vault::default')
+    end
+
+    it 'should not install libcap2-bin' do
+      expect(chef_run).to_not install_package('libcap2-bin')
+    end
   end
 end
