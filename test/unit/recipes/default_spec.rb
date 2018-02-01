@@ -4,8 +4,8 @@ require 'chefspec/cacher'
 
 describe 'hashicorp-vault::default' do
   before do
-    stub_command('test -L /opt/vault/0.6.5/vault').and_return(true)
-    stub_command('getcap /opt/vault/0.6.5/vault|grep cap_ipc_lock+ep').and_return(false)
+    stub_command('test -L /opt/vault/0.8.3/vault').and_return(true)
+    stub_command('getcap /opt/vault/0.8.3/vault|grep cap_ipc_lock+ep').and_return(false)
   end
 
   context 'with default node attributes' do
@@ -15,7 +15,7 @@ describe 'hashicorp-vault::default' do
 
     it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
     it { expect(chef_run).to create_vault_config('/etc/vault/vault.json') }
-    it { expect(chef_run).to create_vault_installation('0.6.5') }
+    it { expect(chef_run).to create_vault_installation('0.8.3') }
     it { expect(chef_run).to enable_vault_service('vault').with(config_path: '/etc/vault/vault.json') }
     it { expect(chef_run).to start_vault_service('vault') }
   end
