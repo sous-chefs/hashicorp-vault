@@ -13,13 +13,14 @@ describe VaultCookbook::Resource::VaultService do
       ).converge('hashicorp-vault::default')
     end
 
+    before do
+      stub_command('getcap /opt/vault/0.9.4/vault|grep cap_ipc_lock+ep').and_return(false)
+    end
 
-  before do
-    stub_command('getcap /opt/vault/0.8.3/vault|grep cap_ipc_lock+ep').and_return(false)
-  end
-
-  context 'with default properties' do
-    it { is_expected.to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.8.3/vault' }
+    context 'with default properties' do
+      it 'should run setcap cap_ipc_lock' do
+        expect(chef_run).to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.9.4/vault'
+      end
     end
   end
 
