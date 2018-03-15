@@ -6,7 +6,7 @@ description 'Application cookbook for installing and configuring Vault.'
 long_description 'Application cookbook for installing and configuring Vault.'
 issues_url 'https://github.com/johnbellone/vault-cookbook/issues'
 source_url 'https://github.com/johnbellone/vault-cookbook/'
-version '2.5.0'
+version '2.5.1'
 chef_version '>= 12.5' if respond_to?(:chef_version)
 
 supports 'ubuntu', '>= 12.04'
