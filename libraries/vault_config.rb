@@ -46,6 +46,7 @@ module VaultCookbook
       attribute(:tls_client_ca_file, kind_of: String)
       # Global options
       attribute(:api_addr, kind_of: String)
+      attribute(:cluster_addr, kind_of: String)
       attribute(:cluster_name, kind_of: String)
       attribute(:cache_size, kind_of: Integer)
       attribute(:disable_cache, equal_to: [true, false])
@@ -73,7 +74,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
+        config_keeps = %i(api_addr cluster_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
