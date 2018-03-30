@@ -15,6 +15,7 @@ using Test Kitchen:
 
 - CentOS (RHEL) 6.8, 7.2
 - Ubuntu 12.04, 14.04, 16.04
+- Amazon Linux AMI release 2017.09 
 
 ## Basic Usage
 This cookbook was designed from the ground up to make it dead simple
@@ -30,14 +31,13 @@ resources.
 
 This cookbook can be added to the run list of all of the nodes that
 you want to be part of the cluster. But the best way to use this is in
-a [wrapper cookbook][2] which sets up a backend, and potentially even
-TLS certificates. We provide an example [Vault Cluster cookbook][3]
-which uses our [Consul cookbook][4] for a highly-available
+a wrapper cookbook which sets up a backend, and potentially even
+TLS certificates. We provide an example [Vault Cluster cookbook][2]
+which uses our [Consul cookbook][3] for a highly-available
 storage solution.
 
 [0]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thelibrarycookbook
 [1]: https://www.vaultproject.io
-[2]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
-[3]: https://github.com/johnbellone/vault-cluster-cookbook
-[4]: https://github.com/johnbellone/consul-cookbook
-[5]: https://github.com/chef-cookbooks/chef-vault
+[2]: https://github.com/johnbellone/vault-cluster-cookbook
+[3]: https://github.com/johnbellone/consul-cookbook
+[4]: https://github.com/chef-cookbooks/chef-vault
