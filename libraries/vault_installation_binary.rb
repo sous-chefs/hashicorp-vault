@@ -18,6 +18,7 @@ module VaultCookbook
     # @since 2.0
     class VaultInstallationBinary < Chef::Provider
       include Poise(inversion: :vault_installation)
+      include ::VaultCookbook::Helpers
       provides(:binary)
       inversion_attribute('hashicorp-vault')
 
@@ -41,19 +42,16 @@ module VaultCookbook
       end
 
       def action_create
-        archive_url = format(options[:archive_url],
-          version: options[:version],
-          basename: options[:archive_basename])
-
         notifying_block do
           directory ::File.join(options[:extract_to], new_resource.version) do
             recursive true
           end
 
-          zipfile options[:archive_basename] do
-            path ::File.join(options[:extract_to], new_resource.version)
-            source archive_url
-            checksum options[:archive_checksum]
+          url = format(options[:archive_url], version: options[:version], basename: options[:archive_basename])
+          poise_archive url do
+            destination join_path(options[:extract_to], new_resource.version)
+            source_properties checksum: options[:archive_checksum]
+            strip_components 0
             not_if { ::File.exist?(vault_program) }
           end
 
