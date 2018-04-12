@@ -7,8 +7,6 @@
 
 module VaultCookbook
   module Helpers
-    include Chef::Mixin::ShellOut
-
     extend self
 
     def arch_64?
