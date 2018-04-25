@@ -60,6 +60,10 @@ module VaultCookbook
       attribute(:hastorage_options, option_collector: true)
       # Telemetry options
       attribute(:telemetry_options, option_collector: true, default: {})
+      # HA options
+      attribute(:api_addr, kind_of: String)
+      attribute(:cluster_addr, kind_of: String)
+      attribute(:disable_clustering, equal_to: [true, false])
 
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
@@ -93,6 +97,11 @@ module VaultCookbook
           config['ha_storage'] = { hastorage_type => (hastorage_options || {}) }
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
+        # HA config
+        ha_keeps = %i(api_addr cluster_addr disable_clustering)
+        config.merge!(to_hash.keep_if do |k, _|
+          ha_keeps.include?(k.to_sym)
+        end)
 
         JSON.pretty_generate(config, quirks_mode: true)
       end
