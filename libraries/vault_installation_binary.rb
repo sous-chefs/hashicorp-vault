@@ -43,8 +43,14 @@ module VaultCookbook
 
       def action_create
         notifying_block do
-          directory ::File.join(options[:extract_to], new_resource.version) do
-            recursive true
+          [
+            options[:extract_to],
+            ::File.join(options[:extract_to], new_resource.version),
+          ].each do |path|
+            directory path do
+              mode '0755'
+              recursive true
+            end
           end
 
           url = format(options[:archive_url], version: options[:version], basename: options[:archive_basename])
