@@ -14,12 +14,12 @@ describe VaultCookbook::Resource::VaultService do
     end
 
     before do
-      stub_command('getcap /opt/vault/0.9.4/vault|grep cap_ipc_lock+ep').and_return(false)
+      stub_command('getcap /opt/vault/0.10.1/vault|grep cap_ipc_lock+ep').and_return(false)
     end
 
     context 'with default properties' do
       it 'should run setcap cap_ipc_lock' do
-        expect(chef_run).to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.9.4/vault'
+        expect(chef_run).to run_execute 'setcap cap_ipc_lock=+ep /opt/vault/0.10.1/vault'
       end
     end
   end
