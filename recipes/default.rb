@@ -35,5 +35,5 @@ vault_service node['hashicorp-vault']['service_name'] do |r|
   if node['hashicorp-vault']['service']
     node['hashicorp-vault']['service'].each_pair { |k, v| r.send(k, v) }
   end
-  action [:enable, :start]
+  action %i[enable start]
 end

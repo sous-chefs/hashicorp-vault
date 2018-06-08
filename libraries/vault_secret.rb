@@ -54,9 +54,9 @@ module VaultCookbook
       end
 
       def config_options
-        %i(address token proxy_address proxy_port proxy_username proxy_password
+        %i[address token proxy_address proxy_port proxy_username proxy_password
            ssl_pem_file ssl_pem_contents ssl_ca_cert ssl_verify
-           timeout ssl_timeout open_timeout read_timeout)
+           timeout ssl_timeout open_timeout read_timeout]
       end
 
       def config

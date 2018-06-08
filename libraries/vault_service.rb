@@ -53,7 +53,7 @@ module VaultCookbook
       # @!attribute log_level
       # The log-level of the service
       # @return [String]
-      attribute(:log_level, default: 'info', equal_to: %w(trace debug info warn err))
+      attribute(:log_level, default: 'info', equal_to: %w[trace debug info warn err])
     end
   end
 

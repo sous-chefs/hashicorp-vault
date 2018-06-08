@@ -1,19 +1,19 @@
 source 'https://rubygems.org'
 gem 'poise', '~> 2.6'
-gem 'poise-service', '~> 1.1'
 gem 'poise-boiler'
+gem 'poise-service', '~> 1.1'
 
 group :lint do
   gem 'cookstyle'
-  gem 'rubocop'
   gem 'foodcritic'
+  gem 'rubocop'
 end
 
 group :test, :integration, :unit do
   gem 'chef-dk'
   gem 'chefspec'
-  gem 'serverspec'
   gem 'rb-readline'
+  gem 'serverspec'
 end
 
 group :development do

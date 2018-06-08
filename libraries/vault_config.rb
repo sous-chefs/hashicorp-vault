@@ -34,7 +34,7 @@ module VaultCookbook
       # TCP Listener options
       attribute(:address, kind_of: String)
       attribute(:cluster_address, kind_of: String)
-      attribute(:proxy_protocol_behavior, equal_to: %i(use_always allow_authorized deny_unauthorized))
+      attribute(:proxy_protocol_behavior, equal_to: %i[use_always allow_authorized deny_unauthorized])
       attribute(:proxy_protocol_authorized_addrs, kind_of: String)
       attribute(:tls_disable, equal_to: [true, false, 1, 0, 'yes', 'no'], default: true)
       attribute(:tls_cert_file, kind_of: String)
@@ -54,7 +54,7 @@ module VaultCookbook
       attribute(:max_lease_ttl, kind_of: String)
       attribute(:ui, equal_to: [true, false])
       # Storage options
-      attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
+      attribute(:storage_type, default: 'inmem', equal_to: %w[consul etcd zookeeper dynamodb s3 mysql postgresql inmem file])
       attribute(:storage_options, option_collector: true)
       attribute(:hastorage_type, kind_of: String)
       attribute(:hastorage_options, option_collector: true)
@@ -78,13 +78,13 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl ui)
+        config_keeps = %i[api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl ui]
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs)
-        tls_params = %i(tls_cert_file tls_key_file tls_min_version tls_cipher_suites tls_prefer_server_cipher_suites tls_require_and_verify_client_cert tls_client_ca_file)
+        listener_keeps = %i[address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs]
+        tls_params = %i[tls_cert_file tls_key_file tls_min_version tls_cipher_suites tls_prefer_server_cipher_suites tls_require_and_verify_client_cert tls_client_ca_file]
         listener_keeps += tls_params if tls?
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
@@ -93,12 +93,12 @@ module VaultCookbook
         # storage
         config['storage'] = { storage_type => (storage_options || {}) }
         # ha_storage, only some storages support HA
-        if %w(consul etcd zookeeper dynamodb).include? hastorage_type
+        if %w[consul etcd zookeeper dynamodb].include? hastorage_type
           config['ha_storage'] = { hastorage_type => (hastorage_options || {}) }
         end
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
         # HA config
-        ha_keeps = %i(api_addr cluster_addr disable_clustering)
+        ha_keeps = %i[api_addr cluster_addr disable_clustering]
         config.merge!(to_hash.keep_if do |k, _|
           ha_keeps.include?(k.to_sym)
         end)
