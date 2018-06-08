@@ -1,3 +1,52 @@
 ---
 Style/GuardClause:
   Enabled: false
+Naming/MemoizedInstanceVariableName:
+    Exclude:
+    - "libraries/*.rb"
+Naming/FileName:
+    Exclude:
+    - "*.rb"    
+Metrics/LineLength:
+  Max: 256
+Metrics/CyclomaticComplexity:
+    Exclude:
+    - "libraries/*.rb"
+Metrics/PerceivedComplexity:  
+    Exclude:
+    - "libraries/*.rb"
+Metrics/ClassLength:
+  Exclude:
+    - "libraries/*.rb"  
+Metrics/ModuleLength:
+  Exclude:
+    - "libraries/*.rb"
+Metrics/BlockLength:
+  Exclude:
+    - "libraries/*.rb"
+    - "test/**/*.rb"
+Metrics/AbcSize:
+  Exclude:
+    - "libraries/*.rb"  
+Metrics/MethodLength:  
+  Exclude:
+    - "libraries/*.rb"
+Style/FormatStringToken:
+    Exclude:
+    - "libraries/*.rb"
+Style/NumericPredicate:
+    Exclude:
+    - "libraries/*.rb"
+Style/Documentation:
+    Exclude:
+    - "libraries/*.rb"    
+EndOfLine:
+  Enabled: false
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': ()
+    '%w': ()
+
+
+

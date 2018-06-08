@@ -54,9 +54,9 @@ module VaultCookbook
       end
 
       def config_options
-        %i[address token proxy_address proxy_port proxy_username proxy_password
+        %i(address token proxy_address proxy_port proxy_username proxy_password
            ssl_pem_file ssl_pem_contents ssl_ca_cert ssl_verify
-           timeout ssl_timeout open_timeout read_timeout]
+           timeout ssl_timeout open_timeout read_timeout)
       end
 
       def config
@@ -89,9 +89,7 @@ module VaultCookbook
           begin
             max_attempts = new_resource.attempts
             secret = client.with_retries(Vault::HTTPError, Vault::HTTPConnectionError, attempts: max_attempts) do |attempts, error|
-              unless attempts == 0
-                Chef::Log.info "Received exception #{error.class} from Vault - attempt #{attempts}"
-              end
+              Chef::Log.info "Received exception #{error.class} from Vault - attempt #{attempts}" unless attempts == 0
               client.logical.read(new_resource.path)
             end
           rescue Vault::HTTPError => e

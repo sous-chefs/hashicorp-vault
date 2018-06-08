@@ -53,7 +53,7 @@ module VaultCookbook
       # @!attribute log_level
       # The log-level of the service
       # @return [String]
-      attribute(:log_level, default: 'info', equal_to: %w[trace debug info warn err])
+      attribute(:log_level, default: 'info', equal_to: %w(trace debug info warn err))
     end
   end
 
@@ -97,9 +97,7 @@ module VaultCookbook
         service.options(:sysvinit, template: 'hashicorp-vault:sysvinit.service.erb')
         service.options(:systemd, template: 'hashicorp-vault:systemd.service.erb')
 
-        if platform_family?('rhel') && node['platform_version'].to_i == 6
-          service.provider(:sysvinit)
-        end
+        service.provider(:sysvinit) if platform_family?('rhel') && node['platform_version'].to_i == 6
       end
     end
   end
