@@ -1,12 +1,6 @@
 ---
 Style/GuardClause:
-  Enabled: false
-Naming/MemoizedInstanceVariableName:
-    Exclude:
-    - "libraries/*.rb"
-Naming/FileName:
-    Exclude:
-    - "*.rb"    
+  Enabled: false 
 Metrics/LineLength:
   Max: 256
 Metrics/CyclomaticComplexity:
@@ -39,7 +33,11 @@ Style/NumericPredicate:
     - "libraries/*.rb"
 Style/Documentation:
     Exclude:
-    - "libraries/*.rb"    
+    - "libraries/*.rb" 
+Style/FileName:
+  Enabled: false
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
 EndOfLine:
   Enabled: false
 Style/PercentLiteralDelimiters:
