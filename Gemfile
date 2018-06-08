@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
-gem 'poise', '~> 2.6'
+gem 'poise'
 gem 'poise-boiler'
-gem 'poise-service', '~> 1.1'
+gem 'poise-service'
 
 group :lint do
   gem 'cookstyle'
