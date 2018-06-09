@@ -64,9 +64,6 @@ module VaultCookbook
       attribute(:api_addr, kind_of: String)
       attribute(:cluster_addr, kind_of: String)
       attribute(:disable_clustering, equal_to: [true, false])
-      # Seal options
-      attribute(:seal_type, kind_of: String)
-      attribute(:seal_options, option_collector: true, default: {})
 
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
@@ -97,7 +94,6 @@ module VaultCookbook
         config['storage'] = { storage_type => (storage_options || {}) }
         # ha_storage, only some storages support HA
         config['ha_storage'] = { hastorage_type => (hastorage_options || {}) } if %w(consul etcd zookeeper dynamodb).include? hastorage_type
-        config['seal'] = { seal_type => (seal_options || {}) } unless seal_type.nil?
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
         # HA config
         ha_keeps = %i(api_addr cluster_addr disable_clustering)
