@@ -52,6 +52,7 @@ module VaultCookbook
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
+      attribute(:ui, equal_to: [true, false])
       # Storage options
       attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
       attribute(:storage_options, option_collector: true)
@@ -63,7 +64,9 @@ module VaultCookbook
       attribute(:api_addr, kind_of: String)
       attribute(:cluster_addr, kind_of: String)
       attribute(:disable_clustering, equal_to: [true, false])
-
+      # Seal options
+      attribute(:seal_type, kind_of: String)
+      attribute(:seal_options, option_collector: true, default: {})
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
           false
@@ -77,7 +80,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
+        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl ui)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
@@ -92,9 +95,8 @@ module VaultCookbook
         # storage
         config['storage'] = { storage_type => (storage_options || {}) }
         # ha_storage, only some storages support HA
-        if %w(consul etcd zookeeper dynamodb).include? hastorage_type
-          config['ha_storage'] = { hastorage_type => (hastorage_options || {}) }
-        end
+        config['ha_storage'] = { hastorage_type => (hastorage_options || {}) } if %w(consul etcd zookeeper dynamodb).include? hastorage_type
+        config['seal'] = { seal_type => (seal_options || {}) } unless seal_type.nil?
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
         # HA config
         ha_keeps = %i(api_addr cluster_addr disable_clustering)

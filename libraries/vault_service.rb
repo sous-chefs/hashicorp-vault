@@ -97,9 +97,7 @@ module VaultCookbook
         service.options(:sysvinit, template: 'hashicorp-vault:sysvinit.service.erb')
         service.options(:systemd, template: 'hashicorp-vault:systemd.service.erb')
 
-        if platform_family?('rhel') && node['platform_version'].to_i == 6
-          service.provider(:sysvinit)
-        end
+        service.provider(:sysvinit) if platform_family?('rhel') && node['platform_version'].to_i == 6
       end
     end
   end

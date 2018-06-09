@@ -89,9 +89,7 @@ module VaultCookbook
           begin
             max_attempts = new_resource.attempts
             secret = client.with_retries(Vault::HTTPError, Vault::HTTPConnectionError, attempts: max_attempts) do |attempts, error|
-              unless attempts == 0
-                Chef::Log.info "Received exception #{error.class} from Vault - attempt #{attempts}"
-              end
+              Chef::Log.info "Received exception #{error.class} from Vault - attempt #{attempts}" unless attempts == 0
               client.logical.read(new_resource.path)
             end
           rescue Vault::HTTPError => e

@@ -12,7 +12,7 @@ describe user('vault') do
 end
 
 describe file('/etc/vault/vault.json') do
-  its('mode') { should eq 0640 }
+  its('mode') { should eq 0o640 }
   it { should be_file }
   it { should be_owned_by 'vault' }
   it { should be_grouped_into 'vault' }

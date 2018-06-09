@@ -10,18 +10,14 @@ poise_service_user node['hashicorp-vault']['service_user'] do
 end
 
 install = vault_installation node['hashicorp-vault']['version'] do |r|
-  if node['hashicorp-vault']['installation']
-    node['hashicorp-vault']['installation'].each_pair { |k, v| r.send(k, v) }
-  end
+  node['hashicorp-vault']['installation'].each_pair { |k, v| r.send(k, v) } if node['hashicorp-vault']['installation']
 end
 
 config = vault_config node['hashicorp-vault']['config']['path'] do |r|
   owner node['hashicorp-vault']['service_user']
   group node['hashicorp-vault']['service_group']
 
-  if node['hashicorp-vault']['config']
-    node['hashicorp-vault']['config'].each_pair { |k, v| r.send(k, v) }
-  end
+  node['hashicorp-vault']['config'].each_pair { |k, v| r.send(k, v) } if node['hashicorp-vault']['config']
   notifies :reload, "vault_service[#{node['hashicorp-vault']['service_name']}]", :delayed
 end
 
@@ -32,8 +28,6 @@ vault_service node['hashicorp-vault']['service_name'] do |r|
   disable_mlock config.disable_mlock
   program install.vault_program
 
-  if node['hashicorp-vault']['service']
-    node['hashicorp-vault']['service'].each_pair { |k, v| r.send(k, v) }
-  end
-  action [:enable, :start]
+  node['hashicorp-vault']['service'].each_pair { |k, v| r.send(k, v) } if node['hashicorp-vault']['service']
+  action %i(enable start)
 end
