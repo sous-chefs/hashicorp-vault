@@ -1,5 +1,5 @@
 {
-  "revision_id": "3cc7bb01cc6f6bcca4951323f0207f967795920068e3e36fd2afb78292dc23f1",
+  "revision_id": "cbe9e1cc8f3c9c48906ae8968a404ced97f277129f8dec47bebfd77648d3be61",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -32,14 +32,14 @@
     },
     "hashicorp-vault": {
       "version": "3.0.0",
-      "identifier": "eb25950041c030ed767a5ec04685b136fc08b3a4",
-      "dotted_decimal_identifier": "66187941411668016.66839837428172421.194849714779044",
+      "identifier": "6623e4df36d69615e4880def3a4a62238e6c97f3",
+      "dotted_decimal_identifier": "28749913528915606.6162247511390794.107904852858867",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": "https://github.com/mpetka/vault-cookbook.git",
-        "revision": "b8bda3963bc9f6a553e9922e5e52b945cc655af4",
+        "revision": "3815c28560d6bc6b93bdf229f4929a131eaf372a",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [

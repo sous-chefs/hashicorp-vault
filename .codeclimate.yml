@@ -2,10 +2,6 @@
 engines:
   foodcritic:
     enabled: true
-    config:
-      tags:
-      - "~FC109"
-      - "~FC122"
   rubocop:
     enabled: true
 ratings:
