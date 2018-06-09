@@ -31,7 +31,7 @@
       }
     },
     "hashicorp-vault": {
-      "version": "3.0.0",
+      "version": "3.1.1",
       "identifier": "6623e4df36d69615e4880def3a4a62238e6c97f3",
       "dotted_decimal_identifier": "28749913528915606.6162247511390794.107904852858867",
       "source": "../../..",
