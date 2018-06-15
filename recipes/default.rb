@@ -15,7 +15,7 @@ install = vault_installation node['hashicorp-vault']['version'] do |r|
   end
 end
 
-config = vault_config node['hashicorp-vault']['config']['path'] do |r|
+config = vault_config node['hashicorp-vault']['config']['path_old'] do |r|
   owner node['hashicorp-vault']['service_user']
   group node['hashicorp-vault']['service_group']
 
