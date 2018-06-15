@@ -8,7 +8,7 @@ poise_service_user node['hashicorp-vault']['service_user'] do
   group node['hashicorp-vault']['service_group']
 end
 
-config = vault_config node['hashicorp-vault']['config']['path'] do |r|
+config = vault_config node['hashicorp-vault']['config']['path_old'] do |r|
   owner node['hashicorp-vault']['service_user']
   group node['hashicorp-vault']['service_group']
 
