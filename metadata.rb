@@ -6,7 +6,7 @@ description 'Application cookbook for installing and configuring Vault.'
 long_description 'Application cookbook for installing and configuring Vault.'
 issues_url 'https://github.com/johnbellone/vault-cookbook/issues'
 source_url 'https://github.com/johnbellone/vault-cookbook/'
-version '1002.6.0'
+version '1002.7.0'
 
 supports 'ubuntu', '>= 12.04'
 supports 'redhat', '>= 6.4'
