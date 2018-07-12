@@ -63,6 +63,8 @@ module VaultCookbook
       attribute(:api_addr, kind_of: String)
       attribute(:cluster_addr, kind_of: String)
       attribute(:disable_clustering, equal_to: [true, false])
+      # UI options
+      attribute(:ui, equal_to: [true, false])
 
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1
@@ -77,7 +79,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl)
+        config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl ui)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
