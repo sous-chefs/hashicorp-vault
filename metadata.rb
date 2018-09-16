@@ -15,8 +15,7 @@ supports 'centos', '>= 6.4'
 supports 'windows'
 supports 'freebsd'
 
-# build-essential is obsolete in chef 14+
-depends 'build-essential' # ~FC121
+depends 'build-essential', '>= 5.0'
 depends 'golang', '~> 1.7'
 depends 'poise', '~> 2.6'
 depends 'poise-service', '~> 1.1'
