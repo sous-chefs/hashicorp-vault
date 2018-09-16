@@ -1,7 +1,6 @@
----
 sudo: required
 dist: trusty
-language: generic
+language: ruby
 cache: bundler
 addons:
   apt:
@@ -21,7 +20,6 @@ env:
     - INSTANCE=default-centos-6
     - INSTANCE=default-ubuntu-1604
     - INSTANCE=default-ubuntu-1404
-    - INSTANCE=default-ubuntu-1204
 
 before_script:
   # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
@@ -31,7 +29,7 @@ before_script:
   - /opt/chefdk/embedded/bin/cookstyle --version
   - /opt/chefdk/embedded/bin/foodcritic --version
 
-script: KITCHEN_LOCAL_YAML=.kitchen.dokken.yml kitchen verify ${INSTANCE}
+script: KITCHEN_LOCAL_YAML=kitchen.dokken.yml kitchen verify ${INSTANCE}
 
 after_script:
   - docker images
@@ -42,8 +40,5 @@ matrix:
   include:
     - script:
       - bundle install
-      - bundle exec rake
+      - chef exec delivery local all
       env: UNIT_AND_LINT=1
-
-notifications:
-  slack: bloomberg-rnd:BvYmxrV9xj902XWTRNrkLNkR
