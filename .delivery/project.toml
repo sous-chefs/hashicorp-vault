@@ -1,5 +1,5 @@
 [local_phases]
-unit = "bundle exec rspec test/spec/"
+unit = "bundle exec rspec spec/"
 lint = 'cookstyle --display-cop-names --extra-details'
 syntax = "foodcritic ."
 provision = "echo skipping"

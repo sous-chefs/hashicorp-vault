@@ -1,6 +1,5 @@
 require 'chefspec'
 require 'chefspec/policyfile'
-require 'chefspec/cacher'
 
 describe 'hashicorp-vault::default' do
   before do
@@ -10,7 +9,7 @@ describe 'hashicorp-vault::default' do
 
   context 'with default node attributes' do
     cached(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04').converge('hashicorp-vault::default')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04').converge('hashicorp-vault::default')
     end
 
     it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
