@@ -39,6 +39,6 @@ after_script:
 matrix:
   include:
     - script:
-      - bundle install
+      - chef exec bundle install
       - chef exec delivery local all
       env: UNIT_AND_LINT=1
