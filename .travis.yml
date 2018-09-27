@@ -1,5 +1,4 @@
 sudo: required
-dist: trusty
 language: ruby
 cache: bundler
 addons:
@@ -39,6 +38,6 @@ after_script:
 matrix:
   include:
     - script:
-      - bundle install
+      - chef exec bundle install
       - chef exec delivery local all
       env: UNIT_AND_LINT=1
