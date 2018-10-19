@@ -16,32 +16,37 @@ workflows:
       #     suite: default
       #     requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: debian-8
           suite: default
           platform: debian-8
           requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: debian-9
           suite: default
           platform: debian-9
           requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: centos-7
           suite: default
           platform: centos-7
           requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: centos-6
           suite: default
-          platform: fedora-latest
+          platform: centos-6
           requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: ubuntu-1404
+          suite: default
+          platform: ubuntu-1404
+          requires: [  danger, lint ]
+      - kitchen/dokken-single:
+          name: ubuntu-1604
           suite: default
           platform: ubuntu-1604
           requires: [  danger, lint ]
       - kitchen/dokken-single:
-          name: default
+          name: ubuntu-1804
           suite: default
           platform: ubuntu-1804
           requires: [  danger, lint ]
