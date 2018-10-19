@@ -3,7 +3,8 @@
 ## [Unreleased](https://github.com/johnbellone/vault-cookbook/tree/HEAD)
 
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.4.0...HEAD)
-
+ - Changed testing to circleci
+ 
 ## [v2.5.0](https://github.com/johnbellone/vault-cookbook/tree/v2.5.0) (2017-03-27)
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.4.0...v2.5.0)
 
