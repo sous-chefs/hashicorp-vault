@@ -1,7 +1,7 @@
 # hashicorp-vault cookbook
-[![Build Status](https://travis-ci.org/johnbellone/vault-cookbook.svg?branch=master)](https://travis-ci.org/johnbellone/vault-cookbook)
+[![Build Status](https://travis-ci.org/sous-chefs/vault.svg?branch=master)](https://travis-ci.org/sous-chefs/vault)
 [![Cookbook Version](https://img.shields.io/cookbook/v/hashicorp-vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
-[![Coverage](https://img.shields.io/codecov/c/github/johnbellone/vault-cookbook.svg)](https://codecov.io/github/johnbellone/vault-cookbook)
+[![Coverage](https://img.shields.io/codecov/c/github/sous-chefs/vault.svg)](https://codecov.io/github/sous-chefs/vault)
 [![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
@@ -39,5 +39,5 @@ storage solution.
 [1]: https://www.vaultproject.io
 [2]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
 [3]: https://github.com/johnbellone/vault-cluster-cookbook
-[4]: https://github.com/johnbellone/consul-cookbook
+[4]: https://github.com/sous-chefs/consul
 [5]: https://github.com/chef-cookbooks/chef-vault

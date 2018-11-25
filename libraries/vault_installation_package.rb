@@ -39,7 +39,7 @@ module VaultCookbook
 
       def action_create
         notifying_block do
-          package res_options[:package_name] do
+          package res_options[:package_name] do # ~FC109
             source res_options[:package_source]
             provider res_options[:package_provider]
             version res_options[:version]
@@ -50,7 +50,7 @@ module VaultCookbook
 
       def action_remove
         notifying_block do
-          package res_options[:package_name] do
+          package res_options[:package_name] do # ~FC109
             source res_options[:package_source]
             provider res_options[:package_provider]
             version res_options[:version]

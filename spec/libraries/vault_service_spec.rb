@@ -1,8 +1,7 @@
 require 'chefspec'
 require 'chefspec/policyfile'
-require 'chefspec/cacher'
 require 'poise_boiler/spec_helper'
-require_relative '../../../libraries/vault_service'
+require_relative '../../libraries/vault_service'
 
 describe VaultCookbook::Resource::VaultService do
   step_into(:vault_service)

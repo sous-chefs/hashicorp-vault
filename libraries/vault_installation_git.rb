@@ -40,7 +40,8 @@ module VaultCookbook
         notifying_block do
           # Require Go 1.6.1 as Vault depends on new functionality in net/http
           node.default['go']['version'] = '1.6.1'
-          include_recipe 'golang::default', 'build-essential::default'
+          include_recipe 'golang::default'
+          build_essential 'install cli tools'
           # Install required go packages for building Vault
           golang_package 'github.com/mitchellh/gox'
           golang_package 'github.com/tools/godep'

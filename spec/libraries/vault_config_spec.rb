@@ -1,12 +1,11 @@
 require 'chefspec'
 require 'chefspec/policyfile'
-require 'chefspec/cacher'
 require 'poise_boiler/spec_helper'
-require_relative '../../../libraries/vault_config'
+require_relative '../../libraries/vault_config'
 
 describe VaultCookbook::Resource::VaultConfig do
   step_into(:vault_config)
-  let(:chefspec_options) { { platform: 'ubuntu', version: '14.04', log_level: :debug } }
+  let(:chefspec_options) { { platform: 'ubuntu', version: '16.04', log_level: :debug } }
 
   context '#action_create' do
     recipe do
