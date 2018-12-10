@@ -52,8 +52,8 @@ platforms:
           provider: upstart
 suites:
   - name: default
-    run_list:
-      - recipe[hashicorp-vault]
+    provisioner:
+      policyfile: test/fixtures/policies/default.rb
     attributes:
       hashicorp-vault:
         config:
@@ -66,8 +66,8 @@ suites:
   #
   # The purpose of this test is to make sure the configs are set as expected.
   - name: seal_options
-    run_list:
-      - recipe[hashicorp-vault]
+    provisioner:
+      policyfile: test/fixtures/policies/default.rb
     attributes:
       hashicorp-vault:
         config:
