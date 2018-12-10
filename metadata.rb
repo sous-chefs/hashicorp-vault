@@ -20,7 +20,3 @@ depends 'golang', '~> 1.7'
 depends 'poise', '~> 2.6'
 depends 'poise-service', '~> 1.1'
 depends 'poise-archive'
-
-gem 'poise', '~> 2.8'
-gem 'poise-service', '~> 1.5'
-gem 'poise-boiler'
