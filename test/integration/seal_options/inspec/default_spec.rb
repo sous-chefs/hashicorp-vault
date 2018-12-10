@@ -1,4 +1,4 @@
 describe json('/etc/vault/vault.json') do
-  its(['seal', 'awskms', 'region']) { should eq 'us-west-2' }
-  its(['seal', 'awskms', 'kms_key_id']) { should eq 'my-kms-id' }
+  its(%w(seal awskms region)) { should eq 'us-west-2' }
+  its(%w(seal awskms kms_key_id)) { should eq 'my-kms-id' }
 end

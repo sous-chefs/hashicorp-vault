@@ -67,7 +67,7 @@ module VaultCookbook
       attribute(:disable_clustering, equal_to: [true, false])
       # Seal options
       attribute(:seal_type, kind_of: String)
-      attribute(:seal_options, option_collector: true, default:{})
+      attribute(:seal_options, option_collector: true, default: {})
 
       def tls?
         if tls_disable == true || tls_disable == 'yes' || tls_disable == 1

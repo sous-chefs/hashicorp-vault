@@ -25,6 +25,6 @@ describe service('vault') do
 end
 
 describe json('/etc/vault/vault.json') do
-  its("ui") { should be_in [true] }
-  its("disable_performance_standby") { should be_in [true] }
+  its('ui') { should be_in [true] }
+  its('disable_performance_standby') { should be_in [true] }
 end
