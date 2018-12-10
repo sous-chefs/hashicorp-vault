@@ -9,7 +9,7 @@ source_url 'https://github.com/sous-chefs/vault'
 chef_version '>= 12.5'
 version '3.0.0'
 
-supports 'ubuntu', '>= 12.04'
+supports 'ubuntu', '>= 14.04'
 supports 'redhat', '>= 6.4'
 supports 'centos', '>= 6.4'
 supports 'windows'
