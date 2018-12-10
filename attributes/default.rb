@@ -5,14 +5,14 @@
 # Copyright 2015-2016, Bloomberg Finance L.P.
 #
 default['hashicorp-vault']['gems'] = {
-  vault: '0.4.0',
+  vault: '0.12.0'
 }
 
 default['hashicorp-vault']['service_name'] = 'vault'
 default['hashicorp-vault']['service_user'] = 'vault'
 default['hashicorp-vault']['service_group'] = 'vault'
 
-default['hashicorp-vault']['version'] = '0.10.1'
+default['hashicorp-vault']['version'] = '1.0.0'
 
 default['hashicorp-vault']['config']['path'] = '/etc/vault/vault.json'
 default['hashicorp-vault']['config']['address'] = '127.0.0.1:8200'

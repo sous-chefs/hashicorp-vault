@@ -1,0 +1,39 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-6
+  - name: centos-7
+  - name: debian-8
+  - name: debian-9
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: ubuntu-18.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[hashicorp-vault]
+    attributes:
+      hashicorp-vault:
+        config:
+          ui: true
+          disable_performance_standby: true
+
+  - name: seal-options
+    run_list:
+      - recipe[hashicorp-vault]
+    attributes:
+      hashicorp-vault:
+        config:
+          seal_type: awskms
+          seal_options:
+            region: us-west-2
+            kms_key_id: my-kms-id
