@@ -109,6 +109,7 @@ module VaultCookbook
           when '0.9.2' then 'c9be39e1564216f3e40c83e956229ee413fc21e82db870a6bd999d52dfdffc06'
           when '0.9.3' then '9e008c1724f982cc4ea6190e584d82649d964953de25dbd3ba50b57247fb6dcc'
           when '0.9.4' then 'f5f3a14c0a70680fcc8d8b7202d49f8533396ebf05d70356cd840094d082a438'
+          when '0.10.1' then '599552518f5067c294c2bd279186b34e5d87a29bf324ac83d1fd38c4e2d5c550'
           end
         when 'darwin-amd64'
           case resource.version
@@ -125,6 +126,7 @@ module VaultCookbook
           when '0.9.2' then 'd79adf8a12afe701eb8b2ad3aeb4b1a1c2ed6dd3a11c3b1aa0739c6fec229d90'
           when '0.9.3' then '9474cd8eb9207fea3de56ff86068fc4eb8d20ec7adf31cffb8b265633e659581'
           when '0.9.4' then '42772e82839423948e2230b164bda037c4c301581f642c72f93c384efc7735d8'
+          when '0.10.1' then '5aa325988835d5c347f057aa120388076412554075cf6e7e840c649a5f2d1a9f'
           end
         when 'freebsd-i386'
           case resource.version
@@ -141,6 +143,7 @@ module VaultCookbook
           when '0.9.2' then '57eef15eeed5cff9dd2718baef5633237f1a0b2d791c6df8e91ca99d9fa9c6a4'
           when '0.9.3' then 'a75e775e3b5453f14f223d518d59d3dcfbf1def3a201ce5709dcca438ea59ca2'
           when '0.9.4' then 'd79f58164012fc4971e66170718424be14e880b0c8ed1d24c51fe28228c7091c'
+          when '0.10.1' then 'a6ed625ad497a6ece9bca403fc183fdd8e5a65a52002186037bca5a3fa07f9ad'
           end
         when 'freebsd-amd64'
           case resource.version
@@ -157,6 +160,7 @@ module VaultCookbook
           when '0.9.2' then 'a4208bd24aeb41c78edb910e9472939c9caadb869b1a6a5c773569f34a9c64ed'
           when '0.9.3' then 'dcd900f790182d8092dbf9b59f89c8570cef00a7ac86f83b85125e49b8aa4333'
           when '0.9.4' then '65fdbc0799f5dafe7f7ace2104be5149c9b99d877223d54f289855a85dbe65c4'
+          when '0.10.1' then '734bd564f507d56cf82ef3482b37d408003c13294e42362a034de569203c54bb'
           end
         when 'freebsd-arm'
           case resource.version
@@ -173,6 +177,7 @@ module VaultCookbook
           when '0.9.2' then 'f43307389a9d2f59613283a57782c7aac493ac776fd7b73134b755b5a8a9453f'
           when '0.9.3' then '7a1c3d5d55c0bc0cf9d0525bc0a5c1dc5983d466d2f139c95a8a97329b77a7ec'
           when '0.9.4' then '23cc26aebd71d6b6201a44a42b799be7ffe1a61c13dd229d098c51163ddb6dd3'
+          when '0.10.1' then '65019af5c082b1abb4742513413cdef60080c4f7eeb8e91251b7b7005dbd07e7'
           end
         when 'linux-i386'
           case resource.version
@@ -189,6 +194,7 @@ module VaultCookbook
           when '0.9.2' then 'e094a3eb1a80003e80c332797cb4b4a3ca31dc4e897d8c6832e2fcaabf0d6815'
           when '0.9.3' then 'd37834916716c9d71fba9c703fd2b69f3de037175a789c85c412ecb0810d10ac'
           when '0.9.4' then 'd04dbb596d16f4f5bb49e6f4cf5e8b4fe08f57b3661bddfc7cf9b480c65b8237'
+          when '0.10.1' then '274beb7757ee3f9598021c9c0db7389224904c1cbf5220f6e6a3a205980ca8f3'
           end
         when 'linux-amd64'
           case resource.version
@@ -205,6 +211,7 @@ module VaultCookbook
           when '0.9.2' then 'abd9f26b71a693e43b0c55ec80c485f1a87f156e53fbf7e9bbccb1eba217761a'
           when '0.9.3' then '4ba8b9dafb903d20b4c87e8954015a07a6995f53a9650ac02b39e6cae502645e'
           when '0.9.4' then 'b312dfe783f69f5284d350714468f005dbb023f26ac9525d267550fb3dd2eea5'
+          when '0.10.1' then '031e521b4603487126fd353a9557dd22a02304a8a11f843e9914be59a8009c8a'
           end
         when 'linux-arm'
           case resource.version
@@ -221,6 +228,7 @@ module VaultCookbook
           when '0.9.2' then '7030fa8fa4af309af95610efd83f513a1a96562e97de9c56a6af52203259d6b1'
           when '0.9.3' then '1e5b658fb6416560cf6b283d39e9a9ac06d618484f8345ca8f049a93a1e7283c'
           when '0.9.4' then '364bae8f022f50c48b6d2028d48e433d2d971d1aad41249a2d2e48d43c3b8000'
+          when '0.10.1' then 'db3470d37e20883b333f7e835b407460687e576392989012f9344c21af6c672f'
           end
         when 'windows-i386'
           case resource.version
@@ -237,6 +245,7 @@ module VaultCookbook
           when '0.9.2' then '405d746a2d0b7f359d8579a82b1eedc94f69b210f4f10de2ccc3d62f58da3064'
           when '0.9.3' then '2241cc1cc711d056c8774e081965dec7a0c3524f32a622802e68c32726349915'
           when '0.9.4' then '0f175e7c90de03cb022a82116c9bb60d542cac4d8bfb0e30c9b0eeccc2343083'
+          when '0.10.1' then 'c7d2643293eaf4ea1310506dd5d2c08f394e6462b02e2688c7575d5084655ce5'
           end
         when 'windows-amd64'
           case resource.version
@@ -253,6 +262,7 @@ module VaultCookbook
           when '0.9.2' then '9e64cd2a337fc25f9c29dbf5d1b1620527a53939f3d434fe5cea753552a72635'
           when '0.9.3' then '3a394704640239b4b8980c88822b2513fd7e9fa385f2eb7beb2bea990b9c0f04'
           when '0.9.4' then '4d0b517907f708eae43b85f96ea5a6c92842a7350aaa20a88600d9e2589a1afb'
+          when '0.10.1' then '081ba43ea4ae6b452f66f1471a49f9d3790957357a577113f7369d95fa2303a9'
           end
         end
       end

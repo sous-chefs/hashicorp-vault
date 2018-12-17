@@ -1,5 +1,12 @@
 # Change Log
 
+## v3.0.0 (2018-12-09)
+* added options to set `seal` options, `ui`, and `disable_performance_standby`
+* updated tests to test new config options
+* added Circle CI tests
+* removed support for Ubuntu 12.04 as it's EOL-ed
+* added Ubuntu 18.04 tests
+
 ## [Unreleased](https://github.com/johnbellone/vault-cookbook/tree/HEAD)
 
 [Full Changelog](https://github.com/johnbellone/vault-cookbook/compare/v2.4.0...HEAD)

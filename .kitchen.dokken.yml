@@ -1,0 +1,80 @@
+driver:
+  name: dokken
+  chef_version: latest
+  privileged: true
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+verifier:
+  name: inspec
+  root_path: /opt/verifier
+
+platforms:
+  - name: centos-7
+    driver:
+      image: dokken/centos-7
+      pid_one_command: /usr/lib/systemd/systemd
+    attributes:
+      poise-service:
+        vault:
+          provider: systemd
+  - name: centos-6
+    driver:
+      image: dokken/centos-6
+      pid_one_command: /sbin/init
+  - name: ubuntu-18.04
+    driver:
+      image: dokken/ubuntu-18.04
+      pid_one_command: /bin/systemd
+    attributes:
+      poise-service:
+        vault:
+          provider: systemd
+  - name: ubuntu-16.04
+    driver:
+      image: dokken/ubuntu-16.04
+      pid_one_command: /bin/systemd
+    attributes:
+      poise-service:
+        vault:
+          provider: systemd
+  - name: ubuntu-14.04
+    driver:
+      image: dokken/ubuntu-14.04
+      pid_one_command: /sbin/init
+    attributes:
+      poise-service:
+        vault:
+          provider: upstart
+suites:
+  - name: default
+    provisioner:
+      policyfile: test/fixtures/policies/default.rb
+    attributes:
+      hashicorp-vault:
+        config:
+          ui: true
+          disable_performance_standby: true
+
+  # the seal options, if set, will cause Vault fail to start b/c test kithen doesn't
+  # have the HSM (hardware security module) to support this.  You need to setup you HSM w/ the
+  # proper keys to this to work
+  #
+  # The purpose of this test is to make sure the configs are set as expected.
+  - name: seal_options
+    provisioner:
+      policyfile: test/fixtures/policies/default.rb
+    attributes:
+      hashicorp-vault:
+        config:
+          seal_type: awskms
+          seal_options:
+            region: us-west-2
+            kms_key_id: my-kms-id
+    includes:
+      # only need do one test as the config generation code is the same for all distros
+      - ubuntu-16.04
