@@ -1,8 +1,7 @@
 # hashicorp-vault cookbook
-[![Build Status](https://travis-ci.org/sous-chefs/vault.svg?branch=master)](https://travis-ci.org/sous-chefs/vault)
-[![Cookbook Version](https://img.shields.io/cookbook/v/hashicorp-vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
-[![Coverage](https://img.shields.io/codecov/c/github/sous-chefs/vault.svg)](https://codecov.io/github/sous-chefs/vault)
-[![License](https://img.shields.io/badge/license-Apache_2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
+[![Cookbook Version](https://img.shields.io/cookbook/v/vault.svg)](https://supermarket.chef.io/cookbooks/vault)
+[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/vault/master.svg)](https://circleci.com/gh/sous-chefs/vault)
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
 
