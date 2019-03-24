@@ -3,13 +3,45 @@ version: 2.1
 orbs:
   kitchen: sous-chefs/kitchen@1.0.0
 
+executors:
+  delivery:
+    docker: [image: "chef/chefdk:3"]
+
+commands:
+  install_chef:
+    description: Installs Chef Development Kit
+    parameters:
+      channel:
+        description: ChefDK channel stable or current
+        type: string
+        default: current
+    steps:
+      - run:
+          name: Install Chef
+          command: |
+            while sudo fuser /var/{lib/{dpkg,apt/lists},cache/apt/archives}/lock >/dev/null 2>&1; do
+              sudo lsof /var/lib/dpkg/lock
+              sleep 1
+            done
+            curl -L https://omnitruck.chef.io/install.sh |
+                    sudo bash -s -- -c <<parameters.channel>> -P chefdk
+
+jobs:
+  poiseDelivery:
+    executor: delivery
+    steps:
+      - checkout
+      - run:
+          name: Run delivery
+          command: delivery local all
+
 workflows:
   kitchen:
     jobs:
       - kitchen/danger:
           name: danger
           context: Danger
-      - kitchen/lint:
+      - poiseDelivery:
           name: lint
       - kitchen/dokken:
           name: default
