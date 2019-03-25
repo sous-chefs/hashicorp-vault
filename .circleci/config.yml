@@ -11,7 +11,23 @@ workflows:
           context: Danger
       - kitchen/lint:
           name: lint
-      - kitchen/dokken:
-          name: default
+      - kitchen/dokken-single:
+          name: default-centos-6
+          platform: centos-6
           suite: default
-          requires: [  danger, lint ]
+          requires: [ lint, danger ]
+      - kitchen/dokken-single:
+          name: default-centos-7
+          platform: centos-7
+          suite: default
+          requires: [ lint, danger ]
+      - kitchen/dokken-single:
+          name: default-ubuntu-1604
+          platform: ubuntu-1604
+          suite: default
+          requires: [ lint, danger ]
+      - kitchen/dokken-single:
+          name: default-ubuntu-1804
+          platform: ubuntu-1804
+          suite: default
+          requires: [ lint, danger ]
