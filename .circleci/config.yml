@@ -24,7 +24,7 @@ commands:
               sleep 1
             done
             curl -L https://omnitruck.chef.io/install.sh |
-                    sudo bash -s -- -c <<parameters.channel>> -P chefdk
+                    sudo bash -s -- -c <<parameters.channel>> -P chefdk -v 13
 
 jobs:
   poiseDelivery:
@@ -36,7 +36,7 @@ jobs:
           command: apt update && apt install make gcc -y
       - run:
           name: Run bundle install
-          command: bundle install
+          command: chef exec bundle install
       - run:
           name: Run delivery
           command: delivery local all
