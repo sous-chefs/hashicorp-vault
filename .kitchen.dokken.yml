@@ -42,14 +42,6 @@ platforms:
       poise-service:
         vault:
           provider: systemd
-  - name: ubuntu-14.04
-    driver:
-      image: dokken/ubuntu-14.04
-      pid_one_command: /sbin/init
-    attributes:
-      poise-service:
-        vault:
-          provider: upstart
 suites:
   - name: default
     provisioner:
