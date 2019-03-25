@@ -1,6 +1,6 @@
 # hashicorp-vault cookbook
 
-[![Cookbook Version](https://img.shields.io/cookbook/v/vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
+[![Cookbook Version](https://img.shields.io/cookbook/v/hashicorp-vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
 [![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/vault/master.svg)](https://circleci.com/gh/sous-chefs/vault)
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
