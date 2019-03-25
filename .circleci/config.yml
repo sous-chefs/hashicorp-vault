@@ -22,12 +22,12 @@ workflows:
           suite: default
           requires: [ lint, danger ]
       - kitchen/dokken-single:
-          name: default-ubuntu-16.04
-          platform: ubuntu-16.04
+          name: default-ubuntu-1604
+          platform: ubuntu-1604
           suite: default
           requires: [ lint, danger ]
       - kitchen/dokken-single:
-          name: default-ubuntu-18.04
-          platform: ubuntu-18.04
+          name: default-ubuntu-1804
+          platform: ubuntu-1804
           suite: default
           requires: [ lint, danger ]
