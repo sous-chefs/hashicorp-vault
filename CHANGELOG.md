@@ -1,6 +1,11 @@
 # Change Log
 
+## Unreleased
+
+* disabled unit tests as we cannot bundle install currently
+
 ## v3.0.0 (2018-12-09)
+
 * added options to set `seal` options, `ui`, and `disable_performance_standby`
 * updated tests to test new config options
 * added Circle CI tests
