@@ -36,7 +36,7 @@ jobs:
           command: apt update && apt install make gcc -y
       - run:
           name: Run bundle install
-          command: chef exec bundle install
+          command: bundle install
       - run:
           name: Run delivery
           command: delivery local all
