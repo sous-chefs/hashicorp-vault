@@ -4,6 +4,10 @@
 
 * disabled unit tests as we cannot bundle install currently
 
+## v3.0.1 (2019-04-04)
+
+* added option to set `plugin_directory`
+
 ## v3.0.0 (2018-12-09)
 
 * added options to set `seal` options, `ui`, and `disable_performance_standby`

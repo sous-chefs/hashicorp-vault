@@ -7,7 +7,7 @@ long_description 'Application cookbook for installing and configuring Vault.'
 issues_url 'https://github.com/sous-chefs/vault/issues'
 source_url 'https://github.com/sous-chefs/vault'
 chef_version '>= 12.5'
-version '3.0.0'
+version '3.0.1'
 
 supports 'ubuntu', '>= 14.04'
 supports 'redhat', '>= 6.4'
