@@ -61,6 +61,8 @@ Rakefile
 .travis.yml
 .foodcritic
 .codeclimate.yml
+.circleci
+Dangerfile
 
 # SCM #
 #######

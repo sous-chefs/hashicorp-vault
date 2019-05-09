@@ -2,11 +2,10 @@ name 'hashicorp-vault'
 maintainer 'Sous Chefs'
 maintainer_email 'help@sous-chefs.org'
 license 'Apache-2.0'
-description 'Application cookbook for installing and configuring Vault.'
-long_description 'Application cookbook for installing and configuring Vault.'
+description      'Installs and configures Rundeck 2.x'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url 'https://github.com/sous-chefs/vault/issues'
 source_url 'https://github.com/sous-chefs/vault'
-chef_version '>= 12.5'
 version '3.0.0'
 
 supports 'ubuntu', '>= 14.04'

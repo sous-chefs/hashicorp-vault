@@ -1,33 +1,47 @@
+---
+lint_and_unit: &lint_and_unit
+  - delivery
+  - danger
+  - lint-yaml
+  - lint-markdown
+
 version: 2.1
 
 orbs:
-  kitchen: sous-chefs/kitchen@1.0.0
+  kitchen: sous-chefs/kitchen@2
 
 workflows:
   kitchen:
     jobs:
+      # Lint and Unit Test
+      - kitchen/yamllint:
+          name: lint-yaml
+      - kitchen/mdlint:
+          name: lint-markdown
       - kitchen/danger:
           name: danger
           context: Danger
-      - kitchen/lint:
-          name: lint
+      - kitchen/delivery:
+          name: delivery
+
+      # Server Installs
       - kitchen/dokken-single:
-          name: default-centos-6
-          platform: centos-6
-          suite: default
-          requires: [ lint, danger ]
+          name: centos-7
+          suite: server-install
+          requires:
+            *lint_and_unit
       - kitchen/dokken-single:
-          name: default-centos-7
-          platform: centos-7
-          suite: default
-          requires: [ lint, danger ]
+          name: debian-9
+          suite: server-install
+          requires:
+            *lint_and_unit
       - kitchen/dokken-single:
-          name: default-ubuntu-1604
-          platform: ubuntu-1604
-          suite: default
-          requires: [ lint, danger ]
+          name: ubuntu-16.04
+          suite: server-install
+          requires:
+            *lint_and_unit
       - kitchen/dokken-single:
-          name: default-ubuntu-1804
-          platform: ubuntu-1804
-          suite: default
-          requires: [ lint, danger ]
+          name: ubuntu-18.04
+          suite: server-install
+          requires:
+            *lint_and_unit
