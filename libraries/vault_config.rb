@@ -59,6 +59,7 @@ module VaultCookbook
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
       attribute(:ui, equal_to: [true, false])
+      attribute(:plugin_directory, kind_of: String)
       # Storage options
       attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
       attribute(:storage_options, option_collector: true)
@@ -87,7 +88,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui)
+        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui plugin_directory)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
