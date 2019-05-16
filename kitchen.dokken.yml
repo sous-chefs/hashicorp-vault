@@ -52,8 +52,10 @@ suites:
           ui: true
           disable_performance_standby: true
 
-  # the seal options, if set, will cause Vault fail to start b/c test kithen doesn't
-  # have the HSM (hardware security module) to support this.  You need to setup you HSM w/ the
+  # the seal options, if set, will cause 
+  # Vault fail to start b/c test kithen doesn't
+  # have the HSM (hardware security module) to support this.  
+  # You need to setup you HSM w/ the
   # proper keys to this to work
   #
   # The purpose of this test is to make sure the configs are set as expected.
