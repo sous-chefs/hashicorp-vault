@@ -52,9 +52,9 @@ suites:
           ui: true
           disable_performance_standby: true
 
-  # the seal options, if set, will cause 
+  # the seal options, if set, will cause
   # Vault fail to start b/c test kithen doesn't
-  # have the HSM (hardware security module) to support this.  
+  # have the HSM (hardware security module) to support this.
   # You need to setup you HSM w/ the
   # proper keys to this to work
   #
@@ -69,6 +69,3 @@ suites:
           seal_options:
             region: us-west-2
             kms_key_id: my-kms-id
-    includes:
-      # only need do one test as the config generation code is the same for all distros
-      - ubuntu-16.04
