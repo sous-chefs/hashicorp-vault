@@ -1,8 +1,4 @@
 ---
-Style/GuardClause:
-  Enabled: false
-Style/ModuleFunction:
-  Enabled: false
 AllCops:
   Exclude:
     - 'Dangerfile'
