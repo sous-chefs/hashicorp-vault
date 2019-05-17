@@ -3,6 +3,7 @@
 ## Unreleased
 
 * disabled unit tests as we cannot bundle install currently
+* added `x_forwarded_for_*` config options
 
 ## v3.0.1 (2019-04-04)
 
