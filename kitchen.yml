@@ -1,18 +1,21 @@
 ---
 driver:
   name: vagrant
+  chef_version: latest
+  privileged: true
+  env: [CHEF_LICENSE=accept]
 
 provisioner:
   name: chef_zero
   product_name: chef
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
+  client_rb:
+    chef_license: accept
   install_strategy: once
-
-client_rb:
-  treat_deprecation_warnings_as_errors: true
 
 verifier:
   name: inspec
+  env: [CHEF_LICENSE=accept]
 
 platforms:
   - name: centos-7
@@ -21,22 +24,6 @@ platforms:
   - name: ubuntu-18.04
 
 suites:
-  - name: default
+  - name: server_install
     run_list:
-      - recipe[hashicorp-vault]
-    attributes:
-      hashicorp-vault:
-        config:
-          ui: true
-          disable_performance_standby: true
-
-  - name: seal-options
-    run_list:
-      - recipe[hashicorp-vault]
-    attributes:
-      hashicorp-vault:
-        config:
-          seal_type: awskms
-          seal_options:
-            region: us-west-2
-            kms_key_id: my-kms-id
+      - recipe[test::server_install]
