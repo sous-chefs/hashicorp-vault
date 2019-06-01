@@ -4,6 +4,9 @@ driver:
 
 provisioner:
   name: chef_zero
+  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
+  client_rb:
+    chef_license: accept
 
 verifier:
   name: inspec
