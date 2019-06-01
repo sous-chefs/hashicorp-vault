@@ -2,6 +2,7 @@
 
 ## v3.0.1 (2019-06-01)
 
+- added `x_forwarded_for_*` config options
 - disabled unit tests as we cannot bundle install currently
 - upgrade to chef 13 minimum
 - migrate to circleci 2.0 testing

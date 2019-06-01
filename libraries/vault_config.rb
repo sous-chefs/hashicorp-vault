@@ -45,6 +45,10 @@ module VaultCookbook
       attribute(:tls_require_and_verify_client_cert, kind_of: String)
       attribute(:tls_disable_client_cert, kind_of: String)
       attribute(:tls_client_ca_file, kind_of: String)
+      attribute(:x_forwarded_for_authorized_addrs, kind_of: String)
+      attribute(:x_forwarded_for_hop_skips, kind_of: String)
+      attribute(:x_forwarded_for_reject_not_authorized, equal_to: [true, false])
+      attribute(:x_forwarded_for_reject_not_present, equal_to: [true, false])
       # Global options
       attribute(:api_addr, kind_of: String)
       attribute(:cluster_name, kind_of: String)
@@ -89,7 +93,7 @@ module VaultCookbook
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs)
+        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs x_forwarded_for_authorized_addrs x_forwarded_for_hop_skips x_forwarded_for_reject_not_authorized x_forwarded_for_reject_not_present)
         tls_params = %i(tls_cert_file tls_key_file tls_min_version tls_cipher_suites tls_prefer_server_cipher_suites tls_disable_client_cert tls_require_and_verify_client_cert tls_client_ca_file)
         listener_keeps += tls_params if tls?
         listener_options = to_hash.keep_if do |k, _|
