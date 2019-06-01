@@ -84,7 +84,7 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui plugin_directory)
+        config_keeps = %i(api_addr cluster_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui plugin_directory)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
