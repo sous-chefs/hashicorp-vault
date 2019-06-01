@@ -12,10 +12,10 @@ All releases are tagged in git. To see the releases available to you see the cha
 
 ## Pull requests
 
-- <https://github.com/sous-chefs/rundeck/pulls>
+- <https://github.com/sous-chefs/vault/pulls>
 
 ## Issues
 
 Need to report an issue? Use the github issues:
 
-- <https://github.com/sous-chefs/rundeck/issues>
+- <https://github.com/sous-chefs/vault/issues>

@@ -57,11 +57,9 @@ property :tls_disable, [true, false],
          default: false,
          description: 'Specifies if TLS will be disabled. Vault assumes TLS by default, so you must explicitly disable TLS to opt-in to insecure communication.'
 
-# TODO: Make property dependent on tls_disable
 property :tls_cert_file, String,
          description: 'Specifies the path to the certificate for TLS. To configure the listener to use a CA certificate, concatenate the primary certificate and the CA certificate together. The primary certificate should appear first in the combined file. On SIGHUP, the path set here at Vault startup will be used for reloading the certificate; modifying this value while Vault is running will have no effect for SIGHUPs.'
 
-# TODO: Make property dependent on tls_disable
 property :tls_key_file, String,
          description: ' Specifies the path to the private key for the certificate. If the key file is encrypted, you will be prompted to enter the passphrase on server startup. The passphrase must stay the same between key files when reloading your configuration using SIGHUP. On SIGHUP, the path set here at Vault startup will be used for reloading the certificate; modifying this value while Vault is running will have no effect for SIGHUPs.'
 
@@ -255,6 +253,12 @@ action :configure do
       recursive true
       action :create
     end
+  end
+end
+
+action :remove do
+  file new_resource.config_location do
+    action :delete
   end
 end
 

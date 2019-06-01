@@ -12,7 +12,6 @@ property :config_location, String,
          name_property: true,
          description: 'Set to override default config location. Defaults to /etc/vault/vault.json'
 
-# REVIEW: Whether to use symlink version.
 action :create do
   directory '/var/run/vault' do
     owner new_resource.vault_user
@@ -21,6 +20,7 @@ action :create do
     action :create
   end
 
+  # REVIEW: Whether to use symlink version.
   systemd_unit new_resource.name do
     content <<-EOU.gsub(/^\s+/, '')
     [Unit]
@@ -49,6 +49,16 @@ end
 action :start do
   service 'vault' do
     action :start
+  end
+end
+
+action :remove do
+  systemd_unit new_resource.name do
+    action [:stop, :delete]
+  end
+
+  directory '/var/run/vault' do
+    action :delete
   end
 end
 
