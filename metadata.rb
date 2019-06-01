@@ -12,7 +12,5 @@ version           '3.0.1'
 supports 'ubuntu'
 supports 'redhat'
 supports 'centos'
-supports 'windows'
-supports 'freebsd'
 
 depends 'ark', '~> 4.0.0'

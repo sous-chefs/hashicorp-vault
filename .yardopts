@@ -1,5 +1,0 @@
---plugin classmethods
---embed-mixin ClassMethods
---hide-api private
---markup markdown
---hide-void-return
