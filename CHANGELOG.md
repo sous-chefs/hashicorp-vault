@@ -1,13 +1,10 @@
 # Change Log
 
-## Unreleased
+## v3.0.1 (2019-06-01)
 
 - disabled unit tests as we cannot bundle install currently
 - upgrade to chef 13 minimum
 - migrate to circleci 2.0 testing
-
-## v3.0.1 (2019-04-04)
-
 - added option to set `plugin_directory`
 
 ## v3.0.0 (2018-12-09)
