@@ -1,4 +1,3 @@
-
 module Vault
   module Cookbook
     module Helpers
