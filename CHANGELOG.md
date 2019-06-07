@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Complete rewrite using resources
+
 ## v3.0.1 (2019-06-01)
 
 - added `x_forwarded_for_*` and `cluster_addr` config options
