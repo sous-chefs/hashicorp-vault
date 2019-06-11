@@ -34,11 +34,11 @@ module VaultCookbook
       join_path('C:', 'Program Files') + (arch_64? ? '' : ' x(86)')
     end
 
-    def config_prefix_path
+    def vault_config_prefix_path
       windows? ? join_path(program_files, 'vault') : join_path('/etc', 'vault')
     end
 
-    def data_path
+    def vault_data_path
       windows? ? join_path(program_files, 'vault', 'data') : join_path('/var/lib', 'vault')
     end
   end
