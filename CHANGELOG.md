@@ -1,5 +1,9 @@
 # Change Log
 
+## v3.0.2 (2019-06-11)
+
+- Changes the function names for `config_prefix_path` and `data_path`
+
 ## v3.0.1 (2019-06-01)
 
 - added `x_forwarded_for_*` and `cluster_addr` config options
