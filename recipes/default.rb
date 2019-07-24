@@ -2,7 +2,7 @@
 # Cookbook: hashicorp-vault
 # License: Apache 2.0
 #
-# Copyright 2015-2016, Bloomberg Finance L.P.
+# Copyright:: 2015-2016, Bloomberg Finance L.P.
 #
 poise_service_user node['hashicorp-vault']['service_user'] do
   group node['hashicorp-vault']['service_group']
