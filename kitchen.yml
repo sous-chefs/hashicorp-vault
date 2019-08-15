@@ -1,8 +1,8 @@
 ---
 driver:
   name: vagrant
-  chef_version: latest
   privileged: true
+  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
   env: [CHEF_LICENSE=accept]
 
 provisioner:

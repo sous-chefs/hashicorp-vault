@@ -208,6 +208,7 @@ action :install do
     checksum new_resource.checksum unless new_resource.checksum.nil?
     prefix_root '/opt/vault'
     has_binaries ['vault']
+    prefix_bin "/usr/local/bin"
     strip_components 0
     action :install
   end
