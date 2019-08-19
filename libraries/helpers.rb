@@ -2,7 +2,7 @@
 # Cookbook: vault
 # License: Apache 2.0
 #
-# Copyright 2014-2018, Bloomberg Finance L.P.
+# Copyright:: 2014-2018, Bloomberg Finance L.P.
 #
 
 module VaultCookbook
