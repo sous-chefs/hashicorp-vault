@@ -213,6 +213,26 @@ action :install do
     action :install
   end
 
+  execute 'setcap cap_ipc_lock' do
+    command "setcap cap_ipc_lock=+ep $(readlink -f /usr/local/bin/vault)"
+    not_if "setcap -v cap_ipc_lock+ep $(readlink -f /usr/local/bin/vault)"
+    action :run
+  end
+
+  file new_resource.tls_cert_file do
+    owner new_resource.vault_user
+    group new_resource.vault_group
+    mode '0644'
+    action :create
+  end
+
+  file new_resource.tls_key_file do
+    owner new_resource.vault_user
+    group new_resource.vault_group
+    mode '0600'
+    action :create
+  end
+
   hashicorp_vault_config new_resource.config_location do
     api_addr new_resource.api_addr
     cache_size new_resource.cache_size
@@ -231,6 +251,8 @@ action :install do
     pid_file new_resource.pid_file
     plugin_directory new_resource.plugin_directory
     raw_storage_endpoint new_resource.raw_storage_endpoint
+    seal_options new_resource.seal_options
+    seal_type new_resource.seal_type
     storage_options new_resource.storage_options
     storage_type new_resource.storage_type
     telemetry new_resource.telemetry
