@@ -2,7 +2,7 @@
 # Cookbook: hashicorp-vault
 # License: Apache 2.0
 #
-# Copyright 2015-2016, Bloomberg Finance L.P.
+# Copyright:: 2015-2016, Bloomberg Finance L.P.
 #
 require 'poise'
 
@@ -45,6 +45,10 @@ module VaultCookbook
       attribute(:tls_require_and_verify_client_cert, kind_of: String)
       attribute(:tls_disable_client_cert, kind_of: String)
       attribute(:tls_client_ca_file, kind_of: String)
+      attribute(:x_forwarded_for_authorized_addrs, kind_of: String)
+      attribute(:x_forwarded_for_hop_skips, kind_of: String)
+      attribute(:x_forwarded_for_reject_not_authorized, equal_to: [true, false])
+      attribute(:x_forwarded_for_reject_not_present, equal_to: [true, false])
       # Global options
       attribute(:api_addr, kind_of: String)
       attribute(:cluster_name, kind_of: String)
@@ -55,6 +59,7 @@ module VaultCookbook
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
       attribute(:ui, equal_to: [true, false])
+      attribute(:plugin_directory, kind_of: String)
       # Storage options
       attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
       attribute(:storage_options, option_collector: true)
@@ -83,12 +88,12 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(api_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui)
+        config_keeps = %i(api_addr cluster_addr cluster_name cache_size disable_cache disable_mlock default_lease_ttl disable_performance_standby max_lease_ttl ui plugin_directory)
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
         # listener
-        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs)
+        listener_keeps = %i(address cluster_address proxy_protocol_behavior proxy_protocol_authorized_addrs x_forwarded_for_authorized_addrs x_forwarded_for_hop_skips x_forwarded_for_reject_not_authorized x_forwarded_for_reject_not_present)
         tls_params = %i(tls_cert_file tls_key_file tls_min_version tls_cipher_suites tls_prefer_server_cipher_suites tls_disable_client_cert tls_require_and_verify_client_cert tls_client_ca_file)
         listener_keeps += tls_params if tls?
         listener_options = to_hash.keep_if do |k, _|
