@@ -208,14 +208,14 @@ action :install do
     checksum new_resource.checksum unless new_resource.checksum.nil?
     prefix_root '/opt/vault'
     has_binaries ['vault']
-    prefix_bin "/usr/local/bin"
+    prefix_bin '/usr/local/bin'
     strip_components 0
     action :install
   end
 
   execute 'setcap cap_ipc_lock' do
-    command "setcap cap_ipc_lock=+ep $(readlink -f /usr/local/bin/vault)"
-    not_if "setcap -v cap_ipc_lock+ep $(readlink -f /usr/local/bin/vault)"
+    command 'setcap cap_ipc_lock=+ep $(readlink -f /usr/local/bin/vault)'
+    not_if 'setcap -v cap_ipc_lock+ep $(readlink -f /usr/local/bin/vault)'
     action :run
   end
 
