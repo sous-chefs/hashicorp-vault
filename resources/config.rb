@@ -191,9 +191,9 @@ action :configure do
   tcp_hash['tls_key_file']                              = new_resource.tls_key_file unless new_resource.tls_disable
   tcp_hash['tls_min_version']                           = new_resource.tls_min_version unless new_resource.tls_disable
   tcp_hash['tls_cipher_suites']                         = new_resource.tls_cipher_suites unless new_resource.tls_disable || new_resource.tls_cipher_suites.nil?
-  tcp_hash['tls_prefer_server_cipher_suites']           = new_resource.tls_prefer_server_cipher_suites unless new_resource.tls_disable
-  tcp_hash['tls_require_and_verify_client_cert']        = new_resource.tls_require_and_verify_client_cert unless new_resource.tls_disable
-  tcp_hash['tls_client_ca_file']                        = new_resource.tls_client_ca_file unless new_resource.tls_disable
+  tcp_hash['tls_prefer_server_cipher_suites']           = new_resource.tls_prefer_server_cipher_suites unless new_resource.tls_disable || new_resource.tls_prefer_server_cipher_suites.nil?
+  tcp_hash['tls_require_and_verify_client_cert']        = new_resource.tls_require_and_verify_client_cert unless new_resource.tls_disable || new_resource.tls_require_and_verify_client_cert.nil?
+  tcp_hash['tls_client_ca_file']                        = new_resource.tls_client_ca_file unless new_resource.tls_disable || new_resource.tls_client_ca_file.nil?
   tcp_hash['tls_disable_client_certs']                  = new_resource.tls_disable_client_certs unless new_resource.tls_disable
   tcp_hash['tls_x_forwarded_for_authorized_addrs']      = new_resource.tls_x_forwarded_for_authorized_addrs unless new_resource.tls_disable || new_resource.tls_x_forwarded_for_authorized_addrs.nil?
   tcp_hash['tls_x_forwarded_for_hop_skips']             = new_resource.tls_x_forwarded_for_hop_skips unless new_resource.tls_disable || new_resource.tls_x_forwarded_for_authorized_addrs.nil?
