@@ -16,8 +16,9 @@ secrets for your infrastructure.
 The following platforms have been certified with integration tests
 using Test Kitchen:
 
-- CentOS (RHEL) 6.8, 7.2
-- Ubuntu 12.04, 14.04, 16.04
+- Debian 9
+- CentOS (RHEL) 7
+- Ubuntu 16.04, 18.04
 
 ## Basic Usage
 
