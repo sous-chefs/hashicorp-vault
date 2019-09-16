@@ -219,18 +219,20 @@ action :install do
     action :run
   end
 
-  file new_resource.tls_cert_file do
-    owner new_resource.vault_user
-    group new_resource.vault_group
-    mode '0644'
-    action :create
-  end
+  unless new_resource.tls_disable
+    file new_resource.tls_cert_file do
+      owner new_resource.vault_user
+      group new_resource.vault_group
+      mode '0644'
+      action :create
+    end
 
-  file new_resource.tls_key_file do
-    owner new_resource.vault_user
-    group new_resource.vault_group
-    mode '0600'
-    action :create
+    file new_resource.tls_key_file do
+      owner new_resource.vault_user
+      group new_resource.vault_group
+      mode '0600'
+      action :create
+    end
   end
 
   hashicorp_vault_config new_resource.config_location do
