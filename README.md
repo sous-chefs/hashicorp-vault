@@ -8,9 +8,6 @@
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
 
-Vault is a tool, which when used properly, manages secure manage to
-secrets for your infrastructure.
-
 ## Platform Support
 
 The following platforms have been certified with integration tests
