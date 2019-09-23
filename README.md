@@ -46,7 +46,7 @@ storage solution.
 
 ## Assumptions
 
-- Supports a single TLS listener!
+- Supports a single TLS listener.
 
 ## Maintainers
 
