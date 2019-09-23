@@ -34,10 +34,10 @@ workflows:
           suite: server-install-debian-9
           requires: [server-install-centos-7]
       - kitchen/dokken-single:
-          name: server-install-ubuntu-16.04
-          suite: server-install-ubuntu-16.04
+          name: server-install-ubuntu-1604
+          suite: server-install-ubuntu-1604
           requires: [server-install-debian-9]
       - kitchen/dokken-single:
-          name: server-install-ubuntu-18.04
-          suite: server-install-ubuntu-18.04
-          requires: [server-install-ubuntu-16.04]
+          name: server-install-ubuntu-1804
+          suite: server-install-ubuntu-1804
+          requires: [server-install-ubuntu-1604]
