@@ -202,6 +202,11 @@ action :install do
     action :install
   end
 
+  package %w(libcap2-bin) do
+    action :install
+    only_if { platform_family?('debian') }
+  end
+
   ark 'vault' do
     url new_resource.url
     version new_resource.version
