@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- Complete rewrite using resources
+
 ## v3.0.2 (2019-06-11)
 
 - Changes the function names for `config_prefix_path` and `data_path`

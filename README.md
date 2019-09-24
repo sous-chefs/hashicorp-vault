@@ -8,16 +8,14 @@
 
 [Application cookbook][0] for installing and configuring [Hashicorp Vault][1].
 
-Vault is a tool, which when used properly, manages secure manage to
-secrets for your infrastructure.
-
 ## Platform Support
 
 The following platforms have been certified with integration tests
 using Test Kitchen:
 
-- CentOS (RHEL) 6.8, 7.2
-- Ubuntu 12.04, 14.04, 16.04
+- Debian 9
+- CentOS (RHEL) 7
+- Ubuntu 16.04, 18.04
 
 ## Basic Usage
 
@@ -45,6 +43,10 @@ storage solution.
 [3]: https://github.com/johnbellone/vault-cluster-cookbook
 [4]: https://github.com/sous-chefs/consul
 [5]: https://github.com/chef-cookbooks/chef-vault
+
+## Assumptions
+
+- Supports a single TLS listener.
 
 ## Maintainers
 
