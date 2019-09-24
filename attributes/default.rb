@@ -14,6 +14,10 @@ default['hashicorp-vault']['service_group'] = 'vault'
 
 default['hashicorp-vault']['version'] = '0.9.1'
 
+default['hashicorp-vault']['archive_url_root'] = 'releases.hashicorp.com'
+
+default['hashicorp-vault']['enterprise'] = false
+
 default['hashicorp-vault']['config']['path'] = '/etc/vault/vault.json'
 default['hashicorp-vault']['config']['address'] = '127.0.0.1:8200'
 default['hashicorp-vault']['config']['tls_cert_file'] = '/etc/vault/ssl/certs/vault.crt'

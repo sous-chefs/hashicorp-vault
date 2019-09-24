@@ -82,14 +82,17 @@ module VaultCookbook
       end
 
       def self.default_archive_url
-        "https://releases.hashicorp.com/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
+        "https://%{resource.archive_url_root}/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
       end
 
       def self.binary_basename(node, resource)
+        filename = node['hashicorp-vault']['enterprise'] ? 'vault-enterprise' : 'vault'
+        version = node['hashicorp-vault']['enterprise'] ? "#{resource.version}%2bprem" : resource.version
+
         case node['kernel']['machine']
-        when 'x86_64', 'amd64' then ['vault', resource.version, node['os'], 'amd64'].join('_')
-        when 'i386' then ['vault', resource.version, node['os'], '386'].join('_')
-        else ['vault', resource.version, node['os'], node['kernel']['machine']].join('_')
+        when 'x86_64', 'amd64' then [filename, version, node['os'], 'amd64'].join('_')
+        when 'i386' then [filename, version, node['os'], '386'].join('_')
+        else [filename, version, node['os'], node['kernel']['machine']].join('_')
         end.concat('.zip')
       end
 
