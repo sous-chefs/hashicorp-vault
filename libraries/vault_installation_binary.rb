@@ -33,7 +33,7 @@ module VaultCookbook
         archive_basename = binary_basename(node, new_resource)
         super.merge(
           version: new_resource.version,
-          archive_url: format(default_archive_url, version: new_resource.version, basename: archive_basename),
+          archive_url: format(default_archive_url, archive_url_root: new_resource.archive_url_root, version: new_resource.version, basename: archive_basename),
           archive_basename: archive_basename,
           archive_checksum: binary_checksum(node, new_resource),
           extract_to: '/opt/vault'
@@ -82,7 +82,7 @@ module VaultCookbook
       end
 
       def self.default_archive_url
-        "https://%{resource.archive_url_root}/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
+        "https://%{archive_url_root}/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
       end
 
       def self.binary_basename(node, resource)
