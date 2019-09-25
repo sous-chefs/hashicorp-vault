@@ -27,6 +27,16 @@ module VaultCookbook
       # @return [String]
       attribute(:version, kind_of: String, name_attribute: true)
 
+      # @!attribute archive_url_root
+      # The root URL path for Vault to get its binary from
+      # @return [String]
+      attribute(:archive_url_root, kind_of: String)
+
+      # @!attribute enterprise
+      # Install enterprise or not
+      # @return [boolean]
+      attribute(:enterprise, equal_to: [true, false])
+
       def vault_program
         @program ||= provider_for_action(:vault_program).vault_program
       end

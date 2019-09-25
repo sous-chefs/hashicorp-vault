@@ -33,7 +33,7 @@ module VaultCookbook
         archive_basename = binary_basename(node, new_resource)
         super.merge(
           version: new_resource.version,
-          archive_url: format(default_archive_url, version: new_resource.version, basename: archive_basename),
+          archive_url: format(default_archive_url, archive_url_root: node['hashicorp-vault']['archive_url_root'], version: new_resource.version, basename: archive_basename),
           archive_basename: archive_basename,
           archive_checksum: binary_checksum(node, new_resource),
           extract_to: '/opt/vault'
@@ -82,14 +82,18 @@ module VaultCookbook
       end
 
       def self.default_archive_url
-        "https://releases.hashicorp.com/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
+        "https://%{archive_url_root}/vault/%{version}/%{basename}" # rubocop:disable Style/StringLiterals
       end
 
       def self.binary_basename(node, resource)
+        filename = resource.enterprise ? 'vault-enterprise' : 'vault'
+        # %2b is +, and %% is required because of call to format()
+        version = resource.enterprise ? "#{resource.version}%%2bprem" : resource.version
+
         case node['kernel']['machine']
-        when 'x86_64', 'amd64' then ['vault', resource.version, node['os'], 'amd64'].join('_')
-        when 'i386' then ['vault', resource.version, node['os'], '386'].join('_')
-        else ['vault', resource.version, node['os'], node['kernel']['machine']].join('_')
+        when 'x86_64', 'amd64' then [filename, version, node['os'], 'amd64'].join('_')
+        when 'i386' then [filename, version, node['os'], '386'].join('_')
+        else [filename, version, node['os'], node['kernel']['machine']].join('_')
         end.concat('.zip')
       end
 

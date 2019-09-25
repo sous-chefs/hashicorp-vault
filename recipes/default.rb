@@ -13,6 +13,7 @@ install = vault_installation node['hashicorp-vault']['version'] do |r|
   if node['hashicorp-vault']['installation']
     node['hashicorp-vault']['installation'].each_pair { |k, v| r.send(k, v) }
   end
+  r.send('enterprise', node['hashicorp-vault']['enterprise'])
 end
 
 config = vault_config node['hashicorp-vault']['config']['path'] do |r|
