@@ -35,7 +35,7 @@ module VaultCookbook
       # @!attribute enterprise
       # Install enterprise or not
       # @return [boolean]
-      attribute(:enterprise, equal_to: [true, false], default: false)
+      attribute(:enterprise, equal_to: [true, false])
 
       def vault_program
         @program ||= provider_for_action(:vault_program).vault_program

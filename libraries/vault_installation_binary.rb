@@ -33,7 +33,7 @@ module VaultCookbook
         archive_basename = binary_basename(node, new_resource)
         super.merge(
           version: new_resource.version,
-          archive_url: format(default_archive_url, archive_url_root: new_resource.archive_url_root, version: new_resource.version, basename: archive_basename),
+          archive_url: format(default_archive_url, archive_url_root: node['hashicorp-vault']['archive_url_root'], version: new_resource.version, basename: archive_basename),
           archive_basename: archive_basename,
           archive_checksum: binary_checksum(node, new_resource),
           extract_to: '/opt/vault'
@@ -86,8 +86,9 @@ module VaultCookbook
       end
 
       def self.binary_basename(node, resource)
-        filename = node['hashicorp-vault']['enterprise'] ? 'vault-enterprise' : 'vault'
-        version = node['hashicorp-vault']['enterprise'] ? "#{resource.version}%2bprem" : resource.version
+        filename = resource.enterprise ? 'vault-enterprise' : 'vault'
+        # %2b is +, and %% is required because of call to format()
+        version = resource.enterprise ? "#{resource.version}%%2bprem" : resource.version
 
         case node['kernel']['machine']
         when 'x86_64', 'amd64' then [filename, version, node['os'], 'amd64'].join('_')

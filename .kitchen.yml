@@ -4,6 +4,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  #log_level: debug
 
 verifier:
   name: inspec
