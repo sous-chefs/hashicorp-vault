@@ -3,7 +3,7 @@ maintainer        'Sous Chefs'
 maintainer_email  'help@sous-chefs.org'
 license           'Apache-2.0'
 description       'Application cookbook for installing and configuring Vault.'
-long_description  'Application cookbook for installing and configuring Vault.'
+
 issues_url        'https://github.com/sous-chefs/vault/issues'
 source_url        'https://github.com/sous-chefs/vault'
 chef_version      '>= 13'
