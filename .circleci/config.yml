@@ -33,6 +33,7 @@ workflows:
           name: server-install-centos-8
           suite: server-install-centos-8
           requires:
+            *lint_and_unit
       - kitchen/dokken-single:
           name: server-install-debian-9
           suite: server-install-debian-9
