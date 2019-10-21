@@ -14,7 +14,7 @@ The following platforms have been certified with integration tests
 using Test Kitchen:
 
 - Debian 9
-- CentOS (RHEL) 7
+- CentOS (RHEL) 7, 8
 - Ubuntu 16.04, 18.04
 
 ## Basic Usage
