@@ -181,11 +181,15 @@ property :disable_sealwrap, [true, false],
 
 property :disable_performance_standby, [true, false],
          default: false,
-         description: ' Specifies whether performance standbys should be disabled on this node. Setting this to true on one Vault node will disable this feature when this node is Active or Standby. It\'s recomended to sync this setting across all nodes in the cluster.'
+         description: 'Specifies whether performance standbys should be disabled on this node. Setting this to true on one Vault node will disable this feature when this node is Active or Standby. It\'s recomended to sync this setting across all nodes in the cluster.'
 
 property :disable_performance_standby, [true, false],
          default: false,
-         description: ' Specifies whether performance standbys should be disabled on this node. Setting this to true on one Vault node will disable this feature when this node is Active or Standby. It\'s recomended to sync this setting across all nodes in the cluster.'
+         description: 'Specifies whether performance standbys should be disabled on this node. Setting this to true on one Vault node will disable this feature when this node is Active or Standby. It\'s recomended to sync this setting across all nodes in the cluster.'
+
+property :sensitive, [true, false],
+         default: false,
+         description: 'Ensure that sensitive resource data is not logged by Chef Infra Client.'
 
 action :install do
   group 'vault'
@@ -229,6 +233,7 @@ action :install do
       owner new_resource.vault_user
       group new_resource.vault_group
       mode '0644'
+      sensitive new_resource.sensitive
       action :create
     end
 
@@ -236,6 +241,7 @@ action :install do
       owner new_resource.vault_user
       group new_resource.vault_group
       mode '0600'
+      sensitive new_resource.sensitive
       action :create
     end
   end
@@ -285,6 +291,7 @@ action :install do
     tls_x_forwarded_for_hop_skips new_resource.tls_x_forwarded_for_hop_skips
     tls_x_forwarded_for_reject_not_authorized new_resource.tls_x_forwarded_for_reject_not_authorized
     tls_x_forwarded_for_reject_not_present new_resource.tls_x_forwarded_for_reject_not_present
+    sensitive new_resource.sensitive
   end
 
   hashicorp_vault_service 'vault.service' do
