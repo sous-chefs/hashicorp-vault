@@ -47,7 +47,7 @@ jobs:
           - "ubuntu-1804"
         suite:
           - "server_install"
-        fail-fast: false
+      fail-fast: false
 
     steps:
       - name: Check out code
