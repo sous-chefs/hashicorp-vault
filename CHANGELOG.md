@@ -5,9 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## v4.0.0 (2020-01-26)
 
-- Complete rewrite using resources
+### Added
+
+- Option to specify configuration as sensitive via property
+
+### Changed
+
+- Switched to GitHub Actions
+- Rewrote all resources to be custom resource sso there's no longer a dependency on poise
 
 ## v3.0.2 (2019-06-11)
 

@@ -95,3 +95,4 @@ seal_options {
   tls_server_name: 'vault',
   tls_skip_verify: 'false',
 }
+```

@@ -1,7 +1,7 @@
 # hashicorp-vault cookbook
 
 [![Cookbook Version](https://img.shields.io/cookbook/v/hashicorp-vault.svg)](https://supermarket.chef.io/cookbooks/hashicorp-vault)
-[![Build Status](https://img.shields.io/circleci/project/github/sous-chefs/vault/master.svg)](https://circleci.com/gh/sous-chefs/hashicorp-vault)
+[![CI State](https://github.com/sous-chefs/vault/workflows/ci/badge.svg)](https://github.com/sous-chefs/vault/actions?query=workflow%3Aci)
 [![OpenCollective](https://opencollective.com/sous-chefs/backers/badge.svg)](#backers)
 [![OpenCollective](https://opencollective.com/sous-chefs/sponsors/badge.svg)](#sponsors)
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
