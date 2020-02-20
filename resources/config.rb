@@ -237,9 +237,9 @@ action :configure do
   config_hash['disable_clustering']           = new_resource.disable_clustering unless new_resource.disable_clustering.nil?
   config_hash['disable_sealwrap']             = new_resource.disable_sealwrap unless new_resource.disable_sealwrap.nil?
   config_hash['disable_performance_standby']  = new_resource.disable_performance_standby unless new_resource.disable_performance_standby.nil?
+  config_hash['telemetry']                    = new_resource.telemetry unless new_resource.telemetry.nil?
 
-  config_hash['seal']      = seal_hash unless new_resource.seal_type.nil?
-  config_hash['telemetry'] = seal_hash unless new_resource.telemetry.nil?
+  config_hash['seal'] = seal_hash unless new_resource.seal_type.nil?
 
   file new_resource.config_location do
     content JSON.pretty_generate(Hash[config_hash.sort_by { |key, _val| key.to_s }])

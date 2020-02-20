@@ -31,6 +31,7 @@ action :create do
     [Service]
     Environment=\"PATH=/usr/local/bin:/usr/bin:bin"
     RuntimeDirectory=vault
+    RuntimeDirectoryMode=0740
     ExecStart=/usr/local/bin/vault server -config=#{new_resource.config_location} -log-level=info
     ExecReload=/bin/kill -HUP $MAINPID
     KillSignal=TERM
