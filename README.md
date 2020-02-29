@@ -17,32 +17,18 @@ using Test Kitchen:
 - CentOS (RHEL) 7, 8
 - Ubuntu 16.04, 18.04
 
-## Basic Usage
+## Usage
 
-This cookbook was designed from the ground up to make it dead simple
-to install and configure the [Vault daemon][1] as a system service
-using Chef. It highlights several of our best practices for developing
-reusable infrastructure at Bloomberg.
+It is recommended to create a project or organization specific [wrapper cookbook](https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/) and add the desired custom resources to the run list of a node. Depending on your environment, you may have multiple roles that use different recipes from this cookbook. Adjust any attributes as desired.
 
-This cookbook provides three sets of
-[node attributes](attributes/default.rb) which can be used to fine
-tune the default recipe which installs and configures Vault. The
-values from these node attributes are fed directly into the custom
-resources.
-
-This cookbook can be added to the run list of all of the nodes that
-you want to be part of the cluster. But the best way to use this is in
-a [wrapper cookbook][2] which sets up a backend, and potentially even
-TLS certificates. We provide an example [Vault Cluster cookbook][3]
-which uses our [Consul cookbook][4] for a highly-available
-storage solution.
-
-[0]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thelibrarycookbook
-[1]: https://www.vaultproject.io
-[2]: http://blog.vialstudios.com/the-environment-cookbook-pattern/#thewrappercookbook
-[3]: https://github.com/johnbellone/vault-cluster-cookbook
-[4]: https://github.com/sous-chefs/consul
-[5]: https://github.com/chef-cookbooks/chef-vault
+```ruby
+hashicorp_vault_install 'package' do
+  ui true
+  disable_performance_standby true
+  sensitive true
+  action [:install]
+end
+```
 
 ## Assumptions
 
