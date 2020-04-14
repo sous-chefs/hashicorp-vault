@@ -62,7 +62,6 @@ property :tls_max_request_duration, String,
          description: 'Specifies the maximum request duration allowed before Vault cancels the request. This overrides default_max_request_duration for this listener.'
 
 property :tls_proxy_protocol_behavior, [nil, String],
-         default: nil,
          equal_to: [nil, 'use_always', 'allow_authorized', 'deny_authorized'],
          description: ' When specified, enables a PROXY protocol version 1 behavior for the listener.'
 
