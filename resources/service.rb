@@ -12,6 +12,10 @@ property :config_location, String,
          name_property: true,
          description: 'Set to override default config location. Defaults to /etc/vault/vault.json'
 
+property :max_open_files, Integer,
+         default: 16384,
+         description: 'Max open file descriptors than can be used by Vault'
+
 action :create do
   directory '/var/run/vault' do
     owner new_resource.vault_user
