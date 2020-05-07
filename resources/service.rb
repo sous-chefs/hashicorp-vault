@@ -35,6 +35,7 @@ action :create do
     ExecStart=/usr/local/bin/vault server -config=#{new_resource.config_location} -log-level=info
     ExecReload=/bin/kill -HUP $MAINPID
     KillSignal=TERM
+    LimitNOFILE= #{new_resource.max_open_files}
     User= #{new_resource.vault_user}
     WorkingDirectory=/var/run/vault
 
