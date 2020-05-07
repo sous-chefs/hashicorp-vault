@@ -18,9 +18,9 @@ describe file('/etc/vault/vault.json') do
   it { should be_grouped_into 'vault' }
 end
 
-describe file('/etc/systemd/system/vault.unit') do
+describe file('/etc/systemd/system/vault.service') do
   it { should be_file }
-  it { should contain 'LimitNOFILE=16384' }
+  it { File.read('/etc/systemd/system/vault.service').should include 'LimitNOFILE=16384' }
 end
 
 describe service('vault') do
