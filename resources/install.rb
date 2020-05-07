@@ -150,6 +150,10 @@ property :max_lease_ttl, String,
          default: '768h',
          description: 'Specifies the maximum possible lease duration for tokens and secrets. This is specified using a label suffix like "30s" or "1h".'
 
+property :max_open_files, Integer,
+         default: 16384,
+         description: 'Max open file descriptors than can be used by Vault'
+
 property :default_max_request_duration, String,
          default: '90s',
          description: 'Specifies the default maximum request duration allowed before Vault cancels the request. This can be overridden per listener via the max_request_duration value.'
@@ -302,6 +306,7 @@ action :install do
     vault_user new_resource.vault_user
     vault_group new_resource.vault_group
     config_location new_resource.config_location
+    max_open_files new_resource.max_open_files
     action [:create, :start]
   end
 end
