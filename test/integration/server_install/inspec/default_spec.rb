@@ -20,7 +20,6 @@ end
 
 describe file('/etc/systemd/system/vault.service') do
   it { should be_file }
-  it { File.read('/etc/systemd/system/vault.service').should include 'LimitNOFILE=16384' }
 end
 
 describe service('vault') do
