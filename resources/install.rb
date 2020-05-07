@@ -162,6 +162,10 @@ property :ui, [true, false],
          default: false,
          description: 'Enables the built-in web UI, which is available on all listeners (address + port) at the /ui path. Browsers accessing the standard Vault API address will automatically redirect there. This can also be provided via the environment variable VAULT_UI. For more information, please see the ui configuration documentation.'
 
+property :max_open_files, Integer,
+         default: 16384,
+         description: 'Max open file descriptors than can be used by Vault'
+
 property :pid_file, String,
          description: ' Path to the file in which the Vault server\'s Process ID (PID) should be stored.'
 property :api_addr, String,
@@ -260,6 +264,7 @@ action :install do
     ha_storage new_resource.ha_storage
     log_level new_resource.log_level
     max_lease_ttl new_resource.max_lease_ttl
+    max_open_files new_resource.max_open_files
     pid_file new_resource.pid_file
     plugin_directory new_resource.plugin_directory
     raw_storage_endpoint new_resource.raw_storage_endpoint

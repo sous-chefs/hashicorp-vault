@@ -32,6 +32,7 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 _start() {
   touch $logfile
   chown $user $logfile
+  ulimit -Hn <%= @max_open_files %>
   start-stop-daemon --start --quiet --background \
       --pidfile $pidfile<% unless @pid_file_external %> --make-pidfile<% end %> \
       --chuid $user --chdir "<%= @directory %>" \
