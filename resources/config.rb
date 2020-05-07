@@ -147,7 +147,7 @@ property :ui, [true, false],
          description: 'Enables the built-in web UI, which is available on all listeners (address + port) at the /ui path. Browsers accessing the standard Vault API address will automatically redirect there. This can also be provided via the environment variable VAULT_UI. For more information, please see the ui configuration documentation.'
 
 property :max_open_files, Integer,
-         default: 16384
+         default: 16384,
          description: 'Max open file descriptors than can be used by Vault'
 
 property :pid_file, String,
