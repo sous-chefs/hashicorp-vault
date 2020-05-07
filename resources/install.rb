@@ -268,7 +268,6 @@ action :install do
     ha_storage new_resource.ha_storage
     log_level new_resource.log_level
     max_lease_ttl new_resource.max_lease_ttl
-    max_open_files new_resource.max_open_files
     pid_file new_resource.pid_file
     plugin_directory new_resource.plugin_directory
     raw_storage_endpoint new_resource.raw_storage_endpoint
