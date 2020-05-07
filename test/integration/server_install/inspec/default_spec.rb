@@ -18,6 +18,11 @@ describe file('/etc/vault/vault.json') do
   it { should be_grouped_into 'vault' }
 end
 
+describe file('/etc/systemd/system/vault.unit') do
+  it { should be_file }
+  it { should contain 'LimitNOFILE=16384' }
+end
+
 describe service('vault') do
   it { should be_installed }
   it { should be_enabled }
