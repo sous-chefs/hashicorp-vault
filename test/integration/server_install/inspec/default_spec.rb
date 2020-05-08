@@ -18,6 +18,10 @@ describe file('/etc/vault/vault.json') do
   it { should be_grouped_into 'vault' }
 end
 
+describe file('/etc/systemd/system/vault.service') do
+  it { should be_file }
+end
+
 describe service('vault') do
   it { should be_installed }
   it { should be_enabled }
