@@ -208,11 +208,11 @@ action :configure do
   tcp_hash['tls_x_forwarded_for_reject_not_present']    = new_resource.tls_x_forwarded_for_reject_not_present unless new_resource.tls_disable || new_resource.tls_x_forwarded_for_authorized_addrs.nil?
 
   storage_hash = {
-    "#{new_resource.storage_type}": new_resource.storage_options, # ~FC002
+    "#{new_resource.storage_type}": new_resource.storage_options,
   }
 
   seal_hash = {
-    "#{new_resource.seal_type}": new_resource.seal_options, # ~FC002
+    "#{new_resource.seal_type}": new_resource.seal_options,
   }
 
   # TODO: Support multiple listeners

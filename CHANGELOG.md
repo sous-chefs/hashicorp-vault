@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+- resolved cookstyle error: resources/config.rb:211:66 convention: `Layout/TrailingWhitespace`
+- resolved cookstyle error: resources/config.rb:211:67 refactor: `ChefModernize/FoodcriticComments`
+- resolved cookstyle error: resources/config.rb:215:60 convention: `Layout/TrailingWhitespace`
+- resolved cookstyle error: resources/config.rb:215:61 refactor: `ChefModernize/FoodcriticComments`
+
 ## Added
 
 - Resource config now supports property `max_open_files` to tune LimitNOFILE in Systemd unit file. Value is 16384 by default.
