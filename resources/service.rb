@@ -16,6 +16,15 @@ property :max_open_files, Integer,
          default: 16384,
          description: 'Max open file descriptors than can be used by Vault'
 
+property :vault_runtime, String,
+         default: 'server',
+         description: 'server or agent runtime'
+
+
+property :log_level, String,
+         default: 'info',
+         description: 'Set the log level. Defaults to info.'
+
 action :create do
   directory '/var/run/vault' do
     owner new_resource.vault_user
@@ -36,7 +45,7 @@ action :create do
     Environment=\"PATH=/usr/local/bin:/usr/bin:bin"
     RuntimeDirectory=vault
     RuntimeDirectoryMode=0740
-    ExecStart=/usr/local/bin/vault server -config=#{new_resource.config_location} -log-level=info
+    ExecStart=/usr/local/bin/vault #{new_resource.vault_runtime} -config=#{new_resource.config_location} -log-level=#{new_resource.log_level}
     ExecReload=/bin/kill -HUP $MAINPID
     KillSignal=TERM
     LimitNOFILE=#{new_resource.max_open_files}
@@ -53,8 +62,15 @@ end
 
 # REVIEW: Is this overkill?
 action :start do
-  service 'vault' do
+  service new_resource.name do
     action :start
+  end
+end
+
+# Would not recommend this for server deployments but agent it makes sense.
+action :restart do
+  systemd_unit new_resource.name do
+    action :restart
   end
 end
 
