@@ -2,38 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-## Unreleased
+## 4.1.0 (2020-05-14)
 
 - resolved cookstyle error: resources/config.rb:211:66 convention: `Layout/TrailingWhitespace`
 - resolved cookstyle error: resources/config.rb:211:67 refactor: `ChefModernize/FoodcriticComments`
 - resolved cookstyle error: resources/config.rb:215:60 convention: `Layout/TrailingWhitespace`
 - resolved cookstyle error: resources/config.rb:215:61 refactor: `ChefModernize/FoodcriticComments`
-
-## Added
-
 - Resource config now supports property `max_open_files` to tune LimitNOFILE in Systemd unit file. Value is 16384 by default.
 
 ## v4.0.1 (2020-02-20)
 
-## Added
-
 - Runtime directory of 0740 on the systemd
-
-## Changed
-
 - Telemetry configuration no longer recieves the correct configuration.
 
 ## v4.0.0 (2020-01-26)
 
-### Added
-
 - Option to specify configuration as sensitive via property
-
-### Changed
-
 - Switched to GitHub Actions
 - Rewrote all resources to be custom resource sso there's no longer a dependency on poise
 
