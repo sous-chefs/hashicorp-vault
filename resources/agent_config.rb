@@ -112,7 +112,7 @@ action :configure do
     content JSON.pretty_generate(config)
     user new_resource.vault_agent_user
     group new_resource.vault_agent_group
-    mode '0740'
+    mode '0640'
     action :create
   end
 end

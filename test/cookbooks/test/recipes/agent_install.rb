@@ -1,5 +1,5 @@
 hashicorp_vault_agent_template '/tmp/test' do
-  contents 'pie'
+  contents '{{ with "secret/path/to/secret" }}{{ .Data.key }}{{ end }}'
 end
 
 hashicorp_vault_agent_install 'package' do
