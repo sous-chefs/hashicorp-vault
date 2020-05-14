@@ -31,5 +31,5 @@ end
 describe json('/etc/vault/agent.json') do
   its('exit_after_auth') { should be_in [false] }
   its('pid_file') { should eq './pidfile' }
-  its(['auto_auth', 'method', 'type']) { should eq 'approle' }
+  its(%w(auto_auth method type)) { should eq 'approle' }
 end
