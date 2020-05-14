@@ -32,7 +32,7 @@ property :vault_agent_pid_file, String,
          default: './pidfile',
          description: 'Pidfile location. Defaults to ./pidfile.'
 
-property :vault_agent_exit_after_auth, [true,false],
+property :vault_agent_exit_after_auth, [true, false],
          default: false,
          description: 'Set to specify if the agent should exit after successful auth.'
 
@@ -85,13 +85,13 @@ property :auto_auth_method_config, Hash,
 property :auto_auth_sink, Array,
   description: 'Set up one or more sinks to configure that agent to put tokens on the filesystem. Pass empty array if you dont want sinks.',
   default: [{
-    "type": "file",
+    "type": 'file',
     "config": {
-      "path": "/tmp/token"
-    }
+      "path": '/tmp/token',
+    },
   }]
 
-property :use_auto_auth_token, [true,false],
+property :use_auto_auth_token, [true, false],
          description: 'If set, the requests made to agent without a Vault token will be forwarded to the Vault server with the auto-auth token attached.'
 
 property :vault_agent_listener, Array,
@@ -99,7 +99,6 @@ property :vault_agent_listener, Array,
   default: []
 
 action :install do
-
   hashicorp_vault_install_dist new_resource.version do
     vault_user new_resource.vault_user
     vault_group new_resource.vault_group

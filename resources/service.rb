@@ -20,7 +20,6 @@ property :vault_runtime, String,
          default: 'server',
          description: 'server or agent runtime'
 
-
 property :log_level, String,
          default: 'info',
          description: 'Set the log level. Defaults to info.'

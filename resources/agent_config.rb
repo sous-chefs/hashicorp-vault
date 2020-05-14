@@ -4,7 +4,7 @@ property :vault_agent_config_path, String,
 property :vault_agent_pid_file, String,
   default: './pidfile'
 
-property :vault_agent_exit_after_auth, [true,false],
+property :vault_agent_exit_after_auth, [true, false],
   default: false
 
 property :vault_agent_user, String,
@@ -39,13 +39,13 @@ property :auto_auth_method_config, Hash
 
 property :auto_auth_sink, Array,
   default: [{
-    "type": "file",
+    "type": 'file',
     "config": {
-      "path": "/tmp/token"
-    }
+      "path": '/tmp/token',
+    },
   }]
 
-property :use_auto_auth_token, [true,false]
+property :use_auto_auth_token, [true, false]
 
 property :vault_agent_listener, Array,
   default: []
@@ -55,10 +55,10 @@ default_action :configure
 action :configure do
   config = {
     'pid_file': new_resource.vault_agent_pid_file,
-    'exit_after_auth': new_resource.vault_agent_exit_after_auth
+    'exit_after_auth': new_resource.vault_agent_exit_after_auth,
   }
 
-  vault = Hash.new
+  vault = {}
   vault['address'] = new_resource.vault_address unless new_resource.vault_address.nil?
   vault['ca_cert'] = new_resource.vault_ca_cert unless new_resource.vault_ca_cert.nil?
   vault['ca_path'] = new_resource.vault_ca_path unless new_resource.vault_ca_path.nil?
@@ -67,16 +67,16 @@ action :configure do
   vault['tls_skip_verify'] = new_resource.vault_tls_skip_verify unless new_resource.vault_tls_skip_verify.nil?
   vault['tls_server_name'] = new_resource.vault_tls_server_name unless new_resource.vault_tls_server_name.nil?
 
-  if !vault.empty?
+  unless vault.empty?
     config['vault'] = vault
   end
 
   auto_auth = {
     'method': {
       'type': new_resource.auto_auth_method,
-      'config': new_resource.auto_auth_method_config
+      'config': new_resource.auto_auth_method_config,
     },
-    'sink': new_resource.auto_auth_sink
+    'sink': new_resource.auto_auth_sink,
   }
 
   auto_auth['mount_path'] = new_resource.auto_auth_method_mount_path unless new_resource.auto_auth_method_mount_path.nil?
@@ -85,19 +85,19 @@ action :configure do
 
   config['auto_auth'] = auto_auth
 
-  if !new_resource.use_auto_auth_token.nil?
+  unless new_resource.use_auto_auth_token.nil?
     config['cache'] = {
-      'use_auto_auth_token': new_resource.use_auto_auth_token
+      'use_auto_auth_token': new_resource.use_auto_auth_token,
     }
   end
 
-  if !new_resource.vault_agent_listener.empty?
+  unless new_resource.vault_agent_listener.empty?
     config['listener'] = new_resource.vault_agent_listener
   end
 
-  template = VaultAgentTemplateCollection.instance.getCollection
+  template = VaultAgentTemplateCollection.instance.collection
 
-  if !template.empty?
+  unless template.empty?
     config['template'] = template
   end
 
@@ -107,7 +107,6 @@ action :configure do
     mode '0740'
     action :create
   end
-
 
   file new_resource.vault_agent_config_path do
     content JSON.pretty_generate(config)

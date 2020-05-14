@@ -1,4 +1,6 @@
 class VaultAgentTemplateCollection
+  attr_reader :collection
+
   def initialize
     @collection = []
   end
@@ -7,11 +9,7 @@ class VaultAgentTemplateCollection
     @instance ||= VaultAgentTemplateCollection.new
   end
 
-  def getCollection
-    @collection
-  end
-
-  def addItem(item)
+  def add_item(item)
     @collection.push(item)
   end
 end

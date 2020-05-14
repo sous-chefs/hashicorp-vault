@@ -195,7 +195,6 @@ property :sensitive, [true, false],
          description: 'Ensure that sensitive resource data is not logged by Chef Infra Client.'
 
 action :install do
-
   hashicorp_vault_install_dist new_resource.version do
     vault_user new_resource.vault_user
     vault_group new_resource.vault_group
