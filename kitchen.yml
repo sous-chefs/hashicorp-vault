@@ -27,3 +27,6 @@ suites:
   - name: server_install
     run_list:
       - recipe[test::server_install]
+  - name: agent_install
+    run_list:
+      - recipe[test::agent_install]

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased Changes
+
+- Created hashicorp_vault_agent_install resource
+- Created hashicorp_vault_agent_template resource
+- Created hashicorp_vault_agent_config resource
+- Updated hashicorp_vault_service resource to be configurable for vault agent and server
+- Set vault default version to 1.4.1
+
 ## 4.1.0 (2020-05-14)
 
 - resolved cookstyle error: resources/config.rb:211:66 convention: `Layout/TrailingWhitespace`
