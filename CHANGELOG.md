@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased Changes
+
+- Added 'unauthenticated_metrics_access' config option
+
 ## 4.2.0 (2020-08-11)
 
 - Created hashicorp_vault_agent_install resource

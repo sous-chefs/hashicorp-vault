@@ -116,6 +116,10 @@ property :tls_x_forwarded_for_reject_not_present, [true, false],
          default: true,
          description: 'If set false, if there is no X-Forwarded-For header or it is empty, the client address will be used as-is, rather than the client connection rejected.'
 
+property :unauthenticated_metrics_access, [true, false],
+         default: false,
+         description: 'If set false, /v1/sys/metrics telemetry endpoint will require authentication.'
+
 property :cluster_name, String,
          description: 'Specifies the identifier for the Vault cluster. If omitted, Vault will generate a value. When connecting to Vault Enterprise, this value will be used in the interface.'
 
@@ -266,6 +270,7 @@ action :install do
     tls_x_forwarded_for_hop_skips new_resource.tls_x_forwarded_for_hop_skips
     tls_x_forwarded_for_reject_not_authorized new_resource.tls_x_forwarded_for_reject_not_authorized
     tls_x_forwarded_for_reject_not_present new_resource.tls_x_forwarded_for_reject_not_present
+    unauthenticated_metrics_access new_resource.unauthenticated_metrics_access
     sensitive new_resource.sensitive
   end
 
