@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased Changes
+## 4.3.0 (2020-10-19)
 
 - Added 'unauthenticated_metrics_access' config option
 
