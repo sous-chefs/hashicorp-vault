@@ -12,7 +12,7 @@ default['hashicorp-vault']['service_name'] = 'vault'
 default['hashicorp-vault']['service_user'] = 'vault'
 default['hashicorp-vault']['service_group'] = 'vault'
 
-default['hashicorp-vault']['version'] = '0.9.1'
+default['hashicorp-vault']['version'] = '1.3.4'
 
 default['hashicorp-vault']['archive_url_root'] = 'releases.hashicorp.com'
 

@@ -5,16 +5,15 @@ driver:
 provisioner:
   name: chef_zero
   #log_level: debug
+  product_version: 14.12.9
+  product_name: chef
 
 verifier:
   name: inspec
 
 platforms:
   - name: ubuntu-16.04
-  - name: ubuntu-14.04
-  - name: ubuntu-12.04
   - name: centos-7.2
-  - name: centos-6.8
   
 suites:
   - name: default
