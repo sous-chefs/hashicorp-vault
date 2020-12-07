@@ -52,8 +52,11 @@ module VaultCookbook
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
       attribute(:max_lease_ttl, kind_of: String)
+      # Service Registration options
+      attribute(:service_registration_type, default: 'consul', equal_to: %w(consul kubernetes))
+      attribute(:service_registration_options, option_collector: true)
       # Storage options
-      attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file))
+      attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file raft))
       attribute(:storage_options, option_collector: true)
       attribute(:hastorage_type, kind_of: String)
       attribute(:hastorage_options, option_collector: true)
@@ -91,6 +94,8 @@ module VaultCookbook
           listener_keeps.include?(k.to_sym)
         end.merge(tls_disable: tls_disable.to_s)
         config['listener'] = { 'tcp' => listener_options }
+        # service registration
+        config['service_registration'] = { service_registration_type => (service_registration_options || {}) }
         # storage
         config['storage'] = { storage_type => (storage_options || {}) }
         # ha_storage, only some storages support HA
