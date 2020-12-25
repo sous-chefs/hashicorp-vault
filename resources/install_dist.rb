@@ -1,3 +1,5 @@
+include Vault::Cookbook::Helpers
+
 property :vault_user, String,
          default: 'vault',
          description: 'Set to override default vault user. Defaults to vault.'

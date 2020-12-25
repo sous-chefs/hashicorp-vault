@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- Add missing helper library include to `install_dist`
+
 ## 4.3.0 (2020-10-19)
 
 - Added 'unauthenticated_metrics_access' config option
