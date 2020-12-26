@@ -9,3 +9,5 @@
 hashicorp_vault_install 'package' do
   action :upgrade
 end
+
+hashicorp_vault_service 'vault'

@@ -1,88 +1,58 @@
 include Vault::Cookbook::Helpers
 
+property :service_name, String,
+          coerce: proc { |p| "#{p}.service" },
+          default: lazy { default_vault_service_name },
+          description: 'Set to override service name. Defaults to vault.'
+
+property :systemd_unit_content, [String, Hash],
+          default: lazy { default_vault_unit_content },
+          description: 'Override the systemd unit file contents'
+
 property :vault_user, String,
-         default: 'vault',
-         description: 'Set to override default vault user. Defaults to vault.'
+          default: lazy { default_vault_user },
+          description: 'Set to override default vault user. Defaults to vault.'
 
 property :vault_group, String,
-         default: 'vault',
-         description: 'Set to override default vault group. Defaults to vault.'
+          default: lazy { default_vault_group },
+          description: 'Set to override default vault group. Defaults to vault.'
 
-property :config_location, String,
-         name_property: true,
-         description: 'Set to override default config location. Defaults to /etc/vault/vault.json'
+property :config_file, String,
+          default: lazy { default_vault_config_file },
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json'
 
-property :max_open_files, Integer,
-         default: 16384,
-         description: 'Max open file descriptors than can be used by Vault'
-
-property :vault_runtime, String,
-         default: 'server',
-         description: 'server or agent runtime'
-
-property :log_level, String,
-         default: 'info',
-         description: 'Set the log level. Defaults to info.'
+action_class do
+  def do_service_action(resource_action)
+    with_run_context(:root) do
+      edit_resource(:service, new_resource.service_name.delete_suffix('.service')) do
+        action :nothing
+        delayed_action resource_action
+      end
+    end
+  end
+end
 
 action :create do
-  directory '/var/run/vault' do
-    owner new_resource.vault_user
-    group new_resource.vault_group
-    mode '0740'
+  systemd_unit new_resource.service_name do
+    content new_resource.systemd_unit_content
+    triggers_reload true
+
     action :create
   end
-
-  # REVIEW: Whether to use symlink version.
-  systemd_unit new_resource.name do
-    content <<-EOU.gsub(/^\s+/, '')
-    [Unit]
-    Description=Runs Hashicorp Vault
-    Wants=network.target
-    After=network.target
-
-    [Service]
-    Environment=\"PATH=/usr/local/bin:/usr/bin:bin"
-    RuntimeDirectory=vault
-    RuntimeDirectoryMode=0740
-    ExecStart=/usr/local/bin/vault #{new_resource.vault_runtime} -config=#{new_resource.config_location} -log-level=#{new_resource.log_level}
-    ExecReload=/bin/kill -HUP $MAINPID
-    KillSignal=TERM
-    LimitNOFILE=#{new_resource.max_open_files}
-    User= #{new_resource.vault_user}
-    WorkingDirectory=/var/run/vault
-
-    [Install]
-    WantedBy=multi-user.target
-    EOU
-
-    action [:create, :enable]
-  end
 end
 
-# REVIEW: Is this overkill?
-action :start do
-  service new_resource.name do
-    action :start
-  end
-end
+action :delete do
+  do_service_action(:stop)
 
-# Would not recommend this for server deployments but agent it makes sense.
-action :restart do
   systemd_unit new_resource.name do
-    action :restart
-  end
-end
+    triggers_reload true
 
-action :remove do
-  systemd_unit new_resource.name do
-    action [:stop, :delete]
-  end
-
-  directory '/var/run/vault' do
     action :delete
   end
 end
 
-action_class do
-  include Vault::Cookbook::Helpers
+%i(start stop restart reload enable disable).each do |service_action|
+  action service_action do
+    do_service_action(action)
+  end
 end
