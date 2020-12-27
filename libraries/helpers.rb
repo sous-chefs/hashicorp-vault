@@ -13,15 +13,22 @@ module Vault
         %w(vault)
       end
 
-      def default_vault_config_file
-        '/etc/vault.d/vault.json'
+      def default_vault_config_file(config_type)
+        case config_type
+        when :hcl
+          '/etc/vault.d/vault.hcl'
+        when :json
+          '/etc/vault.d/vault.json'
+        else
+          raise ArgumentError, "default_vault_config_file: Invalid configuraiton type #{config_type}."
+        end
       end
 
-      def default_vault_config
+      def default_vault_config_json
         {
           'api_addr' => 'https://127.0.0.1:8200',
           'cluster_addr' => 'https://127.0.0.1:8201',
-          'cache_size' => '131072',
+          'cache_size' => 131072,
           'default_lease_ttl' => '768h',
           'default_max_request_duration' => '90s',
           'disable_cache' => false,
@@ -51,8 +58,31 @@ module Vault
         }
       end
 
+      def default_vault_config_hcl(section)
+        case section
+        when :global
+          {
+            'api_addr' => 'https://127.0.0.1:8200',
+            'cluster_addr' => 'https://127.0.0.1:8201',
+            'cache_size' => 131072,
+            'default_lease_ttl' => '768h',
+            'default_max_request_duration' => '90s',
+            'disable_cache' => false,
+            'disable_clustering' => false,
+            'disable_mlock' => false,
+            'disable_performance_standby' => true,
+            'disable_sealwrap' => false,
+            'max_lease_ttl' => '768h',
+            'raw_storage_endpoint' => false,
+            'ui' => true,
+          }
+        else
+          {}
+        end
+      end
+
       def default_vault_service_name
-        'vault'
+        mode.eql?(:server) ? 'vault' : 'vault-agent'
       end
 
       def default_vault_unit_content
@@ -65,14 +95,14 @@ module Vault
               'network-online.target',
             ],
             'ConditionFileNotEmpty' => [
-              '/etc/vault.d/vault.json',
+              "#{config_file}",
             ],
             'StartLimitIntervalSec' => 60,
             'StartLimitBurst' => 3,
           },
           'Service' => {
-            'User' => vault_user,
-            'Group' => vault_group,
+            'User' => user,
+            'Group' => group,
             'ProtectSystem' => 'full',
             'ProtectHome' => 'read-only',
             'PrivateTmp' => 'yes',
@@ -81,7 +111,7 @@ module Vault
             'AmbientCapabilities' => 'CAP_IPC_LOCK',
             'CapabilityBoundingSet' => 'CAP_SYSLOG CAP_IPC_LOCK',
             'NoNewPrivileges' => 'yes',
-            'ExecStart' => "/usr/bin/vault server -config=#{config_file}",
+            'ExecStart' => "/usr/bin/vault #{mode.to_s} -config=#{config_file}",
             'ExecReload' => '/bin/kill --signal HUP $MAINPID',
             'KillMode' => 'process',
             'KillSignal' => 'SIGINT',

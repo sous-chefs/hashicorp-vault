@@ -24,9 +24,15 @@ platforms:
   - name: ubuntu-20.04
 
 suites:
-  - name: server_install
+  - name: server_json
     run_list:
-      - recipe[test::server_install]
-  - name: agent_install
+      - recipe[test::server_json]
+  - name: server_hcl
     run_list:
-      - recipe[test::agent_install]
+      - recipe[test::server_hcl]
+  - name: agent_json
+    run_list:
+      - recipe[test::agent_json]
+  - name: agent_hcl
+    run_list:
+      - recipe[test::agent_hcl]

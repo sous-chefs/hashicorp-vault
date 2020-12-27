@@ -1,11 +1,28 @@
+#
+# Cookbook:: hashicorp-vault
+# Resource:: install
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 include Vault::Cookbook::Helpers
 include Vault::Cookbook::InstallHelpers
 
-property :vault_user, String,
+property :user, String,
           default: lazy { default_vault_user },
           description: 'Set to override default vault user. Defaults to vault.'
 
-property :vault_group, String,
+property :group, String,
           default: lazy { default_vault_group },
           description: 'Set to override default vault group. Defaults to vault.'
 
@@ -15,15 +32,14 @@ property :install_method, [String, Symbol],
           description: 'Set the method to install vault. Default to repo.'
 
 property :version, String,
-         name_property: true,
-         description: 'Set to specify the version of Vault to install.'
+          description: 'Set to specify the version of Vault to install.'
 
 property :url, String,
-         default: lazy { vault_source(version) },
-         description: 'Set to specify the source path to the zip file. Defaults to Vault public download site.'
+          default: lazy { vault_source(version) },
+          description: 'Set to specify the source path to the zip file. Defaults to Vault public download site.'
 
 property :checksum, String,
-         description: 'Set to specify the SHA256 checksum for the installation zip package.'
+          description: 'Set to specify the SHA256 checksum for the installation zip package.'
 
 action_class do
   include Vault::Cookbook::InstallHelpers
@@ -68,7 +84,7 @@ action_class do
     package 'vault' do
       package_name default_vault_packages
 
-      notifies :run, 'execute[vault -autocomplete-install]', :immediate
+      notifies :run, 'execute[vault -autocomplete-install]', :immediately
       action resource_action
     end
 
@@ -79,27 +95,27 @@ action_class do
 end
 
 action :install do
-  group new_resource.vault_group do
-    comment 'Hashicorp Vault'
-    system true
-
-    action :create
-  end
-
-  user new_resource.vault_user do
-    comment 'Hashicorp Vault'
-    group new_resource.vault_group
-    shell '/bin/false'
-    system true
-
-    action :create
-  end
-
   case new_resource.install_method
   when :repository
     do_repository_action(action)
     do_package_action(action)
   when :ark
+    group new_resource.group do
+      comment 'Hashicorp Vault'
+      system true
+
+      action :create
+    end
+
+    user new_resource.user do
+      comment 'Hashicorp Vault'
+      group new_resource.group
+      shell '/bin/false'
+      system true
+
+      action :create
+    end
+
     package 'vault supporting packages' do
       package_name vault_supporting_packages
 
@@ -109,7 +125,7 @@ action :install do
     ark 'vault' do
       url new_resource.url
       version new_resource.version
-      checksum new_resource.checksum unless new_resource.checksum.nil?
+      checksum new_resource.checksum
       prefix_root '/opt/vault'
       has_binaries ['vault']
       prefix_bin '/usr/local/bin'
@@ -152,5 +168,8 @@ action :remove do
 
       action :delete
     end
+
+    edit_resource(:user, new_resource.user).action(:delete)
+    edit_resource(:group, new_resource.user).action(:delete)
   end
 end

@@ -1,3 +1,20 @@
+#
+# Cookbook:: hashicorp-vault
+# Resource:: service
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 include Vault::Cookbook::Helpers
 
 property :service_name, String,
@@ -5,21 +22,33 @@ property :service_name, String,
           default: lazy { default_vault_service_name },
           description: 'Set to override service name. Defaults to vault.'
 
+property :config_type, [Symbol, String],
+          coerce: proc { |p| p.to_sym },
+          equal_to: [:hcl, :json],
+          default: :hcl,
+          description: 'Vault configuration type used. Defaults to HCL.'
+
 property :systemd_unit_content, [String, Hash],
           default: lazy { default_vault_unit_content },
           description: 'Override the systemd unit file contents'
 
-property :vault_user, String,
+property :user, String,
           default: lazy { default_vault_user },
           description: 'Set to override default vault user. Defaults to vault.'
 
-property :vault_group, String,
+property :group, String,
           default: lazy { default_vault_group },
           description: 'Set to override default vault group. Defaults to vault.'
 
 property :config_file, String,
-          default: lazy { default_vault_config_file },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json'
+          default: lazy { default_vault_config_file(config_type) },
+          description: 'Set to override vault configuration file.'
+
+property :mode, [String, Symbol],
+          coerce: proc { |p| p.to_sym },
+          equal_to: [:server, :agent],
+          default: :server,
+          description: 'Vault service operation mode. Defaults to server.'
 
 action_class do
   def do_service_action(resource_action)

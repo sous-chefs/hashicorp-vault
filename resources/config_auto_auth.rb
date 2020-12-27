@@ -1,6 +1,6 @@
 #
 # Cookbook:: hashicorp-vault
-# Resource:: config
+# Resource:: config_auto_auth
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@
 
 include Vault::Cookbook::Helpers
 
-deprecated_property_alias 'config_location', 'config_file', 'The config_location property was renamed config_file in the 5.0 release of this cookbook. Please update your cookbooks to use the new property name.'
-
 property :owner, String,
           default: lazy { default_vault_user },
           description: 'Set to override default vault user. Defaults to vault.'
@@ -32,8 +30,8 @@ property :mode, String,
           description: 'Set to override default vault config file mode. Defaults to 0600.'
 
 property :config_file, String,
-          default: lazy { default_vault_config_file(:json) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json'
+          default: lazy { default_vault_config_file(:hcl) },
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
 
 property :cookbook, String,
           default: 'hashicorp-vault',
@@ -47,9 +45,12 @@ property :sensitive, [true, false],
           default: true,
           description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
 
-property :config, Hash,
-          default: lazy { default_vault_config_json },
-          description: 'Vault server configuration as a ruby Hash.'
+property :type, [String, Symbol],
+          description: 'Vault agent auto_auto type.'
+
+property :options, Hash,
+          default: lazy { default_vault_config_hcl(:auto_auth) },
+          description: 'Vault agent auto_auto configuration.'
 
 action_class do
   include Vault::Cookbook::Helpers
@@ -57,34 +58,14 @@ action_class do
 end
 
 action :create do
-  directory ::File.dirname(new_resource.config_file) do
-    owner new_resource.owner
-    group new_resource.group
-    mode '0750'
+  vault_hcl_config_resource_init
 
-    action :create
-  end
-
-  chef_gem 'deepsort' do
-    compile_time true
-  end
-
-  require 'json'
-  require 'deepsort'
-
-  file new_resource.config_file do
-    content JSON.pretty_generate(new_resource.config.map { |key, val| [key.to_s, val] }.to_h.deep_sort).concat("\n")
-
-    owner new_resource.owner
-    group new_resource.group
-    mode '0640'
-
-    sensitive new_resource.sensitive
-
-    action :create
-  end
+  vault_hcl_config_resource.variables[:auto_auth] ||= []
+  vault_hcl_config_resource.variables[:auto_auth].push({ name: new_resource.name, type: new_resource.type.to_s, options: new_resource.options })
 end
 
 action :delete do
-  edit_resource(:file, default_vault_config_file(config_type)).action(:delete)
+  vault_hcl_config_resource_init
+
+  vault_hcl_config_resource.variables[:auto_auth].delete({ name: new_resource.name, type: new_resource.type.to_s, options: new_resource.options })
 end
