@@ -68,7 +68,12 @@ action_class do
     package 'vault' do
       package_name default_vault_packages
 
+      notifies :run, 'execute[vault -autocomplete-install]', :immediate
       action resource_action
+    end
+
+    execute 'vault -autocomplete-install' do
+      action :nothing
     end
   end
 end

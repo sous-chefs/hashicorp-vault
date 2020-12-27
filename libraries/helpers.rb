@@ -17,6 +17,40 @@ module Vault
         '/etc/vault.d/vault.json'
       end
 
+      def default_vault_config
+        {
+          'api_addr' => 'https://127.0.0.1:8200',
+          'cluster_addr' => 'https://127.0.0.1:8201',
+          'cache_size' => '131072',
+          'default_lease_ttl' => '768h',
+          'default_max_request_duration' => '90s',
+          'disable_cache' => false,
+          'disable_clustering' => false,
+          'disable_mlock' => false,
+          'disable_performance_standby' => true,
+          'disable_sealwrap' => false,
+          'listener' => {
+            'tcp' => {
+              'address' => '127.0.0.1:8200',
+              'cluster_address' => '127.0.0.1:8201',
+              'tls_cert_file' => '/opt/vault/tls/tls.crt',
+              'tls_key_file' => '/opt/vault/tls/tls.key',
+              'telemetry' => {
+                'unauthenticated_metrics_access' => false,
+              },
+            },
+          },
+          'max_lease_ttl' => '768h',
+          'raw_storage_endpoint' => false,
+          'storage' => {
+            'file' => {
+              'path' => '/opt/vault/data',
+            },
+          },
+          'ui' => true,
+        }
+      end
+
       def default_vault_service_name
         'vault'
       end
