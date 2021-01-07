@@ -111,7 +111,7 @@ module Vault
             'AmbientCapabilities' => 'CAP_IPC_LOCK',
             'CapabilityBoundingSet' => 'CAP_SYSLOG CAP_IPC_LOCK',
             'NoNewPrivileges' => 'yes',
-            'ExecStart' => "/usr/bin/vault #{mode.to_s} -config=#{config_file}",
+            'ExecStart' => "#{vault_binary_path} #{mode.to_s} -config=#{config_file}",
             'ExecReload' => '/bin/kill --signal HUP $MAINPID',
             'KillMode' => 'process',
             'KillSignal' => 'SIGINT',

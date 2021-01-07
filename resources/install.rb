@@ -31,6 +31,11 @@ property :install_method, [String, Symbol],
           equal_to: [:repository, :ark],
           description: 'Set the method to install vault. Default to repo.'
 
+property :packages, [String, Array],
+          coerce: proc { |p| p.is_a?(Array) ? p : [ p ] },
+          default: lazy { default_vault_packages },
+          description: 'Vault packages to install.'
+
 property :version, String,
           description: 'Set to specify the version of Vault to install.'
 
@@ -82,7 +87,8 @@ action_class do
 
   def do_package_action(resource_action)
     package 'vault' do
-      package_name default_vault_packages
+      package_name new_resource.packages
+      version new_resource.version
 
       notifies :run, 'execute[vault -autocomplete-install]', :immediately
       action resource_action
@@ -100,6 +106,8 @@ action :install do
     do_repository_action(action)
     do_package_action(action)
   when :ark
+    raise ArgumentError, 'ARK installation method requires version to be set' if new_resource.version.nil?
+
     group new_resource.group do
       comment 'Hashicorp Vault'
       system true
@@ -149,7 +157,7 @@ action :upgrade do
     do_repository_action(action)
     do_package_action(action)
   when :ark
-    Chef::Log.warn('Update action is not supported for :ark install method.')
+    raise ArgumentError, 'Update action is not supported for :ark install method.'
   end
 end
 

@@ -32,6 +32,10 @@ property :systemd_unit_content, [String, Hash],
           default: lazy { default_vault_unit_content },
           description: 'Override the systemd unit file contents'
 
+property :vault_binary_path, String,
+          default: '/usr/bin/vault',
+          description: 'Path to the vault binary on disk.'
+
 property :user, String,
           default: lazy { default_vault_user },
           description: 'Set to override default vault user. Defaults to vault.'

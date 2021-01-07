@@ -30,6 +30,9 @@ suites:
   - name: server_hcl
     run_list:
       - recipe[test::server_hcl]
+  - name: server_hcl_ark
+    run_list:
+      - recipe[test::server_hcl_ark]
   - name: agent_json
     run_list:
       - recipe[test::agent_json]

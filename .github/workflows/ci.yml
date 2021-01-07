@@ -49,6 +49,7 @@ jobs:
         suite:
           - "server-json"
           - "server-hcl"
+          - "server-hcl-ark"
           - "agent-json"
           - "agent-hcl"
       fail-fast: false
