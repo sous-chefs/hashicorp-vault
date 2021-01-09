@@ -101,6 +101,7 @@ module Vault
             'StartLimitBurst' => 3,
           },
           'Service' => {
+            'Type' => 'exec',
             'User' => user,
             'Group' => group,
             'ProtectSystem' => 'full',
