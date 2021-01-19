@@ -20,6 +20,7 @@ Introduced: v5.0.0
 | `group`                | String        | `vault`                          | Vault run-as group                                                  |
 | `install_method`       | String, Symbol| `:repository`                    | Installation method to use                                          |
 | `packages`             | String, Array | `[ 'vault' ]`                    | Packages to install for `:repository` installation method)          |
+| `test_repo`            | True, False   | `false`                          | Enable the hashicorp-test repository                                |
 | `version`              | String        | `nil`                            | Version to install (required for `:ark` installation method)        |
 | `url`                  | String        | `vault_source(version)`          | URL to fetch vault archive from for `:ark` installation method      |
 | `checksum`             | Hash          | `nil`                            | Expected checksum of vault archive for `:ark` installation method   |

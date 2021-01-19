@@ -36,6 +36,10 @@ property :packages, [String, Array],
           default: lazy { default_vault_packages },
           description: 'Vault packages to install.'
 
+property :test_repo, [true, false],
+          default: false,
+          description: 'Enable hashicorp-testing repository'
+
 property :version, String,
           description: 'Set to specify the version of Vault to install.'
 
@@ -65,7 +69,7 @@ action_class do
       yum_repository 'hashicorp-test' do
         description 'Hashicorp Test - $basearch'
         baseurl "https://rpm.releases.hashicorp.com/#{vault_repo_platform}/$releasever/$basearch/test"
-        enabled true
+        enabled new_resource.test_repo
         gpgcheck true
         gpgkey 'https://rpm.releases.hashicorp.com/gpg'
 
