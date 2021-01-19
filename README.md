@@ -8,6 +8,8 @@
 
 Install and configure Hashicorp Vault in server and agent mode.
 
+**Version 5.0.0 constitutes a major change and rewrite, please see [UPGRADING.md](./UPGRADING.md).**
+
 ## Maintainers
 
 This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of Chef cookbook maintainers working together to maintain important cookbooks. If you’d like to know more please visit [sous-chefs.org](https://sous-chefs.org/) or come chat with us on the Chef Community Slack in [#sous-chefs](https://chefcommunity.slack.com/messages/C2V7B88SF).
@@ -24,7 +26,7 @@ using Test Kitchen:
 ## Requirements
 
 - Chef 14+
-- ark Community Cookbook ([https://supermarket.chef.io/cookbooks/ark])
+- ark Community Cookbook (<https://supermarket.chef.io/cookbooks/ark>)
 
 ## Usage
 
@@ -80,8 +82,8 @@ end
 
 ## External Documentation
 
-- [https://www.vaultproject.io/docs/configuration]
-- [https://www.vaultproject.io/docs/agent]
+- <https://www.vaultproject.io/docs/configuration>
+- <https://www.vaultproject.io/docs/agent>
 
 ## Resources
 

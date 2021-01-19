@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+**Breaking changes, please see [UPGRADING.md](./UPGRADING.md).**
+
 - Add service resource
 - Add package installation to install resource
 - HCL configuration support
