@@ -5,11 +5,11 @@ license           'Apache-2.0'
 description       'Application cookbook for installing and configuring Vault.'
 issues_url        'https://github.com/sous-chefs/vault/issues'
 source_url        'https://github.com/sous-chefs/vault'
-chef_version      '>= 13'
+chef_version      '>= 15'
 version           '4.3.0'
 
 supports 'ubuntu'
 supports 'redhat'
 supports 'centos'
 
-depends 'ark', '~> 4.0.0'
+depends 'ark', '~> 5.0.0'

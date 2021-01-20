@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+**Breaking changes, please see [UPGRADING.md](./UPGRADING.md).**
+
+- Add service resource
+- Add package installation to install resource
+- HCL configuration support
+  - Unify server and agent under common resources.
+  - Add HCL server configuration resources.
+  - HCL configuration file as accumulated template.
+  - HCL support for agent configuration.
+
+- JSON configuration changes
+  - Remove configuration properties and consolidate configuration in a `config` Hash property to allow new configuration items to be added without requiring a cookbook change.
+  - Add base default configuration similar to vault defaults
+  - Set sensitive by default
+
 ## 4.3.0 (2020-10-19)
 
 - Added 'unauthenticated_metrics_access' config option

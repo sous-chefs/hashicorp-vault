@@ -1,0 +1,8 @@
+<%= @container %><% unless nil_or_empty?(@containername) -%> <%= vault_hcl_value(@containername) %><% end -%> {
+<% @items.each_with_index do |conf_item, index| -%>
+<%= template_partial_indent(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: conf_item[:type], name: conf_item[:name], properties: conf_item[:options] }), 1) %>
+<% if index < (@items.count - 1)%>
+
+<% end -%>
+<% end -%>
+}

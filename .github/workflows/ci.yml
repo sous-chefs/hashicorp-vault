@@ -42,12 +42,16 @@ jobs:
         os:
           - "centos-7"
           - "centos-8"
-          - "debian-9"
-          - "ubuntu-1604"
+          - "fedora-latest"
+          - "debian-10"
           - "ubuntu-1804"
+          - "ubuntu-2004"
         suite:
-          - "server-install"
-          - "agent-install"
+          - "server-json"
+          - "server-hcl"
+          - "server-hcl-ark"
+          - "agent-json"
+          - "agent-hcl"
       fail-fast: false
 
     steps:

@@ -1,17 +1,15 @@
 ---
 driver:
   name: vagrant
-  privileged: true
-  chef_version: <%= ENV['CHEF_VERSION'] || 'current' %>
-  env: [CHEF_LICENSE=accept]
 
 provisioner:
   name: chef_zero
+  deprecations_as_errors: true
+  chef_license: accept
   product_name: chef
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
-  client_rb:
-    chef_license: accept
-  install_strategy: once
+  install_strategy: always
+  log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
 
 verifier:
   name: inspec
@@ -19,14 +17,25 @@ verifier:
 
 platforms:
   - name: centos-7
-  - name: debian-9
-  - name: ubuntu-16.04
+  - name: centos-8
+  - name: fedora-latest
+  - name: debian-10
   - name: ubuntu-18.04
+  - name: ubuntu-20.04
 
 suites:
-  - name: server_install
+  - name: server_json
     run_list:
-      - recipe[test::server_install]
-  - name: agent_install
+      - recipe[test::server_json]
+  - name: server_hcl
     run_list:
-      - recipe[test::agent_install]
+      - recipe[test::server_hcl]
+  - name: server_hcl_ark
+    run_list:
+      - recipe[test::server_hcl_ark]
+  - name: agent_json
+    run_list:
+      - recipe[test::agent_json]
+  - name: agent_hcl
+    run_list:
+      - recipe[test::agent_hcl]
