@@ -108,8 +108,9 @@ module VaultCookbook
         config.merge!(to_hash.keep_if do |k, _|
           ha_keeps.include?(k.to_sym)
         end)
-
-        JSON.pretty_generate(config, quirks_mode: true)
+        # `gsub` since we may have multiple `retry_join` stanzas:
+        # https://www.vaultproject.io/docs/concepts/integrated-storage#retry_join-configuration
+        JSON.pretty_generate(config, quirks_mode: true).gsub(/retry_join_\d+/, 'retry_join')
       end
 
       action(:create) do
