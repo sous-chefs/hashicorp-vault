@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ## 5.0.1 - *2021-01-20*
 
+- Update supporting files (<https://github.com/sous-chefs/vault/pull/211>)
+
 ## 5.0.0 - *2021-01-20*
 
 **Breaking changes, please see [UPGRADING.md](./UPGRADING.md).**
