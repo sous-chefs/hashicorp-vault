@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Added ark installation method support for Amazon Linux
+
 ## 5.0.2 - *2021-02-03*
 
 - Update metadata supported platforms
