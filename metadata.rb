@@ -15,7 +15,7 @@ supports 'windows'
 supports 'freebsd'
 
 depends 'build-essential'
-depends 'golang', '~> 1.7'
+depends 'golang', '>= 0.0.0'
 depends 'poise', '~> 2.6'
 depends 'poise-service', '~> 1.1'
 depends 'rubyzip', '~> 1.0'
