@@ -32,14 +32,14 @@ module VaultCookbook
         super.merge(
           version: new_resource.version,
           git_url: 'https://github.com/hashicorp/vault',
-          git_path: "#{node['go']['gopath']}/src/github.com/hashicorp/vault"
+          git_path: "#{node['golang']['gopath']}/src/github.com/hashicorp/vault"
         )
       end
 
       def action_create
         notifying_block do
           # Require Go 1.6.1 as Vault depends on new functionality in net/http
-          node.default['go']['version'] = '1.6.1'
+          node.default['golang']['version'] = '1.6.1'
           include_recipe 'golang::default', 'build-essential::default'
           # Install required go packages for building Vault
           golang_package 'github.com/mitchellh/gox'
@@ -63,15 +63,15 @@ module VaultCookbook
           if new_resource.version < '0.6.0'
             execute('godep restore') do
               cwd options[:git_path]
-              environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
-                          GOPATH: node['go']['gopath'])
+              environment(PATH: "#{node['golang']['install_dir']}/go/bin:#{node['golang']['gobin']}:/usr/bin:/bin",
+                          GOPATH: node['golang']['gopath'])
             end
           end
 
           execute 'make dev' do
             cwd options[:git_path]
-            environment(PATH: "#{node['go']['install_dir']}/go/bin:#{node['go']['gobin']}:/usr/bin:/bin",
-                        GOPATH: node['go']['gopath'])
+            environment(PATH: "#{node['golang']['install_dir']}/go/bin:#{node['golang']['gobin']}:/usr/bin:/bin",
+                        GOPATH: node['golang']['gopath'])
           end
         end
       end
