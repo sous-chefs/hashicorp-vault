@@ -100,6 +100,7 @@ action_class do
 
     execute 'vault -autocomplete-install' do
       action :nothing
+      only_if { ::File.exist?("#{Dir.home}/.bashrc") }
     end
   end
 end

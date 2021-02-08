@@ -3,7 +3,7 @@ module Vault
     module InstallHelpers
       def vault_source(version)
         case node['platform_family']
-        when 'debian', 'rhel', 'suse', 'fedora'
+        when 'debian', 'rhel', 'suse', 'fedora', 'amazon'
           platform = 'linux'
         when 'windows'
           platform = 'windows'
