@@ -6,7 +6,7 @@ description       'Application cookbook for installing and configuring Vault.'
 issues_url        'https://github.com/sous-chefs/vault/issues'
 source_url        'https://github.com/sous-chefs/vault'
 chef_version      '>= 15'
-version           '5.0.2'
+version           '5.1.0'
 
 supports 'amazon'
 supports 'debian'
