@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 5.2.0 - *2021-02-09*
 
 - Support ark installation for aarch64/i386/x86_64 architectures
