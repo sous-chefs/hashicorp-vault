@@ -2,18 +2,27 @@ module Vault
   module Cookbook
     module InstallHelpers
       def vault_source(version)
-        case node['platform_family']
-        when 'debian', 'rhel', 'suse', 'fedora', 'amazon'
-          platform = 'linux'
-        when 'windows'
-          platform = 'windows'
-        when 'mac_os_x'
-          platform = 'darwin'
-        else
-          raise ArgumentError, "vault_source: Unsupported platform family #{node['platform_family']}"
-        end
+        platform = case node['platform_family']
+                   when 'debian', 'rhel', 'suse', 'fedora', 'amazon'
+                     'linux'
+                   when 'windows'
+                     'windows'
+                   when 'mac_os_x'
+                     'darwin'
+                   else
+                     raise ArgumentError, "vault_source: Unsupported platform family #{node['platform_family']}"
+                   end
 
-        "https://releases.hashicorp.com/vault/#{version}/vault_#{version}_#{platform}_amd64.zip"
+        arch =  case node['kernel']['machine']
+                when 'aarch64'
+                  'arm64'
+                when 'i386'
+                  '386'
+                else
+                  'amd64'
+                end
+
+        "https://releases.hashicorp.com/vault/#{version}/vault_#{version}_#{platform}_#{arch}.zip"
       end
 
       def vault_supporting_packages
