@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Support ark installation for aarch64/i386/x86_64 architectures
+
 ## 5.1.0 - *2021-02-08*
 
 - Added ark installation method support for Amazon Linux
