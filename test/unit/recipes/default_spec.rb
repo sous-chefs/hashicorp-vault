@@ -15,7 +15,7 @@ describe 'hashicorp-vault::default' do
 
     it { expect(chef_run).to create_poise_service_user('vault').with(group: 'vault') }
     it { expect(chef_run).to create_vault_config('/etc/vault/vault.json') }
-    it { expect(chef_run).to create_vault_installation('0.9.1') }
+    it { expect(chef_run).to create_vault_installation('1.6.1') }
     it { expect(chef_run).to enable_vault_service('vault').with(config_path: '/etc/vault/vault.json') }
     it { expect(chef_run).to start_vault_service('vault') }
   end
