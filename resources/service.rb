@@ -83,8 +83,6 @@ action :delete do
   end
 end
 
-%i(start stop restart reload enable disable).each do |service_action|
-  action service_action do
-    do_service_action(action)
-  end
+%i(start stop restart reload enable disable).each do |action_type|
+  send(:action, action_type) { do_service_action(action) }
 end

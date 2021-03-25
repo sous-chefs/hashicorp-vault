@@ -16,6 +16,7 @@
 #
 
 include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
 
 property :owner, String,
           default: lazy { default_vault_user },
@@ -42,27 +43,33 @@ property :template, String,
           description: 'Template source file for the HCL configuration type.'
 
 property :sensitive, [true, false],
-         default: true,
-         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+          default: true,
+          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+          desired_state: false
 
 property :global, Hash,
           default: lazy { default_vault_config_hcl(:global) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global configuration.'
 
 property :cache, Hash,
           default: lazy { default_vault_config_hcl(:cache) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global cache configuration.'
 
 property :sentinel, Hash,
           default: lazy { default_vault_config_hcl(:sentinel) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global sentinel configuration.'
 
 property :telemetry, Hash,
           default: lazy { default_vault_config_hcl(:telemetry) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global telemetry configuration.'
 
 property :vault, Hash,
           default: lazy { default_vault_config_hcl(:vault) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global vault configuration.'
 
 action_class do
@@ -72,8 +79,14 @@ action_class do
   VAULT_GLOBAL_PROPERTIES = %i(global cache sentinel telemetry vault).freeze
 end
 
+load_current_value do
+  VAULT_GLOBAL_PROPERTIES.each { |property| send(property, vault_hcl_config_current_load(config_file).fetch(property, {})) }
+end
+
 action :create do
   vault_hcl_config_resource_init
+
+  converge_if_changed {}
 
   VAULT_GLOBAL_PROPERTIES.each { |property| vault_hcl_config_resource.variables[property] = new_resource.send(property) }
 end

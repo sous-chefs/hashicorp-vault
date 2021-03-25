@@ -16,6 +16,7 @@
 #
 
 include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
 
 property :owner, String,
           default: lazy { default_vault_user },
@@ -43,24 +44,37 @@ property :template, String,
 
 property :sensitive, [true, false],
          default: true,
-         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+          desired_state: false
 
 property :type, [String, Symbol],
+          coerce: proc { |p| p.to_s },
           description: 'Vault template type.'
 
 property :options, Hash,
           default: lazy { default_vault_config_hcl(:template) },
           description: 'Vault template configuration.'
 
+property :description, String,
+          desired_state: false,
+          description: 'Unparsed description to add to the configuration file.'
+
 action_class do
   include Vault::Cookbook::Helpers
   include Vault::Cookbook::ResourceHelpers
 end
 
+load_current_value do
+  current_value_does_not_exist! if vault_hcl_config_current_load(config_file).dig(:template, type).nil?
+  options vault_hcl_config_current_load(config_file).dig(:template, type)
+end
+
 action :create do
   vault_hcl_config_resource_init
-  vault_hcl_config_resource.variables[:template] ||= []
 
+  converge_if_changed {}
+
+  vault_hcl_config_resource.variables[:template] ||= []
   vault_hcl_config_resource.variables[:template].push(vault_hcl_resource_data)
 end
 

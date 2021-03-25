@@ -8,11 +8,12 @@ hashicorp_vault_config_global 'vault' do
     statsite_address: '127.0.0.1:8125',
     disable_hostname: true
   )
-
+  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
   action :create
 end
 
 hashicorp_vault_config_listener 'tcp' do
+  sensitive false
   options(
     'address' => '127.0.0.1:8200',
     'cluster_address' => '127.0.0.1:8201',
@@ -22,17 +23,19 @@ hashicorp_vault_config_listener 'tcp' do
       'unauthenticated_metrics_access' => false,
     }
   )
+  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
 end
 
-hashicorp_vault_config_storage 'Test file storage' do
+hashicorp_vault_config_storage 'file' do
+  sensitive false
   type 'file'
   options(
     'path' => '/opt/vault/data'
   )
+  description 'Test file storage'
+  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
 end
 
 hashicorp_vault_service 'vault' do
   action %i(create enable start)
-
-  subscribes :restart, 'template[/etc/vault.d/vault.hcl]', :delayed
 end

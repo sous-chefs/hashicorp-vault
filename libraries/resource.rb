@@ -1,3 +1,5 @@
+require 'hcl/checker'
+
 module Vault
   module Cookbook
     module ResourceHelpers
@@ -6,7 +8,7 @@ module Vault
       end
 
       def vault_hcl_config_resource
-        return false unless vault_hcl_config_resource_exist?
+        return unless vault_hcl_config_resource_exist?
 
         find_resource!(:template, new_resource.config_file)
       end
@@ -14,9 +16,20 @@ module Vault
       def vault_hcl_resource_data
         {
           name: new_resource.type,
-          description: new_resource.name,
+          description: new_resource.description,
           options: new_resource.options,
         }
+      end
+
+      def vault_hcl_config_current_load(config_file)
+        return {} unless vault_hcl_config_current_valid?(config_file)
+
+        hclconf = HCL::Checker.parse(File.read(config_file))
+        hclconf[:global] = hclconf.filter { |_, v| !v.is_a?(Hash) }
+        hclconf.transform_keys!(&:to_sym)
+        hclconf.filter! { |_, v| v.is_a?(Hash) }
+
+        hclconf
       end
 
       private
@@ -54,6 +67,12 @@ module Vault
             delayed_action :create
           end
         end
+      end
+
+      def vault_hcl_config_current_valid?(config_file)
+        HCL::Checker.valid?(File.read(config_file))
+      rescue Errno::ENOENT
+        false
       end
     end
   end

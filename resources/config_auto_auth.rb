@@ -16,6 +16,7 @@
 #
 
 include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
 
 property :owner, String,
           default: lazy { default_vault_user },
@@ -43,9 +44,11 @@ property :template, String,
 
 property :sensitive, [true, false],
           default: true,
-          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+          desired_state: false
 
 property :type, [String, Symbol],
+          coerce: proc { |p| p.to_s },
           description: 'Vault agent auto_auto type.'
 
 property :options, Hash,
@@ -57,8 +60,15 @@ action_class do
   include Vault::Cookbook::ResourceHelpers
 end
 
+load_current_value do
+  current_value_does_not_exist! if vault_hcl_config_current_load(config_file).dig(:auto_auth, type).nil?
+  options vault_hcl_config_current_load(config_file).dig(:auto_auth, type)
+end
+
 action :create do
   vault_hcl_config_resource_init
+
+  converge_if_changed {}
 
   vault_hcl_config_resource.variables[:auto_auth] ||= []
   vault_hcl_config_resource.variables[:auto_auth].push({ name: new_resource.name, type: new_resource.type.to_s, options: new_resource.options })

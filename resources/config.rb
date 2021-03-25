@@ -45,7 +45,8 @@ property :template, String,
 
 property :sensitive, [true, false],
           default: true,
-          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+          desired_state: false
 
 property :config, Hash,
           default: lazy { default_vault_config_json },
