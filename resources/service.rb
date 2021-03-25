@@ -56,13 +56,10 @@ property :mode, [String, Symbol],
 
 action_class do
   def do_service_action(resource_action)
-    with_run_context(:root) do
-      edit_resource(:service, new_resource.service_name.delete_suffix('.service')) do
-        supports status: true, restart: true, reload: true
+    declare_resource(:service, new_resource.service_name.delete_suffix('.service')) do
+      supports status: true, restart: true, reload: true
 
-        action :nothing
-        delayed_action resource_action
-      end
+      action resource_action
     end
   end
 end
