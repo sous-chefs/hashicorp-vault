@@ -7,7 +7,7 @@
 # Global
 <%= render 'vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: @global } %>
 <% end -%>
-<% vault_hcl_configuration_items.each do |conf_type| -%>
+<% Vault::Cookbook::TemplateHelpers::VAULT_HCL_CONFIGURATION_ITEMS.each do |conf_type| -%>
 <% next if nil_or_empty?(instance_variable_get(conf_type)) -%>
 # <%= conf_type.to_s.delete('@') %>
 <%= template_render_hcl(conf_type.to_s.delete('@'), instance_variable_get(conf_type)) %>
