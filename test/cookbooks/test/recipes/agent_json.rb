@@ -64,8 +64,6 @@ hashicorp_vault_config 'vault' do
   )
 
   sensitive false
-
-  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
 end
 
 hashicorp_vault_service 'vault' do
@@ -73,4 +71,6 @@ hashicorp_vault_service 'vault' do
   mode :agent
 
   action %i(create enable start)
+
+  subscribes :restart, 'template[/etc/vault.d/vault-agent.json]', :delayed
 end

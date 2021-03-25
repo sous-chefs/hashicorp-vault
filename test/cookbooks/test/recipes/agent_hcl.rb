@@ -14,8 +14,6 @@ hashicorp_vault_config_global 'vault' do
   )
 
   sensitive false
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_auto_auth 'aws' do
@@ -27,8 +25,6 @@ hashicorp_vault_config_auto_auth 'aws' do
       'role' => 'foobar',
     }
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_auto_auth 'file' do
@@ -38,8 +34,6 @@ hashicorp_vault_config_auto_auth 'file' do
       'path' => '/tmp/file-foo',
     }
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_auto_auth 'file' do
@@ -53,8 +47,6 @@ hashicorp_vault_config_auto_auth 'file' do
       'path' => '/tmp/file-bar',
     }
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_listener 'unix' do
@@ -62,8 +54,6 @@ hashicorp_vault_config_listener 'unix' do
     'address' => '/tmp/vault_agent_unix.sock',
     'tls_disable' => true
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_listener 'tcp' do
@@ -71,16 +61,12 @@ hashicorp_vault_config_listener 'tcp' do
     'address' => '127.0.0.1:8100',
     'tls_disable' => true
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_template '/etc/vault/server.key' do
   options(
     'source' => '/etc/vault/server.key.ctmpl'
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_config_template '/etc/vault/server.crt' do
@@ -88,11 +74,11 @@ hashicorp_vault_config_template '/etc/vault/server.crt' do
     'source' => '/etc/vault/server.crt.ctmpl',
     'destination' => '/etc/vault/server.crt'
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault-agent]', :delayed
 end
 
 hashicorp_vault_service 'vault-agent' do
   mode :agent
   action %i(create enable start)
+
+  subscribes :restart, 'template[/etc/vault.d/vault.hcl]', :delayed
 end
