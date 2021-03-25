@@ -2,9 +2,7 @@ module Vault
   module Cookbook
     module TemplateHelpers
       def nil_or_empty?(v)
-        return true if v.nil? || (v.respond_to?(:empty?) && v.empty?)
-
-        false
+        v.nil? || (v.respond_to?(:empty?) && v.empty?)
       end
 
       def vault_hcl_value(value)
