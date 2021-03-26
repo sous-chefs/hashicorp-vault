@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Refactor service action to use standard action and allow multiple actions - [@bmhughes](https://github.com/bmhughes)
+
 ## 5.2.0 - *2021-02-09*
 
 - Support ark installation for aarch64/i386/x86_64 architectures

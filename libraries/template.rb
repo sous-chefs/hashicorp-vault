@@ -1,10 +1,11 @@
 module Vault
   module Cookbook
     module TemplateHelpers
-      def nil_or_empty?(v)
-        return true if v.nil? || (v.respond_to?(:empty?) && v.empty?)
+      VAULT_HCL_CONFIG_CONTAINED = %w(auto_auth).freeze
+      VAULT_HCL_CONFIGURATION_ITEMS = %i(@auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
 
-        false
+      def nil_or_empty?(v)
+        v.nil? || (v.respond_to?(:empty?) && v.empty?)
       end
 
       def vault_hcl_value(value)
@@ -19,12 +20,6 @@ module Vault
           raise ArgumentError, "vault_hcl_value: Unsupported variable type #{value.class}. Value: #{value}."
         end
       end
-
-      def vault_hcl_configuration_items
-        %i(@auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault)
-      end
-
-      VAULT_HCL_CONFIG_CONTAINED ||= %w(auto_auth).freeze
 
       def template_render_hcl(type, items)
         hcl = []

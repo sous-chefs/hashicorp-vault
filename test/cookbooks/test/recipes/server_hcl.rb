@@ -9,8 +9,6 @@ hashicorp_vault_config_global 'vault' do
     disable_hostname: true
   )
 
-  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
-
   action :create
 end
 
@@ -24,8 +22,6 @@ hashicorp_vault_config_listener 'tcp' do
       'unauthenticated_metrics_access' => false,
     }
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
 end
 
 hashicorp_vault_config_storage 'Test file storage' do
@@ -33,10 +29,10 @@ hashicorp_vault_config_storage 'Test file storage' do
   options(
     'path' => '/opt/vault/data'
   )
-
-  notifies :restart, 'hashicorp_vault_service[vault]', :delayed
 end
 
 hashicorp_vault_service 'vault' do
   action %i(create enable start)
+
+  subscribes :restart, 'template[/etc/vault.d/vault.hcl]', :delayed
 end
