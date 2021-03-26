@@ -7,6 +7,7 @@ describe 'hashicorp_vault_config_listener' do
   context 'create listener HCL configuration' do
     recipe do
       hashicorp_vault_config_listener 'tcp' do
+        type 'tcp'
         options(
           'address' => '127.0.0.1:8200',
           'cluster_address' => '127.0.0.1:8201',

@@ -7,6 +7,7 @@ describe 'hashicorp_vault_config_seal' do
   context 'create seal HCL configuration' do
     recipe do
       hashicorp_vault_config_seal 'awskms' do
+        type 'awskms'
         options(
           'region' => 'us-east-1',
           'access_key' => 'AKIAIOSFODNN7EXAMPLE',

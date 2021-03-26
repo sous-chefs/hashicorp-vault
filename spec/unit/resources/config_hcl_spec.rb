@@ -39,12 +39,14 @@ describe 'hashicorp_vault_config_hcl' do
       end
 
       hashicorp_vault_config_entropy 'seal' do
+        type 'seal'
         options(
           'mode' => 'augmentation'
         )
       end
 
       hashicorp_vault_config_listener 'tcp' do
+        type 'tcp'
         options(
           'address' => '127.0.0.1:8200',
           'cluster_address' => '127.0.0.1:8201',
@@ -57,6 +59,7 @@ describe 'hashicorp_vault_config_hcl' do
       end
 
       hashicorp_vault_config_seal 'awskms' do
+        type 'awskms'
         options(
           'region' => 'us-east-1',
           'access_key' => 'AKIAIOSFODNN7EXAMPLE',
@@ -67,6 +70,7 @@ describe 'hashicorp_vault_config_hcl' do
       end
 
       hashicorp_vault_config_service_registration 'kubernetes' do
+        type 'kubernetes'
         options(
           'namespace' => 'my-namespace',
           'pod_name' => 'my-pod-name'

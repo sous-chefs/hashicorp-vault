@@ -7,6 +7,7 @@ describe 'hashicorp_vault_config_service_registration' do
   context 'create service registration HCL configuration' do
     recipe do
       hashicorp_vault_config_service_registration 'kubernetes' do
+        type 'kubernetes'
         options(
           'namespace' => 'my-namespace',
           'pod_name' => 'my-pod-name'

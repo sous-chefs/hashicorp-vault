@@ -7,6 +7,7 @@ describe 'hashicorp_vault_config_entropy' do
   context 'create entropy HCL configuration' do
     recipe do
       hashicorp_vault_config_entropy 'seal' do
+        type 'seal'
         options(
           'mode' => 'augmentation'
         )
