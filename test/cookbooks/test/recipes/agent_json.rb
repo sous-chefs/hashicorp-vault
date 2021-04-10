@@ -68,7 +68,7 @@ end
 
 hashicorp_vault_service 'vault' do
   config_file '/etc/vault.d/vault-agent.json'
-  mode :agent
+  vault_mode :agent
 
   action %i(create enable start)
 

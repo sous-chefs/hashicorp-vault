@@ -14,6 +14,8 @@ end
 
 hashicorp_vault_config_listener 'tcp' do
   sensitive false
+  type 'tcp'
+  description 'Test TCP listener'
   options(
     'address' => '127.0.0.1:8200',
     'cluster_address' => '127.0.0.1:8201',

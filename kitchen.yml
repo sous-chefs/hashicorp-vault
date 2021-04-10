@@ -10,6 +10,8 @@ provisioner:
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
   install_strategy: always
   log_level: <%= ENV['CHEF_LOG_LEVEL'] || 'auto' %>
+  multiple_converge: 2
+  enforce_idempotency: true
 
 verifier:
   name: inspec
