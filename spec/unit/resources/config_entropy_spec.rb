@@ -15,7 +15,7 @@ describe 'hashicorp_vault_config_entropy' do
     end
 
     it 'Creates the configuration file correctly' do
-      is_expected.to render_file('/etc/vault.d/vault.hcl')
+      is_expected.to render_file('/etc/vault.d/config_entropy_seal.hcl')
         .with_content(/# entropy/)
         .with_content(/entropy "seal" {/)
         .with_content(/  mode = "augmentation"/)

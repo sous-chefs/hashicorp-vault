@@ -16,7 +16,7 @@ describe 'hashicorp_vault_config_service_registration' do
     end
 
     it 'Creates the configuration file correctly' do
-      is_expected.to render_file('/etc/vault.d/vault.hcl')
+      is_expected.to render_file('/etc/vault.d/config_service_registration_kubernetes.hcl')
         .with_content(/# service_registration/)
         .with_content(/service_registration "kubernetes" {/)
         .with_content(/  namespace = "my-namespace"/)
