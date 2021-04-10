@@ -1,8 +1,8 @@
 module Vault
   module Cookbook
     module TemplateHelpers
-      VAULT_HCL_CONFIG_CONTAINED = %w(auto_auth).freeze
-      VAULT_HCL_CONFIGURATION_ITEMS = %i(@auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
+      VAULT_HCL_CONFIG_CONTAINED = %i(auto_auth).freeze
+      VAULT_HCL_CONFIGURATION_ITEMS = %i(@global @auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
 
       def nil_or_empty?(v)
         v.nil? || (v.respond_to?(:empty?) && v.empty?)
@@ -26,22 +26,25 @@ module Vault
 
         case items
         when Array
-          if VAULT_HCL_CONFIG_CONTAINED.include?(type)
+          if VAULT_HCL_CONFIG_CONTAINED.include?(type.to_sym)
             hcl.push(render('vault/_hcl_items_contained.erb', cookbook: 'hashicorp-vault', variables: { container: type, items: items }))
           else
             items.each do |conf_item|
-              conf_item_type = conf_item.fetch(:type, type)
               hcl.push(
                 render(
                   'vault/_hcl_item.erb',
                   cookbook: 'hashicorp-vault',
-                  variables: { type: conf_item_type, name: conf_item[:name], description: conf_item[:description], properties: conf_item[:options] }
+                  variables: { type: conf_item[:item_type], name: conf_item[:name], description: conf_item[:description], properties: conf_item[:options] }
                 )
               )
             end
           end
         when Hash
-          hcl.push(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: type, properties: items }))
+          if type.eql?('global')
+            hcl.push(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: items }))
+          else
+            hcl.push(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: type, properties: items }))
+          end
         end
 
         hcl.join("\n")

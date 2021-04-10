@@ -15,45 +15,26 @@
 # limitations under the License.
 #
 
-include Vault::Cookbook::Helpers
-include Vault::Cookbook::ResourceHelpers
+use '_config_hcl_base'
+use '_config_hcl_item'
 
-property :owner, String,
-          default: lazy { default_vault_user },
-          description: 'Set to override default vault user. Defaults to vault.'
-
-property :group, String,
-          default: lazy { default_vault_group },
-          description: 'Set to override default vault group. Defaults to vault.'
-
-property :mode, String,
-          default: '0640',
-          description: 'Set to override default vault config file mode. Defaults to 0600.'
-
-property :config_file, String,
-          default: lazy { default_vault_config_file(:hcl) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
-
-property :cookbook, String,
-          default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
-
-property :template, String,
-          default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
-
-property :sensitive, [true, false],
-          default: true,
-          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+property :entry_type, [String, Symbol],
+          equal_to: %i(method sink),
+          coerce: proc { |p| p.to_sym },
+          description: 'Vault auto_auth configuration element entry type',
+          required: true,
           desired_state: false
 
-property :type, [String, Symbol],
-          coerce: proc { |p| p.to_s },
-          description: 'Vault agent auto_auto type.'
+property :path, String,
+          identity: true,
+          description: 'File path for sink configuration'
 
-property :options, Hash,
-          default: lazy { default_vault_config_hcl(:auto_auth) },
-          description: 'Vault agent auto_auto configuration.'
+property :vault_mode, [String, Symbol],
+          coerce: proc { |p| p.to_sym },
+          equal_to: [:agent],
+          default: :agent,
+          desired_state: false,
+          description: 'Vault service operation mode. Defaults to agent.'
 
 action_class do
   include Vault::Cookbook::Helpers
@@ -61,21 +42,39 @@ action_class do
 end
 
 load_current_value do
-  current_value_does_not_exist! if vault_hcl_config_current_load(config_file).dig(:auto_auth, type).nil?
-  options vault_hcl_config_current_load(config_file).dig(:auto_auth, type)
+  case entry_type
+  when :method
+    option_data = vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, entry_type.to_s, type)
+
+    current_value_does_not_exist! if option_data.nil?
+
+    options option_data
+  when :sink
+    option_data = vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, entry_type.to_s) || []
+    option_data = option_data.filter { |s| s.dig(type, 'config', 'path').eql?(path) }
+
+    current_value_does_not_exist! if option_data.empty?
+    raise Chef::Exceptions::InvalidResourceReference,
+          "Filter matched #{option_data.count} auto_auth #{entry_type} configuration items but only should match one." if option_data.count > 1
+
+    option_data = option_data.first&.fetch(type)
+    option_data['config'].delete('path') if option_data.is_a?(Hash) && option_data.key?('config')
+
+    options compact_hash(option_data)
+  end
 end
 
 action :create do
-  vault_hcl_config_resource_init
+  raise ArgumentError, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
 
-  converge_if_changed {}
+  converge_if_changed { vault_hcl_resource_template_add }
 
-  vault_hcl_config_resource.variables[:auto_auth] ||= []
-  vault_hcl_config_resource.variables[:auto_auth].push({ name: new_resource.name, type: new_resource.type.to_s, options: new_resource.options })
+  # We have to do this twice as the agent config file is accumulated and converge_if_changed won't always fire
+  vault_hcl_resource_template_add if new_resource.vault_mode.eql?(:agent)
 end
 
 action :delete do
-  vault_hcl_config_resource_init
+  raise ArgumentError, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
 
-  vault_hcl_config_resource.variables[:auto_auth].delete({ name: new_resource.name, type: new_resource.type.to_s, options: new_resource.options })
+  converge_by('Remove configuration from accumulator template') { vault_hcl_resource_template_remove } if vault_hcl_resource_template?
 end
