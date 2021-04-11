@@ -57,32 +57,43 @@ action_class do
   include Vault::Cookbook::ResourceHelpers
 end
 
-action :create do
-  directory ::File.dirname(new_resource.config_file) do
-    owner new_resource.owner
-    group new_resource.group
-    mode '0750'
-
-    action :create
-  end
-
-  chef_gem 'deepsort' do
-    compile_time true
-  end
+load_current_value do
+  current_value_does_not_exist! unless ::File.exist?(config_file)
 
   require 'json'
-  require 'deepsort'
+  config JSON.parse(::File.read(config_file)) if ::File.exist?(config_file)
+end
 
-  file new_resource.config_file do
-    content JSON.pretty_generate(new_resource.config.map { |key, val| [key.to_s, val] }.to_h.deep_sort).concat("\n")
+action :create do
+  edit_resource(:file, '/etc/vault.d/vault.hcl').action(:delete) if ::File.exist?('/etc/vault.d/vault.hcl')
 
-    owner new_resource.owner
-    group new_resource.group
-    mode '0640'
+  converge_if_changed do
+    chef_gem 'deepsort' do
+      compile_time true
+    end
 
-    sensitive new_resource.sensitive
+    directory ::File.dirname(new_resource.config_file) do
+      owner new_resource.owner
+      group new_resource.group
+      mode '0750'
 
-    action :create
+      action :create
+    end
+
+    require 'json'
+    require 'deepsort'
+
+    file new_resource.config_file do
+      content JSON.pretty_generate(new_resource.config.map { |key, val| [key.to_s, val] }.to_h.deep_sort).concat("\n")
+
+      owner new_resource.owner
+      group new_resource.group
+      mode '0640'
+
+      sensitive new_resource.sensitive
+
+      action :create
+    end
   end
 end
 
