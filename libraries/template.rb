@@ -1,12 +1,10 @@
 module Vault
   module Cookbook
     module TemplateHelpers
+      include Vault::Cookbook::CommonHelpers
+
       VAULT_HCL_CONFIG_CONTAINED = %i(auto_auth).freeze
       VAULT_HCL_CONFIGURATION_ITEMS = %i(@global @auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
-
-      def nil_or_empty?(v)
-        v.nil? || (v.respond_to?(:empty?) && v.empty?)
-      end
 
       def vault_hcl_value(value)
         case value

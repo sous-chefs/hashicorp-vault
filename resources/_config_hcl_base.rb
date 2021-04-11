@@ -58,3 +58,8 @@ property :vault_mode, [String, Symbol],
           default: :server,
           desired_state: false,
           description: 'Vault service operation mode. Defaults to server.'
+
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end

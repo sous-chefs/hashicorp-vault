@@ -45,11 +45,6 @@ property :vault, Hash,
           coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault agent global vault configuration.'
 
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
-end
-
 load_current_value do
   current_value_does_not_exist! unless ::File.exist?(config_file)
   Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| send(property, vault_hcl_config_current_load(config_file).fetch(property, {})) }

@@ -30,15 +30,10 @@ property :vault_mode, [String, Symbol],
           desired_state: false,
           description: 'Vault service operation mode. Defaults to agent.'
 
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
-end
-
 load_current_value do
   option_data = vault_hcl_config_current_load(config_file).fetch(vault_hcl_config_type, []).select { |t| t['destination'].eql?(destination) }
 
-  current_value_does_not_exist! if option_data.empty?
+  current_value_does_not_exist! if nil_or_empty?(option_data)
   raise Chef::Exceptions::InvalidResourceReference,
         "Filter matched #{option_data.count} template configuration items but only should match one." if option_data.count > 1
 

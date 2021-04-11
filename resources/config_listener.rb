@@ -18,11 +18,6 @@
 use '_config_hcl_base'
 use '_config_hcl_item'
 
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
-end
-
 load_current_value do
   case vault_mode
   when :server
@@ -33,7 +28,7 @@ load_current_value do
   when :agent
     option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).select { |l| l.keys.first.eql?(type) }
 
-    current_value_does_not_exist! if option_data.empty?
+    current_value_does_not_exist! if nil_or_empty?(option_data)
     raise Chef::Exceptions::InvalidResourceReference,
           "Filter matched #{option_data.count} listener configuration items but only should match one." if option_data.count > 1
 

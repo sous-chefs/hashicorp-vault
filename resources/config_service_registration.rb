@@ -18,11 +18,6 @@
 use '_config_hcl_base'
 use '_config_hcl_item'
 
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
-end
-
 load_current_value do
   current_value_does_not_exist! unless ::File.exist?(config_file)
 

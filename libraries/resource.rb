@@ -1,6 +1,8 @@
 module Vault
   module Cookbook
     module ResourceHelpers
+      include Vault::Cookbook::CommonHelpers
+
       VAULT_GLOBAL_PROPERTIES = %i(global cache sentinel telemetry vault).freeze
 
       def vault_hcl_file_prefix
@@ -12,9 +14,9 @@ module Vault
         rn.to_s.gsub('hashicorp_vault_config_', '').to_sym
       end
 
-      def vault_hcl_resource_template(type = vault_hcl_config_type, value = vault_hcl_resource_data)
+      def vault_hcl_resource_template_add(type = vault_hcl_config_type, value = vault_hcl_resource_data)
         with_run_context(:root) do
-          edit_resource(:file, '/etc/vault.d/vault.hcl').action(:delete) if ::File.exist?('/etc/vault.d/vault.hcl') && new_resource.vault_mode.eql?(:server)
+          edit_resource(:file, '/etc/vault.d/vault.hcl').action(:delete) if new_resource.vault_mode.eql?(:server) && ::File.exist?('/etc/vault.d/vault.hcl')
           edit_resource(:directory, new_resource.config_dir) do
             owner new_resource.owner
             group new_resource.group
@@ -56,6 +58,14 @@ module Vault
         end
       end
 
+      def vault_hcl_resource_template_remove(type = vault_hcl_config_type, value = vault_hcl_resource_data)
+        edit_resource(:template, new_resource.config_file).variables[type].delete(value)
+      end
+
+      def vault_hcl_resource_template?(type = vault_hcl_config_type, value = vault_hcl_resource_data)
+        edit_resource(:template, new_resource.config_file).variables[type].include?(value)
+      end
+
       def vault_hcl_config_current_load(config_file, config_type = nil)
         return {} unless vault_hcl_config_current_valid?(config_file)
 
@@ -64,12 +74,8 @@ module Vault
         hclconf.filter! { |_, v| v.is_a?(Hash) || v.is_a?(Array) }
         hclconf = compact_hash(hclconf)
 
-        if config_type
-          hclconf_type = hclconf.fetch(config_type, [])
-          hclconf_type.is_a?(Array) ? hclconf_type : [ hclconf_type ]
-        else
-          hclconf
-        end
+        return hclconf.fetch(config_type, {}) if config_type
+        hclconf
       end
 
       private
@@ -109,12 +115,6 @@ module Vault
             name: new_resource.type,
           }
         end
-      end
-
-      def compact_hash(hash)
-        return unless hash.is_a?(Hash)
-
-        hash.delete_if { |_, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) }
       end
     end
   end
