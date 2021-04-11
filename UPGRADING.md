@@ -2,6 +2,33 @@
 
 This document will give you help on upgrading major versions of hashicorp_vault
 
+## 6.0.0
+
+Version 6.0.0 is a refactoring of the configuration resources to use `load_current_value` and `converge_if_changed` to support full resource notifications and reporting.
+
+Several breaking changes have been introduced to support this:
+
+### Breaking Changes
+
+#### Resource
+
+- The `type` property is now required to be set to allow retrieval by `load_current_value` and will be used to generate the configuration template
+- The `vault_mode` property must be configured for HCL items that are used for both server and agent configuration
+  - Default to :server for items that apply to both server and agent mode
+  - Default to :agent for items that apply only to agent mode
+
+- Agent only configuration resources (auto_auth, template) now require identifying properties to be specified external to the `config` Hash
+  - `auto_auth`
+    - The `entry_type` property is added and must be set to either `:method` or `:sink` to identify which configuration sub-type to generate
+    - The `path` property is set and merged into the config hash upon template generation (for `:sink` types **only**)
+  - `template` - The `:destination` property is set and merged into the config hash upon template generation
+
+#### Configuration File Generation
+
+- Unless overridden, server mode configuration items are now generated as individual files within the vault configuration directory
+  - Allow simple loading of the current value
+- Agent mode generates an accumulated template as per v5.0.0.
+
 ## 5.0.0
 
 Version 5.0.0 is a major rewrite of the cookbook to current standards.

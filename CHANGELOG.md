@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+**Breaking changes, please see [UPGRADING.md](./UPGRADING.md).**
+
+- Chef 16 is now required
+  - Resource partials now in use
+- Refactor all HCL resources to use `load_current_value` and `converge_if_changed`
+  - Resource notifications now function as per the core resources
+  - Changed values are displayed and can be reported upon
+  - Server configuration items are written to indiviual files
+  - Agent configuration is still accumulated as per previous versions
+- Refactor json configuration resource to use `load_current_value` and `converge_if_changed`
+
 ## 5.3.1 - *2021-05-11*
 
 ## 5.3.0 - *2021-03-26*
