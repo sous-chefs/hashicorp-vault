@@ -18,7 +18,7 @@
 include Vault::Cookbook::Helpers
 include Vault::Cookbook::ResourceHelpers
 
-use '_config_hcl_base'
+use 'partial/_config_hcl_base'
 
 property :global, Hash,
           default: lazy { default_vault_config_hcl(:global) },

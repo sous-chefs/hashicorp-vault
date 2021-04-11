@@ -17,11 +17,6 @@
 
 include Vault::Cookbook::Helpers
 
-property :type, [String, Symbol],
-          coerce: proc { |p| p.to_s },
-          identity: true,
-          description: 'Vault server configuration element type.'
-
 property :options, Hash,
           default: lazy { default_vault_config_hcl(vault_hcl_config_type) },
           description: 'Vault server configuration element configuration.'

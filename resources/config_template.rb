@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-use '_config_hcl_base'
-use '_config_hcl_item'
+%w(base item).each { |t| use "partial/_config_hcl_#{t}" }
 
 property :destination, String,
           coerce: proc { |p| p.to_s },

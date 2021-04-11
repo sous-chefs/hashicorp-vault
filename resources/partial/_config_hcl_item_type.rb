@@ -1,6 +1,6 @@
 #
 # Cookbook:: hashicorp-vault
-# Resource:: config_storage
+# Resource:: _config_hcl_item_type
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,18 +15,8 @@
 # limitations under the License.
 #
 
-%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
-
-load_current_value do
-  current_value_does_not_exist! unless ::File.exist?(config_file)
-
-  options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, type)
-end
-
-action :create do
-  converge_if_changed { vault_hcl_resource_template_add }
-end
-
-action :delete do
-  edit_resource(:file, new_resource.config_file).action(:delete) if ::File.exist?(new_resource.config_file)
-end
+property :type, [String, Symbol],
+          coerce: proc { |p| p.to_s },
+          identity: true,
+          required: true,
+          description: 'Vault server configuration element type.'

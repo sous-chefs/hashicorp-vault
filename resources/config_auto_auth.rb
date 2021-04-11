@@ -15,8 +15,7 @@
 # limitations under the License.
 #
 
-use '_config_hcl_base'
-use '_config_hcl_item'
+%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
 property :entry_type, [String, Symbol],
           equal_to: %i(method sink),
@@ -60,7 +59,7 @@ load_current_value do
 end
 
 action :create do
-  raise ArgumentError, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
+  raise Chef::Exceptions::ValidationFailed, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
 
   converge_if_changed { vault_hcl_resource_template_add }
 
@@ -69,7 +68,7 @@ action :create do
 end
 
 action :delete do
-  raise ArgumentError, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
+  raise Chef::Exceptions::ValidationFailed, 'The path property is required for sink entries' if new_resource.entry_type.eql?(:sink) && !property_is_set?(:path)
 
   converge_by('Remove configuration from accumulator template') { vault_hcl_resource_template_remove } if vault_hcl_resource_template?
 end
