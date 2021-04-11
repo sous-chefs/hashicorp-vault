@@ -17,5 +17,3 @@ supports 'suse'
 supports 'ubuntu'
 
 depends 'ark', '~> 5.0.0'
-
-eager_load_libraries %w(hcl-checker/lib/hcl/checker.rb *.rb)
