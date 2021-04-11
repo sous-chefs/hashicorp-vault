@@ -26,7 +26,7 @@ load_current_value do
     type vault_hcl_config_current_load(config_file).fetch(vault_hcl_config_type, {}).keys.first
     options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, type)
   when :agent
-    option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).select { |l| l.keys.first.eql?(type) }
+    option_data = array_wrap(vault_hcl_config_current_load(config_file, vault_hcl_config_type)).select { |l| l.keys.first.eql?(type) }
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
     raise Chef::Exceptions::InvalidResourceReference,

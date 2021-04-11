@@ -39,21 +39,21 @@ property :vault_mode, [String, Symbol],
 load_current_value do
   case entry_type
   when :method
-    option_data = vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, entry_type.to_s, type)
+    option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).dig(entry_type.to_s, type)
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
 
     options option_data
   when :sink
-    option_data = vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, entry_type.to_s) || []
-    option_data = option_data.filter { |s| s.dig(type, 'config', 'path').eql?(path) }
+    option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).fetch(entry_type.to_s, [])
+    option_data = array_wrap(option_data).filter { |s| s.dig(type, 'config', 'path').eql?(path) }
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
     raise Chef::Exceptions::InvalidResourceReference,
           "Filter matched #{option_data.count} auto_auth #{entry_type} configuration items but only should match one." if option_data.count > 1
 
     option_data = option_data.first&.fetch(type)
-    option_data['config'].delete('path') if option_data.is_a?(Hash) && option_data.key?('config')
+    option_data['config']&.delete('path')
 
     options compact_hash(option_data)
   end
