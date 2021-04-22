@@ -45,9 +45,9 @@ property :vault, Hash,
           coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault agent global vault configuration.'
 
-load_current_value do
-  current_value_does_not_exist! unless ::File.exist?(config_file)
-  Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| send(property, vault_hcl_config_current_load(config_file).fetch(property, {})) }
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
+  Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| send(property, vault_hcl_config_current_load(new_resource.config_file).fetch(property, {})) }
 end
 
 action :create do

@@ -17,14 +17,14 @@
 
 %w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
-load_current_value do
+load_current_value do |new_resource|
   case vault_mode
   when :server
-    current_value_does_not_exist! unless ::File.exist?(config_file)
+    current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
-    options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, type)
+    options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, new_resource.type)
   when :agent
-    option_data = array_wrap(vault_hcl_config_current_load(config_file, vault_hcl_config_type)).select { |l| l.keys.first.eql?(type) }
+    option_data = array_wrap(vault_hcl_config_current_load(new_resource.config_file, vault_hcl_config_type)).select { |l| l.keys.first.eql?(new_resource.type) }
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
     raise Chef::Exceptions::InvalidResourceReference,

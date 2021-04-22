@@ -32,25 +32,28 @@ property :mode, String,
 
 property :config_dir, String,
           default: lazy { default_vault_config_dir },
+          desired_state: false,
           description: 'Set to override vault configuration directory.'
 
 property :config_file, String,
           default: lazy { default_vault_config_file(:hcl) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/{CONFIG_TYPE}_{name}.hcl',
-          desired_state: false
+          desired_state: false,
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/{CONFIG_TYPE}_{name}.hcl'
 
 property :cookbook, String,
           default: 'hashicorp-vault',
+          desired_state: false,
           description: 'Template source cookbook for the HCL configuration type.'
 
 property :template, String,
           default: 'vault/hcl.erb',
+          desired_state: false,
           description: 'Template source file for the HCL configuration type.'
 
 property :sensitive, [true, false],
           default: true,
-          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
-          desired_state: false
+          desired_state: false,
+          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
 
 property :vault_mode, [String, Symbol],
           coerce: proc { |p| p.to_sym },

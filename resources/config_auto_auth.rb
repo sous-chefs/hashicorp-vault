@@ -20,9 +20,9 @@
 property :entry_type, [String, Symbol],
           equal_to: %i(method sink),
           coerce: proc { |p| p.to_sym },
-          description: 'Vault auto_auth configuration element entry type',
           required: true,
-          desired_state: false
+          identity: true,
+          description: 'Vault auto_auth configuration element entry type'
 
 property :path, String,
           identity: true,
@@ -35,21 +35,21 @@ property :vault_mode, [String, Symbol],
           desired_state: false,
           description: 'Vault service operation mode. Defaults to agent.'
 
-load_current_value do
+load_current_value do |new_resource|
   case entry_type
   when :method
-    option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).dig(entry_type.to_s, type)
+    option_data = vault_hcl_config_current_load(new_resource.config_file, vault_hcl_config_type).dig(new_resource.entry_type.to_s, new_resource.type)
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
 
     options option_data
   when :sink
-    option_data = vault_hcl_config_current_load(config_file, vault_hcl_config_type).fetch(entry_type.to_s, [])
+    option_data = vault_hcl_config_current_load(new_resource.config_file, vault_hcl_config_type).fetch(new_resource.entry_type.to_s, [])
     option_data = array_wrap(option_data).filter { |s| s.dig(type, 'config', 'path').eql?(path) }
 
     current_value_does_not_exist! if nil_or_empty?(option_data)
     raise Chef::Exceptions::InvalidResourceReference,
-          "Filter matched #{option_data.count} auto_auth #{entry_type} configuration items but only should match one." if option_data.count > 1
+          "Filter matched #{option_data.count} auto_auth #{new_resource.entry_type} configuration items but only should match one." if option_data.count > 1
 
     option_data = option_data.first&.fetch(type)
     option_data['config']&.delete('path')

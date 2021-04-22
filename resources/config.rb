@@ -57,11 +57,11 @@ action_class do
   include Vault::Cookbook::ResourceHelpers
 end
 
-load_current_value do
-  current_value_does_not_exist! unless ::File.exist?(config_file)
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
   require 'json'
-  config JSON.parse(::File.read(config_file)) if ::File.exist?(config_file)
+  config JSON.parse(::File.read(new_resource.config_file)) if ::File.exist?(new_resource.config_file)
 end
 
 action :create do

@@ -29,8 +29,8 @@ property :vault_mode, [String, Symbol],
           desired_state: false,
           description: 'Vault service operation mode. Defaults to agent.'
 
-load_current_value do
-  option_data = vault_hcl_config_current_load(config_file).fetch(vault_hcl_config_type, []).select { |t| t['destination'].eql?(destination) }
+load_current_value do |new_resource|
+  option_data = vault_hcl_config_current_load(new_resource.config_file).fetch(vault_hcl_config_type, []).select { |t| t['destination'].eql?(new_resource.destination) }
 
   current_value_does_not_exist! if nil_or_empty?(option_data)
   raise Chef::Exceptions::InvalidResourceReference,

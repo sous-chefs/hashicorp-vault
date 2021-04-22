@@ -17,10 +17,10 @@
 
 %w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
-load_current_value do
-  current_value_does_not_exist! unless ::File.exist?(config_file)
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
-  options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, type)
+  options vault_hcl_config_current_load(new_resource.config_file).dig(vault_hcl_config_type, new_resource.type)
 end
 
 action :create do
