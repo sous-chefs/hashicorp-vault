@@ -37,6 +37,12 @@ load_current_value do |new_resource|
         "Filter matched #{option_data.count} template configuration items but only should match one." if option_data.count > 1
 
   options option_data.first
+
+  if ::File.exist?(new_resource.config_file)
+    owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name
+    group ::Etc.getgrgid(::File.stat(new_resource.config_file).gid).name
+    mode ::File.stat(new_resource.config_file).mode.to_s(8)[-4..-1]
+  end
 end
 
 action :create do

@@ -20,6 +20,12 @@
 load_current_value do |new_resource|
   current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
+  if ::File.exist?(new_resource.config_file)
+    owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name
+    group ::Etc.getgrgid(::File.stat(new_resource.config_file).gid).name
+    mode ::File.stat(new_resource.config_file).mode.to_s(8)[-4..-1]
+  end
+
   options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, new_resource.type)
 end
 
