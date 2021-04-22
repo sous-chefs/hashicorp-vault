@@ -24,7 +24,7 @@ module Vault
         when :json
           '/etc/vault.d/vault.json'
         else
-          raise ArgumentError, "default_vault_config_file: Invalid configuraiton type #{config_type}."
+          raise ArgumentError, "default_vault_config_file: Invalid configuration type #{config_type}."
         end
       end
 
