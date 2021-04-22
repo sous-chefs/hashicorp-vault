@@ -17,7 +17,7 @@ module Vault
       def vault_hcl_resource_template_add(type = vault_hcl_config_type, value = vault_hcl_resource_data)
         with_run_context(:root) do
           edit_resource(:file, '/etc/vault.d/vault.hcl').action(:delete) if new_resource.vault_mode.eql?(:server) && ::File.exist?('/etc/vault.d/vault.hcl')
-          edit_resource(:directory, new_resource.config_dir) do
+          edit_resource(:directory, new_resource.config_dir) do |new_resource|
             owner new_resource.owner
             group new_resource.group
             mode '0750'
@@ -27,7 +27,7 @@ module Vault
             action :create
           end
 
-          edit_resource(:template, new_resource.config_file) do
+          edit_resource(:template, new_resource.config_file) do |new_resource|
             cookbook new_resource.cookbook
             source new_resource.template
 

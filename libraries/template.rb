@@ -5,6 +5,11 @@ module Vault
 
       VAULT_HCL_CONFIG_CONTAINED = %i(auto_auth).freeze
       VAULT_HCL_CONFIGURATION_ITEMS = %i(@global @auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
+      VAULT_HCL_CONFIG_BLOCK = %w(autopilot retry_join).freeze
+
+      def vault_hcl_key(key)
+        VAULT_HCL_CONFIG_BLOCK.include?(key) ? key : "#{key} ="
+      end
 
       def vault_hcl_value(value)
         case value

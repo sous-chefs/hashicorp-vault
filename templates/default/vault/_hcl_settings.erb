@@ -1,9 +1,17 @@
 <% @properties.each do |key, value| -%>
-<% if value.is_a?(Hash) -%>
-<%= key.to_s %> = {
-<%= template_partial_indent(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { name: key.to_s, properties: value }), 1) %>
+<% if value.is_a?(Array) -%>
+
+<% value.each do |val| %>
+<%= vault_hcl_key(key.to_s) %> {
+<%= template_partial_indent(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: val }), 1) %>
+}
+<% end -%>
+<% elsif value.is_a?(Hash) -%>
+
+<%= vault_hcl_key(key.to_s) %> {
+<%= template_partial_indent(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: value }), 1) %>
 }
 <% else -%>
-<%= key %> = <%= vault_hcl_value(value) %>
+<%= vault_hcl_key(key.to_s) %> <%= vault_hcl_value(value) %>
 <% end -%>
 <% end -%>
