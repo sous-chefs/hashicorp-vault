@@ -5,7 +5,7 @@ module Vault
 
       VAULT_HCL_CONFIG_CONTAINED = %i(auto_auth).freeze
       VAULT_HCL_CONFIGURATION_ITEMS = %i(@global @auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
-      VAULT_HCL_CONFIG_BLOCK = %w(autopilot retry_join).freeze
+      VAULT_HCL_CONFIG_BLOCK = %w(autopilot retry_join replication telemetry).freeze
 
       def vault_hcl_key(key)
         VAULT_HCL_CONFIG_BLOCK.include?(key) ? key : "#{key} ="
@@ -48,6 +48,8 @@ module Vault
           else
             hcl.push(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: type, properties: items }))
           end
+        else
+          raise ArgumentError, "Expected Array or Hash, got #{items.class}"
         end
 
         hcl.join("\n")
@@ -56,7 +58,7 @@ module Vault
       private
 
       def template_partial_indent(output, level, spaces = 2)
-        raise ArgumentError unless spaces > 0
+        raise ArgumentError, 'Spaces must be greater than 0' unless spaces > 0
 
         output.split("\n").each { |l| l.prepend(' ' * (level * spaces)) }.join("\n")
       end
