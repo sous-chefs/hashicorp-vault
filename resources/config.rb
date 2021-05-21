@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Vault::Cookbook::Helpers
 
 deprecated_property_alias 'config_location', 'config_file', 'The config_location property was renamed config_file in the 5.0 release of this cookbook. Please update your cookbooks to use the new property name.'
@@ -65,7 +67,7 @@ load_current_value do |new_resource|
 end
 
 action :create do
-  edit_resource(:file, '/etc/vault.d/vault.hcl').action(:delete) if ::File.exist?('/etc/vault.d/vault.hcl')
+  edit_resource(:file, '/etc/vault.d/vault.hcl') { action(:delete) } if ::File.exist?('/etc/vault.d/vault.hcl')
 
   converge_if_changed do
     chef_gem 'deepsort' do
@@ -98,5 +100,5 @@ action :create do
 end
 
 action :delete do
-  edit_resource(:file, default_vault_config_file(config_type)).action(:delete)
+  edit_resource(:file, new_resource.config_file) { action(:delete) }
 end

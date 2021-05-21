@@ -69,5 +69,5 @@ action :create do
 end
 
 action :delete do
-  edit_resource(:file, new_resource.config_file).action(:delete) if ::File.exist?(new_resource.config_file)
+  edit_resource(:file, new_resource.config_file) { action(:delete) } if ::File.exist?(new_resource.config_file)
 end

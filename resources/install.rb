@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Vault::Cookbook::Helpers
 include Vault::Cookbook::InstallHelpers
 

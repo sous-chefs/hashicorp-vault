@@ -50,7 +50,7 @@ end
 action :delete do
   case vault_mode
   when :server
-    edit_resource(:file, new_resource.config_file).action(:delete) if ::File.exist?(new_resource.config_file)
+    edit_resource(:file, new_resource.config_file) { action(:delete) } if ::File.exist?(new_resource.config_file)
   when :agent
     converge_by('Remove configuration from accumulator template') { vault_hcl_resource_template_remove } if vault_hcl_resource_template?
   end
