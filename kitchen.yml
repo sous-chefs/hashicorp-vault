@@ -15,7 +15,6 @@ provisioner:
 
 verifier:
   name: inspec
-  env: [CHEF_LICENSE=accept]
 
 platforms:
   - name: amazonlinux-2

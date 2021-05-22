@@ -16,4 +16,4 @@ supports 'opensuseleap'
 supports 'suse'
 supports 'ubuntu'
 
-depends 'ark', '~> 5.0.0'
+depends 'ark', '~> 6.0'
