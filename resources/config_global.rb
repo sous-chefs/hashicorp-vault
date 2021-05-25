@@ -16,72 +16,58 @@
 #
 
 include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
 
-property :owner, String,
-          default: lazy { default_vault_user },
-          description: 'Set to override default vault user. Defaults to vault.'
-
-property :group, String,
-          default: lazy { default_vault_group },
-          description: 'Set to override default vault group. Defaults to vault.'
-
-property :mode, String,
-          default: '0640',
-          description: 'Set to override default vault config file mode. Defaults to 0600.'
-
-property :config_file, String,
-          default: lazy { default_vault_config_file(:hcl) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
-
-property :cookbook, String,
-          default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
-
-property :template, String,
-          default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
-
-property :sensitive, [true, false],
-         default: true,
-         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+use 'partial/_config_hcl_base'
 
 property :global, Hash,
           default: lazy { default_vault_config_hcl(:global) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global configuration.'
 
 property :cache, Hash,
           default: lazy { default_vault_config_hcl(:cache) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global cache configuration.'
 
 property :sentinel, Hash,
           default: lazy { default_vault_config_hcl(:sentinel) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global sentinel configuration.'
 
 property :telemetry, Hash,
           default: lazy { default_vault_config_hcl(:telemetry) },
+          coerce: proc { |p| p.transform_keys(&:to_s) },
           description: 'Vault global telemetry configuration.'
 
 property :vault, Hash,
           default: lazy { default_vault_config_hcl(:vault) },
-          description: 'Vault global vault configuration.'
+          coerce: proc { |p| p.transform_keys(&:to_s) },
+          description: 'Vault agent global vault configuration.'
 
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
-  VAULT_GLOBAL_PROPERTIES = %i(global cache sentinel telemetry vault).freeze
+  if ::File.exist?(new_resource.config_file)
+    owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name
+    group ::Etc.getgrgid(::File.stat(new_resource.config_file).gid).name
+    mode ::File.stat(new_resource.config_file).mode.to_s(8)[-4..-1]
+  end
+
+  Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| send(property, vault_hcl_config_current_load(new_resource.config_file).fetch(property, {})) }
 end
 
 action :create do
-  vault_hcl_config_resource_init
+  converge_if_changed do
+    Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| vault_hcl_resource_template_add(property, new_resource.send(property)) }
+  end
 
-  VAULT_GLOBAL_PROPERTIES.each { |property| vault_hcl_config_resource.variables[property] = new_resource.send(property) }
+  # We have to do this twice as the agent config file is accumulated and converge_if_changed won't always fire
+  if new_resource.vault_mode.eql?(:agent)
+    Vault::Cookbook::ResourceHelpers::VAULT_GLOBAL_PROPERTIES.each { |property| vault_hcl_resource_template_add(property, new_resource.send(property)) }
+  end
 end
 
 action :delete do
-  vault_hcl_config_resource_init
-
-  VAULT_GLOBAL_PROPERTIES.each do |property|
-    new_resource.send(property).each { |k, _| vault_hcl_config_resource.variables[property].delete(k) }
-  end
+  edit_resource(:file, new_resource.config_file) { action(:delete) } if ::File.exist?(new_resource.config_file)
 end

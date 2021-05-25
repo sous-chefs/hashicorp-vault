@@ -1,11 +1,14 @@
 module Vault
   module Cookbook
     module TemplateHelpers
-      VAULT_HCL_CONFIG_CONTAINED = %w(auto_auth).freeze
-      VAULT_HCL_CONFIGURATION_ITEMS = %i(@auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
+      include Vault::Cookbook::CommonHelpers
 
-      def nil_or_empty?(v)
-        v.nil? || (v.respond_to?(:empty?) && v.empty?)
+      VAULT_HCL_CONFIG_CONTAINED = %i(auto_auth).freeze
+      VAULT_HCL_CONFIGURATION_ITEMS = %i(@global @auto_auth @cache @entropy @listener @seal @sentinel @service_registration @storage @telemetry @template @vault).freeze
+      VAULT_HCL_CONFIG_BLOCK = %w(autopilot retry_join replication telemetry).freeze
+
+      def vault_hcl_key(key)
+        VAULT_HCL_CONFIG_BLOCK.include?(key) ? key : "#{key} ="
       end
 
       def vault_hcl_value(value)
@@ -26,22 +29,27 @@ module Vault
 
         case items
         when Array
-          if VAULT_HCL_CONFIG_CONTAINED.include?(type)
+          if VAULT_HCL_CONFIG_CONTAINED.include?(type.to_sym)
             hcl.push(render('vault/_hcl_items_contained.erb', cookbook: 'hashicorp-vault', variables: { container: type, items: items }))
           else
             items.each do |conf_item|
-              conf_item_type = conf_item.fetch(:type, type)
               hcl.push(
                 render(
                   'vault/_hcl_item.erb',
                   cookbook: 'hashicorp-vault',
-                  variables: { type: conf_item_type, name: conf_item[:name], description: conf_item[:description], properties: conf_item[:options] }
+                  variables: { type: conf_item[:item_type], name: conf_item[:name], description: conf_item[:description], properties: conf_item[:options] }
                 )
               )
             end
           end
         when Hash
-          hcl.push(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: type, properties: items }))
+          if type.eql?('global')
+            hcl.push(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: items }))
+          else
+            hcl.push(render('vault/_hcl_item.erb', cookbook: 'hashicorp-vault', variables: { type: type, properties: items }))
+          end
+        else
+          raise ArgumentError, "Expected Array or Hash, got #{items.class}"
         end
 
         hcl.join("\n")
@@ -50,7 +58,7 @@ module Vault
       private
 
       def template_partial_indent(output, level, spaces = 2)
-        raise ArgumentError unless spaces > 0
+        raise ArgumentError, 'Spaces must be greater than 0' unless spaces > 0
 
         output.split("\n").each { |l| l.prepend(' ' * (level * spaces)) }.join("\n")
       end

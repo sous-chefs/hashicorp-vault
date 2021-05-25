@@ -1,6 +1,6 @@
-<% unless nil_or_empty?(@description) || @description.eql?(@name) -%>
+<% unless nil_or_empty?(@description) %>
 # <%= @description %>
-<% end -%>
+<% end %>
 <%= @type %><% unless nil_or_empty?(@name) -%> <%= vault_hcl_value(@name) %><% end -%> {
 <%= template_partial_indent(render('vault/_hcl_settings.erb', cookbook: 'hashicorp-vault', variables: { properties: @properties }), 1) %>
 }

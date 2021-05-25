@@ -40,19 +40,20 @@ jobs:
     strategy:
       matrix:
         os:
-          - "amazonlinux-2"
-          - "centos-7"
-          - "centos-8"
-          - "fedora-latest"
-          - "debian-10"
-          - "ubuntu-1804"
-          - "ubuntu-2004"
+          - amazonlinux-2
+          - centos-7
+          - centos-8
+          - centos-stream-8
+          - fedora-latest
+          - debian-10
+          - ubuntu-1804
+          - ubuntu-2004
         suite:
-          - "server-json"
-          - "server-hcl"
-          - "server-hcl-ark"
-          - "agent-json"
-          - "agent-hcl"
+          - server-json
+          - server-hcl
+          - server-hcl-ark
+          - agent-json
+          - agent-hcl
       fail-fast: false
 
     steps:

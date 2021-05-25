@@ -5,38 +5,30 @@ end
 hashicorp_vault_config 'vault' do
   config_file '/etc/vault.d/vault-agent.json'
   config(
-    'pid_file' => './pidfile',
+    'log_level' => 'info',
     'vault' => {
       'address' => 'https://127.0.0.1:8200',
     },
     'auto_auth' => {
-      'method' => {
-        'aws' => {
-          'mount_path' => 'auth/aws-subaccount',
+      'method' => [
+        {
+          'type' => 'approle',
           'config' => {
-            'type' => 'iam',
-            'role' => 'foobar',
+            'role_id_file_path' => '/etc/vault/role_id',
+            'secret_id_file_path' => '/etc/vault/role_secret',
           },
         },
-      },
-      'sink' => {
-        'file' => [
-          {
+      ],
+      'sinks' => [
+        {
+          'sink' => {
+            'type' => 'file',
             'config' => {
               'path' => '/tmp/file-sink',
             },
           },
-          {
-            'wrap_ttl' => '5m',
-            'aad_env_var' => 'TEST_AAD_ENV',
-            'dh_type' => 'curve25519',
-            'dh_path' => '/tmp/file-foo-dhpath2',
-            'config' => {
-              'path' => '/tmp/file-bar',
-            },
-          },
-        ],
-      },
+        },
+      ],
     },
     'cache' => {
       'use_auto_auth_token' => true,
@@ -53,12 +45,12 @@ hashicorp_vault_config 'vault' do
     },
     'template' => [
       {
-        'source' => '/etc/vault/server.crt.ctmpl',
-        'destination' => '/etc/vault/server.crt',
+        'source' => '/etc/vault.d/server.crt.ctmpl',
+        'destination' => '/etc/vault.d/server.crt',
       },
       {
-        'source' => '/etc/vault/server.key.ctmpl',
-        'destination' => '/etc/vault/server.key',
+        'source' => '/etc/vault.d/server.key.ctmpl',
+        'destination' => '/etc/vault.d/server.key',
       },
     ]
   )
@@ -66,9 +58,11 @@ hashicorp_vault_config 'vault' do
   sensitive false
 end
 
+%w(crt key).each { |f| file "/etc/vault.d/server.#{f}.ctmpl" }
+
 hashicorp_vault_service 'vault' do
   config_file '/etc/vault.d/vault-agent.json'
-  mode :agent
+  vault_mode :agent
 
   action %i(create enable start)
 

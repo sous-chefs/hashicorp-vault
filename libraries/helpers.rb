@@ -13,14 +13,18 @@ module Vault
         %w(vault)
       end
 
+      def default_vault_config_dir
+        '/etc/vault.d'
+      end
+
       def default_vault_config_file(config_type)
         case config_type
         when :hcl
-          '/etc/vault.d/vault.hcl'
+          vault_mode.eql?(:server) ? "#{config_dir}/#{vault_hcl_file_prefix}_#{name.gsub(' ', '_').downcase}.hcl" : '/etc/vault.d/vault.hcl'
         when :json
           '/etc/vault.d/vault.json'
         else
-          raise ArgumentError, "default_vault_config_file: Invalid configuraiton type #{config_type}."
+          raise ArgumentError, "default_vault_config_file: Invalid configuration type #{config_type}."
         end
       end
 
@@ -82,21 +86,18 @@ module Vault
       end
 
       def default_vault_service_name
-        mode.eql?(:server) ? 'vault' : 'vault-agent'
+        vault_mode.eql?(:server) ? 'vault' : 'vault-agent'
       end
 
       def default_vault_unit_content
-        {
+        unit_content = {
           'Unit' => {
-            'Description' => '"HashiCorp Vault - A tool for managing secrets"',
-            'Documentation' => 'https://www.vaultproject.io/docs/',
-            'Requires' => 'network-online.target',
             'After' => [
               'network-online.target',
             ],
-            'ConditionFileNotEmpty' => [
-              "#{config_file}",
-            ],
+            'Description' => 'HashiCorp Vault - A tool for managing secrets',
+            'Documentation' => 'https://www.vaultproject.io/docs/',
+            'Requires' => 'network-online.target',
             'StartLimitIntervalSec' => 60,
             'StartLimitBurst' => 3,
           },
@@ -112,7 +113,7 @@ module Vault
             'AmbientCapabilities' => 'CAP_IPC_LOCK',
             'CapabilityBoundingSet' => 'CAP_SYSLOG CAP_IPC_LOCK',
             'NoNewPrivileges' => 'yes',
-            'ExecStart' => "#{vault_binary_path} #{mode.to_s} -config=#{config_file}",
+            'ExecStart' => "#{vault_binary_path} #{vault_mode.to_s} -config=#{vault_mode.eql?(:server) ? config_dir : config_file}",
             'ExecReload' => '/bin/kill --signal HUP $MAINPID',
             'KillMode' => 'process',
             'KillSignal' => 'SIGINT',
@@ -128,6 +129,16 @@ module Vault
             'WantedBy' => 'multi-user.target',
           },
         }
+
+        case vault_mode
+        when :server
+          unit_content['Unit']['ConditionPathIsDirectory'] = [ config_dir ]
+        when :agent
+          unit_content['Unit']['ConditionFileNotEmpty'] = [ config_file ]
+        end
+        unit_content['Unit'] = unit_content['Unit'].sort.to_h
+
+        unit_content
       end
     end
   end

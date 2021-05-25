@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Vault::Cookbook::Helpers
 
 deprecated_property_alias 'config_location', 'config_file', 'The config_location property was renamed config_file in the 5.0 release of this cookbook. Please update your cookbooks to use the new property name.'
@@ -33,19 +35,23 @@ property :mode, String,
 
 property :config_file, String,
           default: lazy { default_vault_config_file(:json) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json'
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json',
+          desired_state: false
 
 property :cookbook, String,
           default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
+          description: 'Template source cookbook for the HCL configuration type.',
+          desired_state: false
 
 property :template, String,
           default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
+          description: 'Template source file for the HCL configuration type.',
+          desired_state: false
 
 property :sensitive, [true, false],
           default: true,
-          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
+          description: 'Ensure that sensitive resource data is not output by Chef Infra Client.',
+          desired_state: false
 
 property :config, Hash,
           default: lazy { default_vault_config_json },
@@ -56,35 +62,46 @@ action_class do
   include Vault::Cookbook::ResourceHelpers
 end
 
-action :create do
-  directory ::File.dirname(new_resource.config_file) do
-    owner new_resource.owner
-    group new_resource.group
-    mode '0750'
-
-    action :create
-  end
-
-  chef_gem 'deepsort' do
-    compile_time true
-  end
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
   require 'json'
-  require 'deepsort'
+  config JSON.parse(::File.read(new_resource.config_file)) if ::File.exist?(new_resource.config_file)
+end
 
-  file new_resource.config_file do
-    content JSON.pretty_generate(new_resource.config.map { |key, val| [key.to_s, val] }.to_h.deep_sort).concat("\n")
+action :create do
+  edit_resource(:file, '/etc/vault.d/vault.hcl') { action(:delete) } if ::File.exist?('/etc/vault.d/vault.hcl')
 
-    owner new_resource.owner
-    group new_resource.group
-    mode '0640'
+  converge_if_changed do
+    chef_gem 'deepsort' do
+      compile_time true
+    end
 
-    sensitive new_resource.sensitive
+    directory ::File.dirname(new_resource.config_file) do
+      owner new_resource.owner
+      group new_resource.group
+      mode '0750'
 
-    action :create
+      action :create
+    end
+
+    require 'json'
+    require 'deepsort'
+
+    file new_resource.config_file do
+      content JSON.pretty_generate(new_resource.config.map { |key, val| [key.to_s, val] }.to_h.deep_sort).concat("\n")
+
+      owner new_resource.owner
+      group new_resource.group
+      mode '0640'
+
+      sensitive new_resource.sensitive
+
+      action :create
+    end
   end
 end
 
 action :delete do
-  edit_resource(:file, default_vault_config_file(config_type)).action(:delete)
+  edit_resource(:file, new_resource.config_file) { action(:delete) }
 end

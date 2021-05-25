@@ -25,10 +25,14 @@ describe 'hashicorp_vault_config_template' do
       is_expected.to render_file('/etc/vault.d/vault.hcl')
         .with_content(/# template/)
         .with_content(/template {/)
-        .with_content(%r{  source = "/etc/vault/server.key.ctmpl"})
-        .with_content(%r{  destination = "/etc/vault/server.key"})
         .with_content(%r{  source = "/etc/vault/server.crt.ctmpl"})
         .with_content(%r{  destination = "/etc/vault/server.crt"})
+
+      is_expected.to render_file('/etc/vault.d/vault.hcl')
+        .with_content(/# template/)
+        .with_content(/template {/)
+        .with_content(%r{  source = "/etc/vault/server.key.ctmpl"})
+        .with_content(%r{  destination = "/etc/vault/server.key"})
     end
   end
 end

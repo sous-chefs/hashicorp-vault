@@ -7,6 +7,7 @@ describe 'hashicorp_vault_config_seal' do
   context 'create seal HCL configuration' do
     recipe do
       hashicorp_vault_config_seal 'awskms' do
+        type 'awskms'
         options(
           'region' => 'us-east-1',
           'access_key' => 'AKIAIOSFODNN7EXAMPLE',
@@ -18,7 +19,7 @@ describe 'hashicorp_vault_config_seal' do
     end
 
     it 'Creates the configuration file correctly' do
-      is_expected.to render_file('/etc/vault.d/vault.hcl')
+      is_expected.to render_file('/etc/vault.d/config_seal_awskms.hcl')
         .with_content(/# seal/)
         .with_content(/seal "awskms" {/)
         .with_content(/  region = "us-east-1"/)

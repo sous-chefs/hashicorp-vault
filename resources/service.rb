@@ -15,7 +15,10 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
 
 property :service_name, String,
           coerce: proc { |p| "#{p}.service" },
@@ -45,10 +48,14 @@ property :group, String,
           description: 'Set to override default vault group. Defaults to vault.'
 
 property :config_file, String,
-          default: lazy { default_vault_config_file(config_type) },
-          description: 'Set to override vault configuration file.'
+          default: lazy { default_vault_config_file(:hcl) },
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
 
-property :mode, [String, Symbol],
+property :config_dir, String,
+          default: lazy { default_vault_config_dir },
+          description: 'Set to override vault configuration directory.'
+
+property :vault_mode, [String, Symbol],
           coerce: proc { |p| p.to_sym },
           equal_to: [:server, :agent],
           default: :server,
@@ -83,8 +90,6 @@ action :delete do
   end
 end
 
-%i(start stop restart reload enable disable).each do |service_action|
-  action service_action do
-    do_service_action(action)
-  end
+%i(start stop restart reload enable disable).each do |action_type|
+  send(:action, action_type) { do_service_action(action) }
 end

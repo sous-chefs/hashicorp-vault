@@ -30,6 +30,8 @@ hashicorp_vault_config_global 'vault' do
 end
 
 hashicorp_vault_config_listener 'tcp' do
+  type 'tcp'
+  description 'Test TCP listener'
   options(
     'address' => '127.0.0.1:8200',
     'cluster_address' => '127.0.0.1:8201',
@@ -43,6 +45,7 @@ end
 
 hashicorp_vault_config_storage 'Test file storage' do
   type 'file'
+  description 'Test file storage'
   options(
     'path' => '/opt/vault/data'
   )

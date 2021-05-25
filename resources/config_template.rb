@@ -15,57 +15,45 @@
 # limitations under the License.
 #
 
-include Vault::Cookbook::Helpers
+%w(base item).each { |t| use "partial/_config_hcl_#{t}" }
 
-property :owner, String,
-          default: lazy { default_vault_user },
-          description: 'Set to override default vault user. Defaults to vault.'
+property :destination, String,
+          coerce: proc { |p| p.to_s },
+          name_property: true,
+          description: 'Vault template destination file.'
 
-property :group, String,
-          default: lazy { default_vault_group },
-          description: 'Set to override default vault group. Defaults to vault.'
+property :vault_mode, [String, Symbol],
+          coerce: proc { |p| p.to_sym },
+          equal_to: [:agent],
+          default: :agent,
+          desired_state: false,
+          description: 'Vault service operation mode. Defaults to agent.'
 
-property :mode, String,
-          default: '0640',
-          description: 'Set to override default vault config file mode. Defaults to 0600.'
+load_current_value do |new_resource|
+  option_data = vault_hcl_config_current_load(new_resource.config_file).fetch(vault_hcl_config_type, []).select { |t| t['destination'].eql?(new_resource.destination) }
 
-property :config_file, String,
-          default: lazy { default_vault_config_file(:hcl) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
+  current_value_does_not_exist! if nil_or_empty?(option_data)
+  raise Chef::Exceptions::InvalidResourceReference,
+        "Filter matched #{option_data.count} template configuration items but only should match one." if option_data.count > 1
 
-property :cookbook, String,
-          default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
+  options option_data.first.filter { |k, _| !k.eql?('destination') }
 
-property :template, String,
-          default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
-
-property :sensitive, [true, false],
-         default: true,
-         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
-
-property :type, [String, Symbol],
-          description: 'Vault template type.'
-
-property :options, Hash,
-          default: lazy { default_vault_config_hcl(:template) },
-          description: 'Vault template configuration.'
-
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
+  if ::File.exist?(new_resource.config_file)
+    owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name
+    group ::Etc.getgrgid(::File.stat(new_resource.config_file).gid).name
+    mode ::File.stat(new_resource.config_file).mode.to_s(8)[-4..-1]
+  end
 end
 
 action :create do
-  vault_hcl_config_resource_init
-  vault_hcl_config_resource.variables[:template] ||= []
+  raise 'The template resource can only be used in agent mode' unless new_resource.vault_mode.eql?(:agent)
 
-  vault_hcl_config_resource.variables[:template].push(vault_hcl_resource_data)
+  converge_if_changed { vault_hcl_resource_template_add }
+
+  # We have to do this twice as the agent config file is accumulated and converge_if_changed won't always fire
+  vault_hcl_resource_template_add if new_resource.vault_mode.eql?(:agent)
 end
 
 action :delete do
-  vault_hcl_config_resource_init
-
-  vault_hcl_config_resource.variables[:template].delete(vault_hcl_resource_data)
+  converge_by('Remove configuration from accumulator template') { vault_hcl_resource_template_remove } if vault_hcl_resource_template?
 end

@@ -15,58 +15,24 @@
 # limitations under the License.
 #
 
-include Vault::Cookbook::Helpers
+%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
-property :owner, String,
-          default: lazy { default_vault_user },
-          description: 'Set to override default vault user. Defaults to vault.'
+load_current_value do |new_resource|
+  current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)
 
-property :group, String,
-          default: lazy { default_vault_group },
-          description: 'Set to override default vault group. Defaults to vault.'
+  if ::File.exist?(new_resource.config_file)
+    owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name
+    group ::Etc.getgrgid(::File.stat(new_resource.config_file).gid).name
+    mode ::File.stat(new_resource.config_file).mode.to_s(8)[-4..-1]
+  end
 
-property :mode, String,
-          default: '0640',
-          description: 'Set to override default vault config file mode. Defaults to 0600.'
-
-property :config_file, String,
-          default: lazy { default_vault_config_file(:hcl) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.hcl'
-
-property :cookbook, String,
-          default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
-
-property :template, String,
-          default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
-
-property :sensitive, [true, false],
-         default: true,
-         description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
-
-property :type, [String, Symbol],
-          default: lazy { name },
-          description: 'Vault server seal type.'
-
-property :options, Hash,
-          default: lazy { default_vault_config_hcl(:seal) },
-          description: 'Vault server seal configuration.'
-
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
+  options vault_hcl_config_current_load(config_file).dig(vault_hcl_config_type, new_resource.type)
 end
 
 action :create do
-  vault_hcl_config_resource_init
-
-  vault_hcl_config_resource.variables[:seal] ||= []
-  vault_hcl_config_resource.variables[:seal].push(vault_hcl_resource_data)
+  converge_if_changed { vault_hcl_resource_template_add }
 end
 
 action :delete do
-  vault_hcl_config_resource_init
-
-  vault_hcl_config_resource.variables[:seal].delete(vault_hcl_resource_data)
+  edit_resource(:file, new_resource.config_file) { action(:delete) } if ::File.exist?(new_resource.config_file)
 end
