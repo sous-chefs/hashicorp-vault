@@ -36,7 +36,7 @@ load_current_value do |new_resource|
   raise Chef::Exceptions::InvalidResourceReference,
         "Filter matched #{option_data.count} template configuration items but only should match one." if option_data.count > 1
 
-  options option_data.first
+  options option_data.first.filter { |k, _| !k.eql?('destination') }
 
   if ::File.exist?(new_resource.config_file)
     owner ::Etc.getpwuid(::File.stat(new_resource.config_file).uid).name

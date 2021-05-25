@@ -35,15 +35,18 @@ property :mode, String,
 
 property :config_file, String,
           default: lazy { default_vault_config_file(:json) },
-          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json'
+          description: 'Set to override vault configuration file. Defaults to /etc/vault.d/vault.json',
+          desired_state: false
 
 property :cookbook, String,
           default: 'hashicorp-vault',
-          description: 'Template source cookbook for the HCL configuration type.'
+          description: 'Template source cookbook for the HCL configuration type.',
+          desired_state: false
 
 property :template, String,
           default: 'vault/hcl.erb',
-          description: 'Template source file for the HCL configuration type.'
+          description: 'Template source file for the HCL configuration type.',
+          desired_state: false
 
 property :sensitive, [true, false],
           default: true,
