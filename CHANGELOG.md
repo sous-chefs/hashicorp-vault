@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## 6.0.0 - *2021-05-25*
 
 **Breaking changes, please see [UPGRADING.md](./UPGRADING.md).**
