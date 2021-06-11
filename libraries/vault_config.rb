@@ -51,7 +51,9 @@ module VaultCookbook
       attribute(:disable_cache, equal_to: [true, false])
       attribute(:disable_mlock, equal_to: [true, false], default: false)
       attribute(:default_lease_ttl, kind_of: String)
+      attribute(:log_level, default: 'info', equal_to: %w(trace debug info warn err))
       attribute(:max_lease_ttl, kind_of: String)
+      attribute(:raw_storage_endpoint, equal_to: [true, false])
       # Service Registration options
       attribute(:service_registration_type, equal_to: %w(consul kubernetes))
       attribute(:service_registration_options, option_collector: true)
@@ -82,7 +84,8 @@ module VaultCookbook
       # @see https://vaultproject.io/docs/config/index.html
       def to_json
         # top-level
-        config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl max_lease_ttl ui)
+        config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl log_level max_lease_ttl raw_storage_endpoint ui)
+        puts to_hash.inspect()
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
