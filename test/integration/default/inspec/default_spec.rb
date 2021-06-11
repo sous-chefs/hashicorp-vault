@@ -16,6 +16,7 @@ describe file('/etc/vault/vault.json') do
   it { should be_file }
   it { should be_owned_by 'vault' }
   it { should be_grouped_into 'vault' }
+  its('content') { should match /.*log_level.*/ }
 end
 
 describe service('vault') do

@@ -1,5 +1,5 @@
 {
-  "revision_id": "288f08ea8c67f7603a13403eba48c9f20b4677c12f9e404781e90b60e48b015d",
+  "revision_id": "3b42b608109a9bc0dc8583c05199829d2d5294fe7335553fd7c36f3491dd9c25",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -8,6 +8,17 @@
 
   ],
   "cookbook_locks": {
+    "ark": {
+      "version": "5.1.1",
+      "identifier": "7933e70be3768c0476337b7e1c306a62bef8bbb5",
+      "dotted_decimal_identifier": "34115539611907724.1255863394114608.116972343311285",
+      "cache_key": "ark-5.1.1-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/ark/versions/5.1.1/download",
+      "source_options": {
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/ark/versions/5.1.1/download",
+        "version": "5.1.1"
+      }
+    },
     "build-essential": {
       "version": "8.2.1",
       "identifier": "4b9d5c72796184085681d3eefd625c90b79530a8",
@@ -20,30 +31,30 @@
       }
     },
     "golang": {
-      "version": "1.7.2",
-      "identifier": "6b876eca6e58f2b4ac1afe16220b5a3acd0ecd5e",
-      "dotted_decimal_identifier": "30266732420421874.50854727739908619.99208594902366",
-      "cache_key": "golang-1.7.2-supermarket.chef.io",
-      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/golang/versions/1.7.2/download",
+      "version": "4.1.1",
+      "identifier": "b34a0653b31aab526b83c8249e06eca7ec7fbf9d",
+      "dotted_decimal_identifier": "50465411865713323.23199161833004550.260205971488669",
+      "cache_key": "golang-4.1.1-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/golang/versions/4.1.1/download",
       "source_options": {
-        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/golang/versions/1.7.2/download",
-        "version": "1.7.2"
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/golang/versions/4.1.1/download",
+        "version": "4.1.1"
       }
     },
     "hashicorp-vault": {
-      "version": "1002.7.2",
-      "identifier": "0acdf2154cb39b148bd078b01ff209cd486dc251",
-      "dotted_decimal_identifier": "3041189390234523.5783227028479986.10777288098385",
+      "version": "1002.7.5",
+      "identifier": "9957a8b27edd6eac19aaf6ec6df4c5e74268cd5b",
+      "dotted_decimal_identifier": "43162053497511278.48441918072057332.217597042281819",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "9f73a99e1a7b27867fefa56d14e05ab1cff6a112",
+        "revision": "d1571d6824e613b72e4af4883b8555a7e9540abe",
         "working_tree_clean": false,
-        "published": true,
+        "published": false,
         "synchronized_remote_branches": [
-          "origin/add_service_registration_and_support_for_vault_integrated_storage"
+
         ]
       },
       "source_options": {
@@ -95,14 +106,14 @@
       }
     },
     "seven_zip": {
-      "version": "3.1.2",
-      "identifier": "0e1fed3b56aa5e84205e330d92aca22d8704a014",
-      "dotted_decimal_identifier": "3975753437194846.37190285881348780.178316422455316",
-      "cache_key": "seven_zip-3.1.2-supermarket.chef.io",
-      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.1.2/download",
+      "version": "3.2.0",
+      "identifier": "d374d8fece863d7e18d17afdceb5a5f28db7ca76",
+      "dotted_decimal_identifier": "59519695422654013.35493135056228021.182461178301046",
+      "cache_key": "seven_zip-3.2.0-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.2.0/download",
       "source_options": {
-        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.1.2/download",
-        "version": "3.1.2"
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/seven_zip/versions/3.2.0/download",
+        "version": "3.2.0"
       }
     },
     "windows": {
@@ -126,12 +137,16 @@
   "solution_dependencies": {
     "Policyfile": [
       [
+        "ark",
+        "= 5.1.1"
+      ],
+      [
         "build-essential",
         "= 8.2.1"
       ],
       [
         "golang",
-        "= 1.7.2"
+        "= 4.1.1"
       ],
       [
         "hashicorp-vault",
@@ -155,7 +170,7 @@
       ],
       [
         "seven_zip",
-        "= 3.1.2"
+        "= 3.2.0"
       ],
       [
         "windows",
@@ -163,6 +178,12 @@
       ]
     ],
     "dependencies": {
+      "ark (5.1.1)": [
+        [
+          "seven_zip",
+          "~> 3.2.0"
+        ]
+      ],
       "build-essential (8.2.1)": [
         [
           "seven_zip",
@@ -173,17 +194,20 @@
           ">= 1.1.0"
         ]
       ],
-      "golang (1.7.2)": [
-
+      "golang (4.1.1)": [
+        [
+          "ark",
+          "~> 5.0"
+        ]
       ],
-      "hashicorp-vault (1002.7.2)": [
+      "hashicorp-vault (1002.7.5)": [
         [
           "build-essential",
           ">= 0.0.0"
         ],
         [
           "golang",
-          "~> 1.7"
+          "~> 4.1.0"
         ],
         [
           "poise",
@@ -219,7 +243,7 @@
           "~> 2.2"
         ]
       ],
-      "seven_zip (3.1.2)": [
+      "seven_zip (3.2.0)": [
         [
           "windows",
           ">= 0.0.0"
