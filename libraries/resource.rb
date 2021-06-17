@@ -1,3 +1,5 @@
+require 'hcl/checker'
+
 module Vault
   module Cookbook
     module ResourceHelpers

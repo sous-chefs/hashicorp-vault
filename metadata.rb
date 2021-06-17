@@ -17,3 +17,5 @@ supports 'suse'
 supports 'ubuntu'
 
 depends 'ark', '~> 6.0'
+
+gem 'hcl-checker', '~> 1.6'
