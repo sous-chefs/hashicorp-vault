@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 %w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
 load_current_value do |new_resource|
