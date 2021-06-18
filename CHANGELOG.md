@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Un-vendor hcl-checker gem
+
 ## 6.0.1 - *2021-06-01*
 
 ## 6.0.0 - *2021-05-25*

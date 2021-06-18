@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 %w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
 
 property :entry_type, [String, Symbol],

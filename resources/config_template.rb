@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+unified_mode true
+
 %w(base item).each { |t| use "partial/_config_hcl_#{t}" }
 
 property :destination, String,
