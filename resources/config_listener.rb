@@ -17,9 +17,14 @@
 
 unified_mode true
 
-property :type, String, name_property: true
+property :type, [String, Symbol],
+          coerce: proc { |p| p.to_s },
+          identity: true,
+          required: true,
+          description: 'Vault server configuration element type.',
+          name_property: true
 
-%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
+%w(base item).each { |t| use "partial/_config_hcl_#{t}" }
 
 load_current_value do |new_resource|
   case vault_mode
