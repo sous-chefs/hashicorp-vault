@@ -59,7 +59,7 @@ end
 
 describe file('/etc/systemd/system/vault.service') do
   it { should be_file }
-  its('content') { should match %r{ConditionPathIsDirectory = \/etc\/vault.d} }
+  its('content') { should match %r{ConditionPathIsDirectory=\/etc\/vault.d} }
   its('content') { should match %r{ExecStart = \/usr\/bin\/vault server -config=\/etc\/vault.d} }
 end
 
