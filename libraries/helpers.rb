@@ -1,4 +1,4 @@
-#Comment
+# Comment
 module Vault
   module Cookbook
     module Helpers
