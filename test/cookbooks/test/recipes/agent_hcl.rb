@@ -52,7 +52,6 @@ end
 
 hashicorp_vault_config_listener 'unix' do
   vault_mode :agent
-  type 'unix'
   options(
     'address' => '/tmp/vault_agent_unix.sock',
     'tls_disable' => true

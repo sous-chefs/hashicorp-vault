@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Use `new_resource.name` as `type`
+
 ## 6.0.3 - *2021-08-30*
 
 - Standardise files with files in sous-chefs/repo-management
