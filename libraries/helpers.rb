@@ -1,3 +1,4 @@
+#Comment
 module Vault
   module Cookbook
     module Helpers
@@ -8,7 +9,6 @@ module Vault
       def default_vault_group
         'vault'
       end
-
 
       def default_vault_packages
         %w(vault)
