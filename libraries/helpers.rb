@@ -9,6 +9,7 @@ module Vault
         'vault'
       end
 
+
       def default_vault_packages
         %w(vault)
       end
