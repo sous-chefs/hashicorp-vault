@@ -20,7 +20,6 @@ unified_mode true
 property :type, [String, Symbol],
           coerce: proc { |p| p.to_s },
           identity: true,
-          required: true,
           description: 'Vault server configuration element type.',
           name_property: true
 
