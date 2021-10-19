@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Unify `:type` property as name_property in partial
+
 ## 6.2.0 - *2021-10-19*
 
 - Use `new_resource.name` as `type` part 2
