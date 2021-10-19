@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Use `new_resource.name` as `type` part 2
+
 ## 6.1.0 - *2021-10-13*
 
 - Use `new_resource.name` as `type`

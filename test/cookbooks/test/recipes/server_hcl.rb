@@ -30,7 +30,6 @@ end
 
 hashicorp_vault_config_storage 'file' do
   sensitive false
-  type 'file'
   options(
     'path' => '/opt/vault/data'
   )
