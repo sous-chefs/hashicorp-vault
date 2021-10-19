@@ -40,7 +40,6 @@ end
 hashicorp_vault_config_storage 'raft' do
   config_dir '/etc/vault.test.d'
   sensitive false
-  type 'raft'
   options(
     'path' => '/opt/vault/data',
     'retry_join' => [

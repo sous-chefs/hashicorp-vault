@@ -17,6 +17,7 @@
 
 property :type, [String, Symbol],
           coerce: proc { |p| p.to_s },
+          name_property: true,
           identity: true,
           required: true,
           description: 'Vault server configuration element type.'
