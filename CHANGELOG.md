@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - Remove delivery folder
 - Standardise files with files in sous-chefs/repo-management
+- Update tested platforms
+- Update Test Kitchen provisioner settings
+- Remove .delivery folder
+- Move to calling RSpec directly via a reusable workflow
 
 ## 6.3.0 - *2021-10-19*
 
