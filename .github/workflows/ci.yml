@@ -19,15 +19,14 @@ jobs:
         os:
           - almalinux-8
           - amazonlinux-2
-          - debian-10
-          - debian-11
           - centos-7
           - centos-stream-8
+          - debian-10
+          - debian-11
           - fedora-latest
+          - rockylinux-8
           - ubuntu-1804
           - ubuntu-2004
-          - ubuntu-2204
-          - rockylinux-8
         suite:
           - server-json
           - server-hcl
