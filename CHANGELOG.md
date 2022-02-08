@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- Remove delivery folder
+
 ## 6.3.0 - *2021-10-19*
 
 - Unify `:type` property as name_property in partial
