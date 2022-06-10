@@ -5,17 +5,31 @@ driver:
 provisioner:
   name: chef_zero
   #log_level: debug
-  product_version: 14.12.9
+  product_version: 14
   product_name: chef
 
 verifier:
   name: inspec
 
 platforms:
+  - name: ubuntu-20.04
+<% if RUBY_PLATFORM =~ /darwin/ %>
+    driver:
+      provider: parallels
+      box: bento/ubuntu-20.04-arm64
+<% end %>
   - name: ubuntu-18.04
   - name: centos-7.2
-  
+
 suites:
   - name: default
-    provisioner:
+    provisioner: &default-provisioner
       policyfile: test/fixtures/policies/default.rb
+  - name: test_unauthenticated_metrics
+    provisioner:
+      <<: *default-provisioner
+      attributes:
+        hashicorp-vault:
+          version: 1.8.4
+          config:
+            unauthenticated_metrics_access: true

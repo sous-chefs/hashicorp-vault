@@ -93,6 +93,7 @@ module VaultCookbook
         case node['kernel']['machine']
         when 'x86_64', 'amd64' then [filename, version, node['os'], 'amd64'].join('_')
         when 'i386' then [filename, version, node['os'], '386'].join('_')
+        when 'aarch64' then [filename, version, node['os'], 'arm64'].join('_')
         else [filename, version, node['os'], node['kernel']['machine']].join('_')
         end.concat('.zip')
       end

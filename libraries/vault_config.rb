@@ -60,6 +60,7 @@ module VaultCookbook
       # Storage options
       attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file raft))
       attribute(:storage_options, option_collector: true)
+      attribute(:unauthenticated_metrics_access, equal_to:[true, false], default: false)
       attribute(:hastorage_type, kind_of: String)
       attribute(:hastorage_options, option_collector: true)
       # Telemetry options
@@ -85,7 +86,6 @@ module VaultCookbook
       def to_json
         # top-level
         config_keeps = %i(cluster_name cache_size disable_cache disable_mlock default_lease_ttl log_level max_lease_ttl raw_storage_endpoint ui)
-        puts to_hash.inspect()
         config = to_hash.keep_if do |k, _|
           config_keeps.include?(k.to_sym)
         end
@@ -96,6 +96,10 @@ module VaultCookbook
         listener_options = to_hash.keep_if do |k, _|
           listener_keeps.include?(k.to_sym)
         end.merge(tls_disable: tls_disable.to_s)
+        if unauthenticated_metrics_access
+          listener_telemetry = { 'telemetry' => { :unauthenticated_metrics_access => unauthenticated_metrics_access } }
+          listener_options.merge!(listener_telemetry)
+        end
         config['listener'] = { 'tcp' => listener_options }
         # service registration
         config['service_registration'] = { service_registration_type => (service_registration_options || {}) } if service_registration_type
