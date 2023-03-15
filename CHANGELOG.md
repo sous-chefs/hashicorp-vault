@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## 6.3.6 - *2023-03-15*
 
 Standardise files with files in sous-chefs/repo-management
 
