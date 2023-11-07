@@ -1,5 +1,5 @@
 {
-  "revision_id": "3b42b608109a9bc0dc8583c05199829d2d5294fe7335553fd7c36f3491dd9c25",
+  "revision_id": "1cb9a09f5303e6282a23df6eea64e9276a45495bc75235d0384685b1075d7350",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -42,19 +42,20 @@
       }
     },
     "hashicorp-vault": {
-      "version": "1002.7.5",
-      "identifier": "9957a8b27edd6eac19aaf6ec6df4c5e74268cd5b",
-      "dotted_decimal_identifier": "43162053497511278.48441918072057332.217597042281819",
+      "version": "1002.7.6",
+      "identifier": "e4708c82723ecb17d20809cf546ec00d1f124780",
+      "dotted_decimal_identifier": "64300043476287179.6704856430498926.211162588399488",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "d1571d6824e613b72e4af4883b8555a7e9540abe",
+        "revision": "888d8306c3e21547cefdefeac852c6d8677d2dc2",
         "working_tree_clean": false,
-        "published": false,
+        "published": true,
         "synchronized_remote_branches": [
-
+          "origin/HEAD -> origin/master",
+          "origin/master"
         ]
       },
       "source_options": {
@@ -62,14 +63,14 @@
       }
     },
     "mingw": {
-      "version": "2.1.1",
-      "identifier": "2f7f0e1ca530683eabf54e504b44807b16dc5ce1",
-      "dotted_decimal_identifier": "13369022492258408.17640518625282884.141266152873185",
-      "cache_key": "mingw-2.1.1-supermarket.chef.io",
-      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/mingw/versions/2.1.1/download",
+      "version": "2.1.5",
+      "identifier": "685837677b1b865451e3c3122ae103b296c01517",
+      "dotted_decimal_identifier": "29370392560475014.23733936715868897.4065568232727",
+      "cache_key": "mingw-2.1.5-supermarket.chef.io",
+      "origin": "https://supermarket.chef.io:443/api/v1/cookbooks/mingw/versions/2.1.5/download",
       "source_options": {
-        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/mingw/versions/2.1.1/download",
-        "version": "2.1.1"
+        "artifactserver": "https://supermarket.chef.io:443/api/v1/cookbooks/mingw/versions/2.1.5/download",
+        "version": "2.1.5"
       }
     },
     "poise": {
@@ -154,7 +155,7 @@
       ],
       [
         "mingw",
-        "= 2.1.1"
+        "= 2.1.5"
       ],
       [
         "poise",
@@ -200,7 +201,7 @@
           "~> 5.0"
         ]
       ],
-      "hashicorp-vault (1002.7.5)": [
+      "hashicorp-vault (1002.7.6)": [
         [
           "build-essential",
           ">= 0.0.0"
@@ -222,7 +223,7 @@
           "~> 1.0"
         ]
       ],
-      "mingw (2.1.1)": [
+      "mingw (2.1.5)": [
         [
           "seven_zip",
           ">= 0.0.0"

@@ -2,9 +2,13 @@
 driver:
   name: vagrant
 
+transport:
+  username: vagrant
+  password: vagrant
+
 provisioner:
   name: chef_zero
-  #log_level: debug
+  log_level: debug
   product_version: 14
   product_name: chef
 
@@ -12,11 +16,11 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-20.04
+  - name: ubuntu-22.04-arm64
 <% if RUBY_PLATFORM =~ /darwin/ %>
     driver:
       provider: parallels
-      box: bento/ubuntu-20.04-arm64
+      box: bento/ubuntu-22.04-arm64
 <% end %>
   - name: ubuntu-18.04
   - name: centos-7.2
