@@ -22,8 +22,6 @@ platforms:
       provider: parallels
       box: bento/ubuntu-22.04-arm64
 <% end %>
-  - name: ubuntu-18.04
-  - name: centos-7.2
 
 suites:
   - name: default
