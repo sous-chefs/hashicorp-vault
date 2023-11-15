@@ -1,5 +1,5 @@
 {
-  "revision_id": "1cb9a09f5303e6282a23df6eea64e9276a45495bc75235d0384685b1075d7350",
+  "revision_id": "2683d23a8b75d3197afc158ed0d69e9314556d3710d0ade1ce8e18adab1899eb",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -42,20 +42,19 @@
       }
     },
     "hashicorp-vault": {
-      "version": "1002.7.6",
-      "identifier": "e4708c82723ecb17d20809cf546ec00d1f124780",
-      "dotted_decimal_identifier": "64300043476287179.6704856430498926.211162588399488",
+      "version": "1002.7.7",
+      "identifier": "c6e599124440650cb3545875540f8412a7a5920b",
+      "dotted_decimal_identifier": "55984490987929701.3574874563236879.145215656923659",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "888d8306c3e21547cefdefeac852c6d8677d2dc2",
+        "revision": "38cf91d5dbf79ad607d374317bc2570661cc832d",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/HEAD -> origin/master",
-          "origin/master"
+          "origin/ICO-3051_change_license_file_config_to_license_path"
         ]
       },
       "source_options": {
@@ -201,7 +200,7 @@
           "~> 5.0"
         ]
       ],
-      "hashicorp-vault (1002.7.6)": [
+      "hashicorp-vault (1002.7.7)": [
         [
           "build-essential",
           ">= 0.0.0"
@@ -221,6 +220,10 @@
         [
           "rubyzip",
           "~> 1.0"
+        ],
+        [
+          "mingw",
+          "= 2.1.5"
         ]
       ],
       "mingw (2.1.5)": [
