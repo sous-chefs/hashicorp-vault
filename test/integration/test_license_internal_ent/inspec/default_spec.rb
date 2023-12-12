@@ -17,7 +17,14 @@ describe file('/etc/vault/vault.json') do
   it { should be_owned_by 'vault' }
   it { should be_grouped_into 'vault' }
   its('content') { should match /.*log_level.*/ }
-  its('content') { should match /.*unauthenticated_metrics_access": true.*/}
+  its('content') { should match /.*license_path.*/}
+end
+
+describe file('/etc/vault/vault_license.hclic') do
+  it {should exist}
+  it {should be_file}
+  it { should be_owned_by 'vault' }
+  it { should be_grouped_into 'vault' }
 end
 
 describe service('vault') do
