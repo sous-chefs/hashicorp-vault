@@ -32,6 +32,27 @@ suites:
       <<: *default-provisioner
       attributes:
         hashicorp-vault:
-          version: 1.8.4
           config:
             unauthenticated_metrics_access: true
+  - name: test_license
+    provisioner:
+      <<: *default-provisioner
+      attributes:
+        hashicorp-vault:
+          license_content: <%= ENV['VAULT_LICENSE'] %>
+  - name: test_license_external_ent
+    provisioner:
+      <<: *default-provisioner
+      attributes:
+        hashicorp-vault:
+          enterprise: true
+          license_content: <%= ENV['VAULT_LICENSE'] %>
+  - name: test_license_internal_ent
+    provisioner:
+      <<: *default-provisioner
+      attributes:
+        hashicorp-vault:
+          archive_url_root: "cdn.aws.robloxlabs.com"
+          enterprise: true
+          use_internal_repos: true
+          license_content: <%= ENV['VAULT_LICENSE'] %>

@@ -37,6 +37,11 @@ module VaultCookbook
       # @return [boolean]
       attribute(:enterprise, equal_to: [true, false])
 
+      # @!attribute use_internal_repos
+      # Install using internal repos or not
+      # @return [boolean]
+      attribute(:use_internal_repos, equal_to: [true, false])
+
       def vault_program
         @program ||= provider_for_action(:vault_program).vault_program
       end
