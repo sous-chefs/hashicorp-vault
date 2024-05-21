@@ -62,6 +62,7 @@ module VaultCookbook
       attribute(:storage_type, default: 'inmem', equal_to: %w(consul etcd zookeeper dynamodb s3 mysql postgresql inmem file raft))
       attribute(:storage_options, option_collector: true)
       attribute(:unauthenticated_metrics_access, equal_to:[true, false], default: false)
+      attribute(:utilization_reporting, equal_to:[true, false], default: false)
       attribute(:hastorage_type, kind_of: String)
       attribute(:hastorage_options, option_collector: true)
       # Telemetry options
@@ -113,6 +114,7 @@ module VaultCookbook
         config['telemetry'] = telemetry_options unless telemetry_options.empty?
         # HA config
         ha_keeps = %i(api_addr cluster_addr disable_clustering)
+        config['reporting'] = { 'license' => { 'enabled' => utilization_reporting } }
         config.merge!(to_hash.keep_if do |k, _|
           ha_keeps.include?(k.to_sym)
         end)
