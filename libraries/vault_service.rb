@@ -84,6 +84,14 @@ module VaultCookbook
             not_if { new_resource.disable_mlock }
             not_if "getcap #{new_resource.program}|grep cap_ipc_lock+ep"
           end
+
+          # if /data directory mounted then we need to symlink /var/log/vault to /data/var/log/vault
+          if ::File.directory?('/data')
+            link '/var/log/vault' do
+              to ::File.join('/data', '/var/log/vault')
+              action :create
+            end
+          end
         end
         super
       end
