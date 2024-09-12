@@ -31,7 +31,8 @@ suites:
     provisioner: &default-provisioner
       policyfile: test/fixtures/policies/default.rb
     lifecycle:
-      post_converge: mkdir -p /var/log/vault
+      post_converge: 
+        - remote: mkdir -p /var/log/vault
   - name: test_unauthenticated_metrics
     provisioner:
       <<: *default-provisioner
