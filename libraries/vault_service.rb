@@ -87,6 +87,12 @@ module VaultCookbook
 
           # if /data directory mounted then we need to symlink /var/log/vault to /data/var/log/vault
           if ::File.directory?('/data')
+            # if /var/log/vault exists and is not a link, move to /var/log/vault.[created_at timestamp]
+            path = '/var/log/vault'
+            if ::File.directory?(path) && !::File.symlink?(path)
+              created_at = ::File.birthtime(path).strftime('%Y%m%d%H%M%S')
+              new_path = "#{path}.#{created_at}"
+              ::FileUtils.mv(path, new_path)
             link '/var/log/vault' do
               to ::File.join('/data', '/var/log/vault')
               action :create

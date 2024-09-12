@@ -20,6 +20,10 @@ describe file('/etc/vault/vault.json') do
   its('content') { should match /.*reporting.*/ }
 end
 
+describe file('/var/run/vault') do
+  it {should be_symlink}
+end
+
 describe service('vault') do
   it { should be_installed }
   it { should be_enabled }
