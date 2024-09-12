@@ -20,7 +20,7 @@ describe file('/etc/vault/vault.json') do
   its('content') { should match /.*reporting.*/ }
 end
 
-describe file('/var/run/vault') do
+describe file('/var/log/vault') do
   it {should be_symlink}
 end
 
