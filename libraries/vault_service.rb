@@ -93,6 +93,7 @@ module VaultCookbook
               created_at = ::File.birthtime(path).strftime('%Y%m%d%H%M%S')
               new_path = "#{path}.#{created_at}"
               ::FileUtils.mv(path, new_path)
+            end
             link '/var/log/vault' do
               to ::File.join('/data', '/var/log/vault')
               action :create
