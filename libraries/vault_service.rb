@@ -90,7 +90,7 @@ module VaultCookbook
             # if /var/log/vault exists and is not a link, move to /var/log/vault.[created_at timestamp]
             path = '/var/log/vault'
             if ::File.directory?(path) && !::File.symlink?(path)
-              created_at = ::File.birthtime(path).strftime('%Y%m%d%H%M%S')
+              created_at = ::File.ctime(path).strftime('%Y%m%d%H%M%S')
               new_path = "#{path}.#{created_at}"
               ::FileUtils.mv(path, new_path)
             end
