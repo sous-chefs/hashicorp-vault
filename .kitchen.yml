@@ -30,9 +30,8 @@ suites:
   - name: test-data-dir
     provisioner: &default-provisioner
       policyfile: test/fixtures/policies/default.rb
-      pre_create_command: mkdir -p /data
-  provisioner: &default-provisioner
-    policyfile: test/fixtures/policies/default.rb
+    lifecycle:
+      post_converge: mkdir -p /var/log/vault
   - name: test_unauthenticated_metrics
     provisioner:
       <<: *default-provisioner
