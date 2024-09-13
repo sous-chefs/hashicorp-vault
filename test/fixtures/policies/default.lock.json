@@ -1,5 +1,5 @@
 {
-  "revision_id": "59638ac2d01c191df467c767cbf6c12e168b209a47f4bc6677a62c73587a3a81",
+  "revision_id": "cf88d87c2e217b43768c138a26d14d6f6aa42c90d5f9ef327d76b2da484ab99e",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -43,14 +43,14 @@
     },
     "hashicorp-vault": {
       "version": "1002.7.14",
-      "identifier": "f587e66bf37fb7bcc5f5c0e40691b6c9c5e749d6",
-      "dotted_decimal_identifier": "69110793017458615.53134954915432081.200977724950998",
+      "identifier": "43b55d582607b499299d4ab83675d312ac31bea1",
+      "dotted_decimal_identifier": "19058235955087284.43111426976921205.232077151813281",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "3443293dd9c1e9571e8b49f4ad2d33db00a58c46",
+        "revision": "8ad3efdd3d6ac6282438455d6d962763419f0368",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
