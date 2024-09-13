@@ -94,6 +94,12 @@ module VaultCookbook
               new_path = "#{path}.#{created_at}"
               ::FileUtils.mv(path, new_path)
             end
+            directory '/data/var/log/vault' do
+              owner new_resource.user
+              group new_resource.group
+              mode '0755'
+              action :create
+            end
             link '/var/log/vault' do
               to ::File.join('/data', '/var/log/vault')
               action :create
