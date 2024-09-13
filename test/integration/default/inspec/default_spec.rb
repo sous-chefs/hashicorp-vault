@@ -5,6 +5,8 @@ end
 
 describe file('/var/log/vault') do
   it { should be_directory }
+  it { should be_owned_by 'vault' }
+  it { should be_grouped_into 'vault' }
 end
 
 describe group('vault') do
