@@ -1,5 +1,5 @@
 {
-  "revision_id": "ae657b6f724afe4916c060a6570940a53a92b5fa08f5fb9045c32fc079faf486",
+  "revision_id": "59638ac2d01c191df467c767cbf6c12e168b209a47f4bc6677a62c73587a3a81",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -42,20 +42,19 @@
       }
     },
     "hashicorp-vault": {
-      "version": "1002.7.7",
-      "identifier": "c396b582d67d7c9fa0ce0f396e7ec815f3664a38",
-      "dotted_decimal_identifier": "55053326786919804.44931328176123518.219996603435576",
+      "version": "1002.7.14",
+      "identifier": "f587e66bf37fb7bcc5f5c0e40691b6c9c5e749d6",
+      "dotted_decimal_identifier": "69110793017458615.53134954915432081.200977724950998",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
-        "remote": "https://github.com/Roblox/vault-cookbook",
-        "revision": "6ed840d2110e1a6e10714920d45782c6f915b451",
+        "remote": null,
+        "revision": "3443293dd9c1e9571e8b49f4ad2d33db00a58c46",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/HEAD -> origin/master",
-          "origin/master"
+          "origin/create_var_log_vault_directory_in_cookbook"
         ]
       },
       "source_options": {
@@ -201,7 +200,7 @@
           "~> 5.0"
         ]
       ],
-      "hashicorp-vault (1002.7.7)": [
+      "hashicorp-vault (1002.7.14)": [
         [
           "build-essential",
           ">= 0.0.0"
