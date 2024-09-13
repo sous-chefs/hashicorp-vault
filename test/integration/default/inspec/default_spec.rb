@@ -3,6 +3,10 @@ describe file('/opt/vault/1.8.5/vault') do
   it { should be_executable }
 end
 
+describe file('/var/log/vault') do
+  it { should be_directory }
+end
+
 describe group('vault') do
   it { should exist }
 end
