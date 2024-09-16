@@ -100,6 +100,7 @@ module VaultCookbook
               group new_resource.group
               mode '0750'
               action :create
+              recursive true
             end
             link log_path do
               to data_path
