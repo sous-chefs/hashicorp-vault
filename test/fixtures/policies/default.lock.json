@@ -1,5 +1,5 @@
 {
-  "revision_id": "cf88d87c2e217b43768c138a26d14d6f6aa42c90d5f9ef327d76b2da484ab99e",
+  "revision_id": "7f234aeea4304db41b948750f48a92a123f09633aa4819b3ac97662c9d0132d0",
   "name": "default",
   "run_list": [
     "recipe[hashicorp-vault::default]"
@@ -42,19 +42,20 @@
       }
     },
     "hashicorp-vault": {
-      "version": "1002.7.14",
-      "identifier": "43b55d582607b499299d4ab83675d312ac31bea1",
-      "dotted_decimal_identifier": "19058235955087284.43111426976921205.232077151813281",
+      "version": "1002.8.2",
+      "identifier": "17e8b4f68f71d07a0f1f06c70f678074ce2f3685",
+      "dotted_decimal_identifier": "6729788392698320.34356573090811751.141239163762309",
       "source": "../../..",
       "cache_key": null,
       "scm_info": {
         "scm": "git",
         "remote": null,
-        "revision": "8ad3efdd3d6ac6282438455d6d962763419f0368",
+        "revision": "f47d116493f819158c43f09d9ba0eaf74e4b78b4",
         "working_tree_clean": false,
         "published": true,
         "synchronized_remote_branches": [
-          "origin/create_var_log_vault_directory_in_cookbook"
+          "origin/HEAD -> origin/master",
+          "origin/master"
         ]
       },
       "source_options": {
@@ -200,7 +201,7 @@
           "~> 5.0"
         ]
       ],
-      "hashicorp-vault (1002.7.14)": [
+      "hashicorp-vault (1002.8.2)": [
         [
           "build-essential",
           ">= 0.0.0"
