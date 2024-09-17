@@ -104,7 +104,7 @@ module VaultCookbook
               recursive true
             end
             link log_path do
-              to data_path
+              to data_log_path
               action :create
             end
           else
