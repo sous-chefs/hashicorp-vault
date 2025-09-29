@@ -45,6 +45,13 @@ else
   node.default['hashicorp-vault']['config'].delete('license_path')
 end
 
+file '/var/log/vault/vault/vault_audit.log' do 
+  owner 'vault'
+  group 'vault'
+  mode '0740'
+  action :create_if_missing
+end
+
 vault_service node['hashicorp-vault']['service_name'] do |r|
   user node['hashicorp-vault']['service_user']
   group node['hashicorp-vault']['service_group']
