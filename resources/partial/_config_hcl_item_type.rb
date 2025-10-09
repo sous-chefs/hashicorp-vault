@@ -16,7 +16,7 @@
 #
 
 property :type, [String, Symbol],
-          coerce: proc { |p| p.to_s },
+          coerce: proc(&:to_s),
           name_property: true,
           identity: true,
           required: true,

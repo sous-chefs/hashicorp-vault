@@ -58,7 +58,7 @@ property :sensitive, [true, false],
           description: 'Ensure that sensitive resource data is not output by Chef Infra Client.'
 
 property :vault_mode, [String, Symbol],
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           equal_to: [:server, :agent],
           default: :server,
           desired_state: false,
