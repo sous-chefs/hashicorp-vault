@@ -20,12 +20,12 @@ unified_mode true
 %w(base item).each { |t| use "partial/_config_hcl_#{t}" }
 
 property :destination, String,
-          coerce: proc { |p| p.to_s },
+          coerce: proc(&:to_s),
           name_property: true,
           description: 'Vault template destination file.'
 
 property :vault_mode, [String, Symbol],
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           equal_to: [:agent],
           default: :agent,
           desired_state: false,
