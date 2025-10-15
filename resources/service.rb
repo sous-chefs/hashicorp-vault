@@ -26,7 +26,7 @@ property :service_name, String,
           description: 'Set to override service name. Defaults to vault.'
 
 property :config_type, [Symbol, String],
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           equal_to: [:hcl, :json],
           default: :hcl,
           description: 'Vault configuration type used. Defaults to HCL.'
@@ -56,7 +56,7 @@ property :config_dir, String,
           description: 'Set to override vault configuration directory.'
 
 property :vault_mode, [String, Symbol],
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           equal_to: [:server, :agent],
           default: :server,
           description: 'Vault service operation mode. Defaults to server.'

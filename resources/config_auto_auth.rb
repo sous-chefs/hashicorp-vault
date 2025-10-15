@@ -21,7 +21,7 @@ unified_mode true
 
 property :entry_type, [String, Symbol],
           equal_to: %i(method sink),
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           required: true,
           identity: true,
           description: 'Vault auto_auth configuration element entry type'
@@ -31,7 +31,7 @@ property :path, String,
           description: 'File path for sink configuration'
 
 property :vault_mode, [String, Symbol],
-          coerce: proc { |p| p.to_sym },
+          coerce: proc(&:to_sym),
           equal_to: [:agent],
           default: :agent,
           desired_state: false,
