@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 Standardise files with files in sous-chefs/repo-management
 Standardise files with files in sous-chefs/repo-management
 
+## [6.3.23](https://github.com/sous-chefs/hashicorp-vault/compare/6.3.22...v6.3.23) (2025-10-15)
+
+
+### Bug Fixes
+
+* **ci:** Update workflows to use release pipeline ([#270](https://github.com/sous-chefs/hashicorp-vault/issues/270)) ([d3a2992](https://github.com/sous-chefs/hashicorp-vault/commit/d3a299236cc87a6e0a3d595fe732488886549472))
+
 ## 6.3.21 - *2025-06-08*
 
 Standardise files with files in sous-chefs/repo-management
