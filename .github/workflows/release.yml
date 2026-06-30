@@ -16,11 +16,7 @@ permissions:
 
 jobs:
   release:
-<<<<<<< HEAD
     uses: sous-chefs/.github/.github/workflows/release-cookbook.yml@8.0.2
-=======
-    uses: sous-chefs/.github/.github/workflows/release-cookbook.yml@8.0.2
->>>>>>> a4f52ba (ci: bump release workflow to 6.0.0)
     secrets:
       token: ${{ secrets.PORTER_GITHUB_TOKEN }}
       supermarket_user: ${{ secrets.CHEF_SUPERMARKET_USER }}
