@@ -7,6 +7,7 @@ provisioner:
   product_name: <%= ENV['CHEF_PRODUCT_NAME'] || 'chef' %>
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
   chef_license: accept-no-persist
+  policyfile: Policyfile.rb
   enforce_idempotency: true
   multiple_converge: 2
   deprecations_as_errors: true
@@ -30,17 +31,17 @@ platforms:
 
 suites:
   - name: server_json
-    run_list:
-      - recipe[test::server_json]
+    provisioner:
+      named_run_list: server_json
   - name: server_hcl
-    run_list:
-      - recipe[test::server_hcl]
+    provisioner:
+      named_run_list: server_hcl
   - name: server_hcl_ark
-    run_list:
-      - recipe[test::server_hcl_ark]
+    provisioner:
+      named_run_list: server_hcl_ark
   - name: agent_json
-    run_list:
-      - recipe[test::agent_json]
+    provisioner:
+      named_run_list: agent_json
   - name: agent_hcl
-    run_list:
-      - recipe[test::agent_hcl]
+    provisioner:
+      named_run_list: agent_hcl
