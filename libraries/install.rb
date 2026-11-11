@@ -13,7 +13,7 @@ module Vault
                      raise ArgumentError, "vault_source: Unsupported platform family #{node['platform_family']}"
                    end
 
-        arch =  case node['kernel']['machine']
+        arch = case node['kernel']['machine']
                 when 'aarch64'
                   'arm64'
                 when 'i386'
