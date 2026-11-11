@@ -14,13 +14,13 @@ module Vault
                    end
 
         arch = case node['kernel']['machine']
-                when 'aarch64'
-                  'arm64'
-                when 'i386'
-                  '386'
-                else
-                  'amd64'
-                end
+               when 'aarch64'
+                 'arm64'
+               when 'i386'
+                 '386'
+               else
+                 'amd64'
+               end
 
         "https://releases.hashicorp.com/vault/#{version}/vault_#{version}_#{platform}_#{arch}.zip"
       end
