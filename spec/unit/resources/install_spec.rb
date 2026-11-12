@@ -59,4 +59,21 @@ describe 'hashicorp_vault_install' do
     it { is_expected.not_to remove_user('vault') }
     it { is_expected.not_to remove_group('vault') }
   end
+
+  context 'SUSE binary installation capabilities' do
+    platform 'opensuse', '16.0'
+
+    recipe do
+      hashicorp_vault_install 'binary' do
+        install_method :ark
+        version '1.6.1'
+      end
+    end
+
+    before do
+      stub_command('setcap -v cap_ipc_lock+ep $(readlink -f /usr/local/bin/vault)').and_return(true)
+    end
+
+    it { is_expected.to install_package(%w(unzip rsync libcap-progs)) }
+  end
 end

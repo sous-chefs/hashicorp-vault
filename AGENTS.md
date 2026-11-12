@@ -12,3 +12,4 @@
 * Amazon Linux uses the vendor's `AmazonLinux/latest` repository path, verified against <https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo>; do not substitute OS releasever.
 * APT repository architecture follows the kernel architecture (aarch64 maps to arm64). Repository distribution uses Ohai lsb codename and does not spawn lsb_release during convergence.
 * ARK removal deletes binary/home links, its selected version directory and archive. Shared service users/groups and the shared /opt/vault parent remain available to other instances.
+* Binary installs require capability tools: libcap2-bin on Debian, libcap-progs on SUSE and libcap on RPM families. Fresh Leap 16 images do not include setcap.

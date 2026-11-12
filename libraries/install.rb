@@ -29,7 +29,14 @@ module Vault
 
       def vault_supporting_packages
         pkg = %w(unzip rsync)
-        pkg.push('libcap2-bin') if platform_family?('debian')
+        case node['platform_family']
+        when 'debian'
+          pkg.push('libcap2-bin')
+        when 'suse'
+          pkg.push('libcap-progs')
+        when 'rhel', 'fedora', 'amazon'
+          pkg.push('libcap')
+        end
 
         pkg
       end
