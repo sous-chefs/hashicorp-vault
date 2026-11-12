@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config_auto_auth
@@ -15,9 +17,18 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config_auto_auth
 unified_mode true
 
-%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
+include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
+
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end
+
+%w(base item item_type).each { |t| use "_partial/_config_hcl_#{t}" }
 
 property :entry_type, [String, Symbol],
           equal_to: %i(method sink),

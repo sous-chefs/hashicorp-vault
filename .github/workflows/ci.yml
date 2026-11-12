@@ -25,32 +25,60 @@ jobs:
       matrix:
         os:
           - almalinux-8
-          - amazonlinux-2
-          - centos-7
-          - centos-stream-8
-          - debian-10
-          - debian-11
+          - almalinux-9
+          - almalinux-10
+          - amazonlinux-2023
+          - centos-stream-9
+          - centos-stream-10
+          - debian-12
+          - debian-13
           - fedora-latest
+          - opensuse-leap-160
+          - oraclelinux-8
+          - oraclelinux-9
+          - oraclelinux-10
           - rockylinux-8
-          - ubuntu-1804
-          - ubuntu-2004
+          - rockylinux-9
+          - rockylinux-10
+          - ubuntu-2204
+          - ubuntu-2404
+          - ubuntu-2604
         suite:
+          - default
           - server-json
           - server-hcl
           - server-hcl-ark
           - agent-json
           - agent-hcl
+        exclude:
+          - os: fedora-latest
+            suite: server-json
+          - os: fedora-latest
+            suite: server-hcl
+          - os: fedora-latest
+            suite: agent-json
+          - os: fedora-latest
+            suite: agent-hcl
+          - os: opensuse-leap-160
+            suite: server-json
+          - os: opensuse-leap-160
+            suite: server-hcl
+          - os: opensuse-leap-160
+            suite: agent-json
+          - os: opensuse-leap-160
+            suite: agent-hcl
       fail-fast: false
 
     steps:
       - name: Check out code
         uses: actions/checkout@v7
       - name: Install Chef
-        uses: actionshub/chef-install@6.0.0
+        uses: sous-chefs/.github/.github/actions/install-workstation@9.0.1
       - name: Dokken
         uses: actionshub/test-kitchen@3.0.0
         env:
           CHEF_LICENSE: accept-no-persist
+          KITCHEN_PRODUCT_NAME: cinc
           KITCHEN_LOCAL_YAML: kitchen.dokken.yml
         with:
           suite: ${{ matrix.suite }}

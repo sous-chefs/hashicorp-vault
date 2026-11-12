@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Vault
   module Cookbook
     module InstallHelpers
@@ -32,6 +34,10 @@ module Vault
         pkg
       end
 
+      def vault_repo_release
+        platform_family?('amazon') ? 'latest' : '$releasever'
+      end
+
       def vault_repo_platform
         case node['platform_family']
         when 'rhel'
@@ -41,13 +47,7 @@ module Vault
         when 'amazon'
           'AmazonLinux'
         when 'debian'
-          require 'mixlib/shellout'
-
-          lsb_command = Mixlib::ShellOut.new('lsb_release -cs')
-          lsb_command.run_command
-          lsb_command.error!
-
-          lsb_command.stdout.delete("\n")
+          node['lsb']['codename']
         else
           raise ArgumentError, "vault_repo_platform: Unsupported platform family #{node['platform_family']}"
         end

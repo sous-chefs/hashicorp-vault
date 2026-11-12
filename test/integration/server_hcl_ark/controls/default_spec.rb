@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe file('/opt/vault/vault-1.6.1/vault') do
   it { should be_file }
   it { should be_executable }

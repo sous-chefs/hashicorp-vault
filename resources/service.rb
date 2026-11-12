@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: service
@@ -15,13 +17,14 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_service
 unified_mode true
 
 include Vault::Cookbook::Helpers
 include Vault::Cookbook::ResourceHelpers
 
 property :service_name, String,
-          coerce: proc { |p| "#{p}.service" },
+          coerce: proc { |p| "#{p.delete_suffix('.service')}.service" },
           default: lazy { default_vault_service_name },
           description: 'Set to override service name. Defaults to vault.'
 
@@ -82,8 +85,9 @@ end
 
 action :delete do
   do_service_action(:stop)
+  do_service_action(:disable)
 
-  systemd_unit new_resource.name do
+  systemd_unit new_resource.service_name do
     triggers_reload true
 
     action :delete

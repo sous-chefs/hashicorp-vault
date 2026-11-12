@@ -8,7 +8,7 @@
 
 Install and configure Hashicorp Vault in server and agent mode.
 
-**Version 5.0.0 constitutes a major change and rewrite, please see [UPGRADING.md](./UPGRADING.md).**
+See [the version 7 migration guide](migration.md) before upgrading.
 
 ## Maintainers
 
@@ -25,12 +25,12 @@ using Test Kitchen:
 
 ## Requirements
 
-- Chef 14+
+* Chef 16+
 - ark Community Cookbook (<https://supermarket.chef.io/cookbooks/ark>)
 
 ## Usage
 
-It is recommended to create a project or organization specific [wrapper cookbook](https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/) and add the desired custom resources to the run list of a node. Depending on your environment, you may have multiple roles that use different recipes from this cookbook. Adjust any attributes as desired.
+It is recommended to create a project or organization specific [wrapper cookbook](https://www.chef.io/blog/2013/12/03/doing-wrapper-cookbooks-right/) and add the desired custom resources to the run list of a node. Set resource properties explicitly in that wrapper cookbook.
 
 Example of a basic server configuration using Hashicorp HCL for configuration
 

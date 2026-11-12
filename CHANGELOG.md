@@ -5,8 +5,12 @@ All notable changes to this project will be documented in this file.
 Standardise files with files in sous-chefs/repo-management
 Standardise files with files in sous-chefs/repo-management
 
-## [6.3.24](https://github.com/sous-chefs/hashicorp-vault/compare/v6.3.23...v6.3.24) (2026-11-10)
+## [7.0.0](https://github.com/sous-chefs/hashicorp-vault/compare/v6.3.23...v7.0.0) (2026-11-10)
 
+
+### Breaking Changes
+
+* Complete the custom resource migration and require currently supported operating systems. Use ARK installation on Fedora and openSUSE, where HashiCorp does not provide a matching package repository.
 
 ### Bug Fixes
 
