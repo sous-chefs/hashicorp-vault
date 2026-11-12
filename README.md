@@ -19,14 +19,14 @@ This cookbook is maintained by the Sous Chefs. The Sous Chefs are a community of
 The following platforms have been certified with integration tests
 using Test Kitchen:
 
-- Debian/Ubuntu
-- RHEL/CentOS and derivatives
-- Fedora and derivatives
+* Debian/Ubuntu
+* RHEL/CentOS and derivatives
+* Fedora and derivatives
 
 ## Requirements
 
 * Chef 16+
-- ark Community Cookbook (<https://supermarket.chef.io/cookbooks/ark>)
+* ark Community Cookbook (<https://supermarket.chef.io/cookbooks/ark>)
 
 ## Usage
 
@@ -82,22 +82,22 @@ end
 
 ## External Documentation
 
-- <https://www.vaultproject.io/docs/configuration>
-- <https://www.vaultproject.io/docs/agent>
+* <https://www.vaultproject.io/docs/configuration>
+* <https://www.vaultproject.io/docs/agent>
 
 ## Resources
 
-- [hashicorp_vault_config_auto_auth](documentation/hashicorp_vault_config_auto_auth.md)
-- [hashicorp_vault_config_entropy](documentation/hashicorp_vault_config_entropy.md)
-- [hashicorp_vault_config_global](documentation/hashicorp_vault_config_global.md)
-- [hashicorp_vault_config_listener](documentation/hashicorp_vault_config_listener.md)
-- [hashicorp_vault_config_seal](documentation/hashicorp_vault_config_seal.md)
-- [hashicorp_vault_config_service_registration](documentation/hashicorp_vault_config_service_registration.md)
-- [hashicorp_vault_config_storage](documentation/hashicorp_vault_config_storage.md)
-- [hashicorp_vault_config_template](documentation/hashicorp_vault_config_template.md)
-- [hashicorp_vault_config](documentation/hashicorp_vault_config.md)
-- [hashicorp_vault_install](documentation/hashicorp_vault_install.md)
-- [hashicorp_vault_service](documentation/hashicorp_vault_service.md)
+* [hashicorp_vault_config_auto_auth](documentation/hashicorp_vault_config_auto_auth.md)
+* [hashicorp_vault_config_entropy](documentation/hashicorp_vault_config_entropy.md)
+* [hashicorp_vault_config_global](documentation/hashicorp_vault_config_global.md)
+* [hashicorp_vault_config_listener](documentation/hashicorp_vault_config_listener.md)
+* [hashicorp_vault_config_seal](documentation/hashicorp_vault_config_seal.md)
+* [hashicorp_vault_config_service_registration](documentation/hashicorp_vault_config_service_registration.md)
+* [hashicorp_vault_config_storage](documentation/hashicorp_vault_config_storage.md)
+* [hashicorp_vault_config_template](documentation/hashicorp_vault_config_template.md)
+* [hashicorp_vault_config](documentation/hashicorp_vault_config.md)
+* [hashicorp_vault_install](documentation/hashicorp_vault_install.md)
+* [hashicorp_vault_service](documentation/hashicorp_vault_service.md)
 
 ## Contributors
 
