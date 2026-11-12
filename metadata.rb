@@ -8,7 +8,7 @@ description       'Application cookbook for installing and configuring Vault.'
 issues_url        'https://github.com/sous-chefs/hashicorp-vault/issues'
 source_url        'https://github.com/sous-chefs/hashicorp-vault'
 chef_version      '>= 16'
-version           '7.0.0'
+version           '7.0.1'
 
 supports 'almalinux', '>= 8.0'
 supports 'amazon', '>= 2023.0'
