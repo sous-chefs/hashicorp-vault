@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config
@@ -15,6 +17,7 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config
 unified_mode true
 
 include Vault::Cookbook::Helpers

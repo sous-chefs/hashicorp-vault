@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: install
@@ -15,6 +17,7 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_install
 unified_mode true
 
 include Vault::Cookbook::Helpers
@@ -60,7 +63,7 @@ action_class do
     when 'rhel', 'fedora', 'amazon'
       yum_repository 'hashicorp' do
         description 'Hashicorp Stable - $basearch'
-        baseurl "https://rpm.releases.hashicorp.com/#{vault_repo_platform}/$releasever/$basearch/stable"
+        baseurl "https://rpm.releases.hashicorp.com/#{vault_repo_platform}/#{vault_repo_release}/$basearch/stable"
         enabled true
         gpgcheck true
         gpgkey 'https://rpm.releases.hashicorp.com/gpg'
@@ -70,7 +73,7 @@ action_class do
 
       yum_repository 'hashicorp-test' do
         description 'Hashicorp Test - $basearch'
-        baseurl "https://rpm.releases.hashicorp.com/#{vault_repo_platform}/$releasever/$basearch/test"
+        baseurl "https://rpm.releases.hashicorp.com/#{vault_repo_platform}/#{vault_repo_release}/$basearch/test"
         enabled new_resource.test_repo
         gpgcheck true
         gpgkey 'https://rpm.releases.hashicorp.com/gpg'
@@ -82,7 +85,7 @@ action_class do
         uri 'https://apt.releases.hashicorp.com'
         distribution vault_repo_platform
         components ['main']
-        arch 'amd64'
+        arch(node['kernel']['machine'] == 'aarch64' ? 'arm64' : 'amd64')
         key 'https://apt.releases.hashicorp.com/gpg'
         action resource_action.eql?(:remove) ? :remove : :add
       end
@@ -142,6 +145,7 @@ action :install do
       version new_resource.version
       checksum new_resource.checksum
       prefix_root '/opt/vault'
+      home_dir '/usr/local/vault'
       has_binaries ['vault']
       prefix_bin '/usr/local/bin'
       strip_components 0
@@ -184,7 +188,12 @@ action :remove do
       action :delete
     end
 
-    edit_resource(:user, new_resource.user).action(:delete)
-    edit_resource(:group, new_resource.user).action(:delete)
+    link '/usr/local/vault' do
+      action :delete
+    end
+
+    file ::File.join(Chef::Config[:file_cache_path], "vault-#{new_resource.version}.zip") do
+      action :delete
+    end
   end
 end

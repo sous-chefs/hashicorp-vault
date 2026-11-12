@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Vault
   module Cookbook
     module InstallHelpers
@@ -13,23 +15,34 @@ module Vault
                      raise ArgumentError, "vault_source: Unsupported platform family #{node['platform_family']}"
                    end
 
-        arch =  case node['kernel']['machine']
-                when 'aarch64'
-                  'arm64'
-                when 'i386'
-                  '386'
-                else
-                  'amd64'
-                end
+        arch = case node['kernel']['machine']
+               when 'aarch64'
+                 'arm64'
+               when 'i386'
+                 '386'
+               else
+                 'amd64'
+               end
 
         "https://releases.hashicorp.com/vault/#{version}/vault_#{version}_#{platform}_#{arch}.zip"
       end
 
       def vault_supporting_packages
         pkg = %w(unzip rsync)
-        pkg.push('libcap2-bin') if platform_family?('debian')
+        case node['platform_family']
+        when 'debian'
+          pkg.push('libcap2-bin')
+        when 'suse'
+          pkg.push('libcap-progs')
+        when 'rhel', 'fedora', 'amazon'
+          pkg.push('libcap')
+        end
 
         pkg
+      end
+
+      def vault_repo_release
+        platform_family?('amazon') ? 'latest' : '$releasever'
       end
 
       def vault_repo_platform
@@ -41,13 +54,7 @@ module Vault
         when 'amazon'
           'AmazonLinux'
         when 'debian'
-          require 'mixlib/shellout'
-
-          lsb_command = Mixlib::ShellOut.new('lsb_release -cs')
-          lsb_command.run_command
-          lsb_command.error!
-
-          lsb_command.stdout.delete("\n")
+          node['lsb']['codename']
         else
           raise ArgumentError, "vault_repo_platform: Unsupported platform family #{node['platform_family']}"
         end

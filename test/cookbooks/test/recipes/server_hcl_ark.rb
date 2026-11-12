@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 hashicorp_vault_install 'package' do
   install_method :ark
   version '1.6.1'

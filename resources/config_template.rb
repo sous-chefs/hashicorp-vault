@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config_template
@@ -15,9 +17,18 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config_template
 unified_mode true
 
-%w(base item).each { |t| use "partial/_config_hcl_#{t}" }
+include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
+
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end
+
+%w(base item).each { |t| use "_partial/_config_hcl_#{t}" }
 
 property :destination, String,
           coerce: proc(&:to_s),

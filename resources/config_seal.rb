@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config_seal
@@ -15,9 +17,18 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config_seal
 unified_mode true
 
-%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
+include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
+
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end
+
+%w(base item item_type).each { |t| use "_partial/_config_hcl_#{t}" }
 
 load_current_value do |new_resource|
   current_value_does_not_exist! unless ::File.exist?(new_resource.config_file)

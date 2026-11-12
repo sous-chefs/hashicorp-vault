@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
-# Resource:: _config_hcl_item_type
+# Resource:: _config_hcl_item
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,9 +17,12 @@
 # limitations under the License.
 #
 
-property :type, [String, Symbol],
-          coerce: proc(&:to_s),
-          name_property: true,
-          identity: true,
-          required: true,
-          description: 'Vault server configuration element type.'
+include Vault::Cookbook::Helpers
+
+property :options, Hash,
+          default: lazy { default_vault_config_hcl(vault_hcl_config_type) },
+          description: 'Vault server configuration element configuration.'
+
+property :description, String,
+          desired_state: false,
+          description: 'Unparsed description to add to the configuration file.'

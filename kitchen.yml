@@ -4,7 +4,7 @@ driver:
 
 provisioner:
   name: chef_infra
-  product_name: <%= ENV['CHEF_PRODUCT_NAME'] || 'chef' %>
+  product_name: <%= ENV['CHEF_PRODUCT_NAME'] || 'cinc' %>
   product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
   chef_license: accept-no-persist
   policyfile: Policyfile.rb
@@ -18,30 +18,45 @@ verifier:
 
 platforms:
   - name: almalinux-8
-  - name: amazonlinux-2
-  - name: centos-7
-  - name: centos-stream-8
-  - name: debian-10
-  - name: debian-11
+  - name: almalinux-9
+  - name: almalinux-10
+  - name: amazonlinux-2023
+  - name: centos-stream-9
+  - name: centos-stream-10
+  - name: debian-12
+  - name: debian-13
   - name: fedora-latest
-  - name: opensuse-leap-15
+  - name: opensuse-leap-16.0
+  - name: oraclelinux-8
+  - name: oraclelinux-9
+  - name: oraclelinux-10
   - name: rockylinux-8
-  - name: ubuntu-18.04
-  - name: ubuntu-20.04
+  - name: rockylinux-9
+  - name: rockylinux-10
+  - name: ubuntu-22.04
+  - name: ubuntu-24.04
+  - name: ubuntu-26.04
 
 suites:
+  - name: default
+    provisioner:
+      named_run_list: default
   - name: server_json
+    excludes: [fedora-latest, opensuse-leap-16.0]
     provisioner:
       named_run_list: server_json
   - name: server_hcl
+    excludes: [fedora-latest, opensuse-leap-16.0]
     provisioner:
       named_run_list: server_hcl
   - name: server_hcl_ark
     provisioner:
       named_run_list: server_hcl_ark
   - name: agent_json
+    excludes: [fedora-latest, opensuse-leap-16.0]
     provisioner:
       named_run_list: agent_json
   - name: agent_hcl
+    excludes: [fedora-latest, opensuse-leap-16.0]
     provisioner:
       named_run_list: agent_hcl

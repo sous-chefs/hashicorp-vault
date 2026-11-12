@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config_listener
@@ -15,9 +17,18 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config_listener
 unified_mode true
 
-%w(base item item_type).each { |t| use "partial/_config_hcl_#{t}" }
+include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
+
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end
+
+%w(base item item_type).each { |t| use "_partial/_config_hcl_#{t}" }
 
 load_current_value do |new_resource|
   case vault_mode

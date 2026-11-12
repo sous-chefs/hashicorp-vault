@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: _config_hcl_base
@@ -14,11 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-unified_mode true
-
-include Vault::Cookbook::Helpers
-include Vault::Cookbook::ResourceHelpers
 
 property :owner, String,
           default: lazy { default_vault_user },
@@ -63,8 +60,3 @@ property :vault_mode, [String, Symbol],
           default: :server,
           desired_state: false,
           description: 'Vault service operation mode. Defaults to server.'
-
-action_class do
-  include Vault::Cookbook::Helpers
-  include Vault::Cookbook::ResourceHelpers
-end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 hashicorp_vault_install 'package' do
   action :upgrade
 end

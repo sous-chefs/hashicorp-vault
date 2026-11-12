@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Cookbook:: hashicorp-vault
 # Resource:: config_global
@@ -15,12 +17,21 @@
 # limitations under the License.
 #
 
+provides :hashicorp_vault_config_global
 unified_mode true
 
 include Vault::Cookbook::Helpers
 include Vault::Cookbook::ResourceHelpers
 
-use 'partial/_config_hcl_base'
+action_class do
+  include Vault::Cookbook::Helpers
+  include Vault::Cookbook::ResourceHelpers
+end
+
+include Vault::Cookbook::Helpers
+include Vault::Cookbook::ResourceHelpers
+
+use '_partial/_config_hcl_base'
 
 property :global, Hash,
           default: lazy { default_vault_config_hcl(:global) },
